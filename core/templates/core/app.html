@@ -1,0 +1,2201 @@
+{% extends 'core/base.html' %}
+{% load static %}
+
+{% block title %}CashTwin Portal - {{ company_name|default:"CashTwin Workspace" }}{% endblock %}
+
+{% block extra_head %}
+<!-- Font Awesome or Heroicons (we can use basic inline SVG icons for consistency and zero dependency weight) -->
+{% endblock %}
+
+{% block content %}
+<div class="h-screen flex overflow-hidden bg-background">
+    <!-- Persistent Left Sidebar -->
+    <aside class="w-64 bg-white border-r border-border flex flex-col justify-between shrink-0">
+        <div>
+            <!-- Sidebar Header & Logo -->
+            <div class="h-20 border-b border-border flex items-center px-6">
+                <a href="/" class="flex items-center space-x-2 text-xl font-extrabold tracking-tight text-primary">
+                    <span class="bg-primary text-white px-2 py-0.5 rounded text-base font-black">C</span>
+                    <span class="text-text-primary">Cash<span class="text-primary">Twin</span></span>
+                </a>
+            </div>
+
+            <!-- Sidebar Navigation -->
+            <nav class="p-4 space-y-6">
+                <!-- Group 1: OVERVIEW -->
+                <div class="space-y-1">
+                    <p class="text-[10px] font-bold text-text-secondary uppercase tracking-wider px-3">Overview</p>
+                    <button onclick="switchScreen('dashboard')" id="nav-dashboard"
+                        class="w-full flex items-center space-x-3 px-3 py-2 rounded-lg text-xs font-semibold bg-primary text-white transition-all">
+                        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                d="M4 6a2 2 0 012-2h2a2 2 0 012 2v4a2 2 0 01-2 2H6a2 2 0 01-2-2V6zM14 6a2 2 0 012-2h2a2 2 0 012 2v4a2 2 0 01-2 2h-2a2 2 0 01-2-2V6zM4 16a2 2 0 012-2h2a2 2 0 012 2v4a2 2 0 01-2 2H6a2 2 0 01-2-2v-4zM14 16a2 2 0 012-2h2a2 2 0 012 2v4a2 2 0 01-2 2h-2a2 2 0 01-2-2v-4z" />
+                        </svg>
+                        <span>Dashboard</span>
+                    </button>
+                </div>
+
+                <!-- Group 2: FINANCIAL MODEL -->
+                <div class="space-y-1">
+                    <p class="text-[10px] font-bold text-text-secondary uppercase tracking-wider px-3">Financial Model
+                    </p>
+                    <button onclick="switchScreen('digitaltwin')" id="nav-digitaltwin"
+                        class="w-full flex items-center space-x-3 px-3 py-2 rounded-lg text-xs font-medium text-text-primary hover:bg-[#FFFDF9] transition-all">
+                        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10" />
+                        </svg>
+                        <span>Digital Twin</span>
+                    </button>
+                    <button onclick="switchScreen('cashflow')" id="nav-cashflow"
+                        class="w-full flex items-center space-x-3 px-3 py-2 rounded-lg text-xs font-medium text-text-primary hover:bg-[#FFFDF9] transition-all">
+                        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                d="M7 12l3-3 3 3 4-4M8 21h8a2 2 0 002-2V5a2 2 0 00-2-2H8a2 2 0 00-2 2v14a2 2 0 002 2z" />
+                        </svg>
+                        <span>Cash Flow</span>
+                    </button>
+                </div>
+
+                <!-- Group 3: INSIGHTS -->
+                <div class="space-y-1">
+                    <p class="text-[10px] font-bold text-text-secondary uppercase tracking-wider px-3">Insights</p>
+                    <button onclick="switchScreen('riskcenter')" id="nav-riskcenter"
+                        class="w-full flex items-center space-x-3 px-3 py-2 rounded-lg text-xs font-medium text-text-primary hover:bg-[#FFFDF9] transition-all">
+                        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z" />
+                        </svg>
+                        <span>Risk Center</span>
+                    </button>
+                    <button onclick="switchScreen('simulator')" id="nav-simulator"
+                        class="w-full flex items-center space-x-3 px-3 py-2 rounded-lg text-xs font-medium text-text-primary hover:bg-[#FFFDF9] transition-all">
+                        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                d="M9.75 17L9 20l-1 1h8l-1-1-.75-3M3 13h18M5 17h14a2 2 0 002-2V5a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
+                        </svg>
+                        <span>What-If Simulator</span>
+                    </button>
+                    <button onclick="switchScreen('resilience')" id="nav-resilience"
+                        class="w-full flex items-center space-x-3 px-3 py-2 rounded-lg text-xs font-medium text-text-primary hover:bg-[#FFFDF9] transition-all">
+                        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z" />
+                        </svg>
+                        <span>Resilience Options</span>
+                    </button>
+                </div>
+
+                <!-- Group 4: DATA -->
+                <div class="space-y-1">
+                    <p class="text-[10px] font-bold text-text-secondary uppercase tracking-wider px-3">Data</p>
+                    <button onclick="switchScreen('invoices')" id="nav-invoices"
+                        class="w-full flex items-center space-x-3 px-3 py-2 rounded-lg text-xs font-medium text-text-primary hover:bg-[#FFFDF9] transition-all">
+                        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
+                        </svg>
+                        <span>Invoices</span>
+                    </button>
+                    <button onclick="switchScreen('expenses')" id="nav-expenses"
+                        class="w-full flex items-center space-x-3 px-3 py-2 rounded-lg text-xs font-medium text-text-primary hover:bg-[#FFFDF9] transition-all">
+                        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+                        </svg>
+                        <span>Expenses</span>
+                    </button>
+                    <button onclick="switchScreen('datareview')" id="nav-datareview"
+                        class="w-full flex items-center space-x-3 px-3 py-2 rounded-lg text-xs font-medium text-text-primary hover:bg-[#FFFDF9] transition-all">
+                        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2m-6 9l2 2 4-4" />
+                        </svg>
+                        <span>Data Review</span>
+                    </button>
+                </div>
+
+                <!-- Group 5: TRUST -->
+                <div class="space-y-1">
+                    <p class="text-[10px] font-bold text-text-secondary uppercase tracking-wider px-3">Trust</p>
+                    <button onclick="switchScreen('consent')" id="nav-consent"
+                        class="w-full flex items-center space-x-3 px-3 py-2 rounded-lg text-xs font-medium text-text-primary hover:bg-[#FFFDF9] transition-all">
+                        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z" />
+                        </svg>
+                        <span>Consent & Privacy</span>
+                    </button>
+                    <button onclick="switchScreen('auditlog')" id="nav-auditlog"
+                        class="w-full flex items-center space-x-3 px-3 py-2 rounded-lg text-xs font-medium text-text-primary hover:bg-[#FFFDF9] transition-all">
+                        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
+                        </svg>
+                        <span>Audit Log</span>
+                    </button>
+                </div>
+            </nav>
+        </div>
+
+        <!-- Sidebar Footer -->
+        <div class="p-4 border-t border-border bg-[#FFFDF9]/60 relative">
+            <button type="button" onclick="toggleUserMenu()" id="user-menu-button"
+                class="w-full flex items-center justify-between p-2 rounded-xl border border-border bg-white hover:bg-orange-50/60 transition-all text-left shadow-sm cursor-pointer">
+                <div class="flex items-center space-x-2.5 min-w-0">
+                    <div class="w-8 h-8 rounded-full bg-primary text-white flex-shrink-0 flex items-center justify-center font-bold text-xs">
+                        CT
+                    </div>
+                    <div class="min-w-0 flex-1">
+                        <p class="text-xs font-bold text-text-primary truncate" id="sidebar-user-name">{{ company_name|default:"CashTwin Workspace" }}</p>
+                        <p class="text-[10px] text-text-secondary truncate" id="sidebar-user-email">{{ user_email|default:"finance@cashtwin.io" }}</p>
+                    </div>
+                </div>
+                <svg class="w-4 h-4 text-text-secondary flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
+                </svg>
+            </button>
+
+            <!-- User Dropdown Popup -->
+            <div id="user-profile-menu"
+                class="hidden absolute bottom-20 left-3 right-3 bg-white border border-border rounded-xl shadow-2xl p-1.5 z-50 space-y-1 animate-in fade-in zoom-in duration-100">
+                <div class="px-3 py-2 border-b border-border/60">
+                    <p class="text-[10px] uppercase font-bold text-text-secondary">Logged in as</p>
+                    <p class="text-xs font-bold text-text-primary" id="dropdown-user-name">{{ company_name|default:"CashTwin Workspace" }}</p>
+                    <p class="text-[10px] text-text-secondary">Role: Financial Controller</p>
+                </div>
+                <button type="button" onclick="openProfileModal()"
+                    class="w-full flex items-center space-x-2.5 px-3 py-2 text-xs font-semibold text-text-primary hover:bg-orange-50/80 hover:text-primary rounded-lg transition-colors cursor-pointer text-left">
+                    <svg class="w-4 h-4 text-text-secondary" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                            d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
+                    </svg>
+                    <span>View Company Profile</span>
+                </button>
+                <a href="{% url 'core:logout' %}" onclick="handleLogout(event)"
+                    class="w-full flex items-center space-x-2.5 px-3 py-2 text-xs font-bold text-critical hover:bg-red-50 rounded-lg transition-colors cursor-pointer text-left">
+                    <svg class="w-4 h-4 text-critical" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                            d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1" />
+                    </svg>
+                    <span>Log Out</span>
+                </a>
+            </div>
+
+            <a href="{% url 'core:landing' %}"
+                class="mt-3 block text-center text-[10px] font-bold text-text-secondary hover:text-primary transition-all">
+                ← Return to Landing Page
+            </a>
+        </div>
+    </aside>
+
+    <!-- Main Content Area -->
+    <main class="flex-1 flex flex-col min-w-0 overflow-y-auto">
+        <!-- Top Toolbar / Demo Status -->
+        <header class="h-20 bg-white border-b border-border flex items-center justify-between px-8 shrink-0">
+            <div class="flex items-center space-x-4">
+                <h1 id="page-title" class="text-lg font-black text-text-primary">Dashboard</h1>
+                <!-- Dynamic DEMO MODE Badge -->
+                <span
+                    class="inline-flex items-center px-2.5 py-0.5 rounded-full text-[10px] font-bold bg-amber-50 text-attention border border-attention/20">
+                    <span class="w-1.5 h-1.5 rounded-full bg-attention mr-1.5 animate-pulse"></span>
+                    Live Data Mode
+                </span>
+                <!-- Prominent "+ Add Invoice" Button -->
+                <button type="button" id="btn-add-invoice-header" data-action="add-invoice" onclick="openAddInvoiceModal()"
+                    class="inline-flex items-center space-x-1.5 px-3 py-1.5 rounded-lg text-xs font-bold bg-primary hover:bg-primary-dark text-white shadow-sm transition-all cursor-pointer">
+                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4" />
+                    </svg>
+                    <span>+ Add Invoice</span>
+                </button>
+            </div>
+
+            <div class="flex items-center space-x-4">
+                <!-- Quality Score Quick Badge -->
+                <button onclick="switchScreen('datareview')"
+                    class="flex items-center space-x-2 bg-[#FFFDF9] border border-border px-3.5 py-1.5 rounded-lg text-xs font-semibold">
+                    <span class="text-text-secondary">Data Quality:</span>
+                    <span id="header-quality-badge" class="text-attention font-bold">100%</span>
+                </button>
+                <div class="h-8 w-px bg-border"></div>
+                <div class="text-right text-xs">
+                    <p id="header-live-balance" class="font-bold text-text-primary">₹0</p>
+                    <p class="text-[10px] text-healthy font-semibold">Live Balance</p>
+                </div>
+            </div>
+        </header>
+
+        <!-- Dynamic Screen Components -->
+        <div class="p-8 flex-1 max-w-6xl w-full mx-auto">
+
+            <!-- SCREEN 1: DASHBOARD -->
+            <section id="screen-dashboard" class="space-y-6">
+                <!-- CLEAN EMPTY STATE (Requirement: Shown when user has 0 records) -->
+                <div id="dashboard-empty-state" class="hidden p-8 bg-white border-2 border-dashed border-primary/30 rounded-2xl text-center space-y-4">
+                    <div class="w-16 h-16 mx-auto rounded-full bg-orange-50 text-primary flex items-center justify-center">
+                        <svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 13h6m-3-3v6m5 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
+                        </svg>
+                    </div>
+                    <div class="max-w-md mx-auto space-y-1">
+                        <h3 class="text-lg font-black text-text-primary">No Financial Records Yet</h3>
+                        <p class="text-xs text-text-secondary leading-relaxed">
+                            Your CashTwin is ready. Add your customer invoices, expenses, or upload an Excel/CSV file to generate deterministic cash flow forecasts and risk insights.
+                        </p>
+                    </div>
+                    <div class="flex flex-wrap items-center justify-center gap-3 pt-2">
+                        <button type="button" onclick="openAddInvoiceModal()" class="px-4 py-2.5 bg-primary hover:bg-primary-dark text-white rounded-xl text-xs font-bold shadow-md transition-all cursor-pointer flex items-center space-x-2">
+                            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"/></svg>
+                            <span>+ Add First Invoice</span>
+                        </button>
+                        <button type="button" onclick="openAddExpenseModal()" class="px-4 py-2.5 bg-white border border-border hover:bg-background text-text-primary rounded-xl text-xs font-bold transition-all cursor-pointer flex items-center space-x-2">
+                            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"/></svg>
+                            <span>+ Add Expense</span>
+                        </button>
+                        <button type="button" onclick="switchScreen('datareview')" class="px-4 py-2.5 bg-orange-50 hover:bg-orange-100 text-primary border border-primary/30 rounded-xl text-xs font-bold transition-all cursor-pointer flex items-center space-x-2">
+                            <span>📥 Import Excel / CSV</span>
+                        </button>
+                    </div>
+                </div>
+
+                <!-- POPULATED DASHBOARD WRAPPER -->
+                <div id="dashboard-populated-content" class="space-y-6">
+                    <!-- Liquidity Warning Alert (Conditional / Dynamic) -->
+                    <div id="dashboard-alert"
+                        class="p-4 bg-red-50 border-2 border-red-100 rounded-xl flex items-start space-x-4">
+                        <div id="dashboard-alert-icon" class="p-2 bg-red-100 text-critical rounded-lg">
+                            <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                    d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z" />
+                            </svg>
+                        </div>
+                        <div class="flex-1 space-y-1">
+                            <h3 id="dashboard-alert-title" class="text-sm font-extrabold text-red-950">Projected Liquidity Gap Identified</h3>
+                            <p id="dashboard-alert-desc" class="text-xs text-red-700 leading-relaxed">
+                                Your cash balance is projected to fall to <span class="font-bold" id="dashboard-alert-min-cash">₹0</span> (below your
+                                safety threshold of ₹1,50,000) around <span class="font-bold" id="dashboard-alert-date">--</span>. A potential liquidity gap of <span class="font-bold"
+                                    id="dashboard-alert-gap">₹0</span> is expected.
+                            </p>
+                            <div id="dashboard-alert-actions" class="pt-2 flex items-center space-x-3">
+                                <button onclick="switchScreen('riskcenter')"
+                                    class="text-xs font-bold text-primary hover:text-primary-dark transition-colors">Inspect
+                                    Risk Evidence →</button>
+                                <span class="text-red-300">|</span>
+                                <button onclick="switchScreen('simulator')"
+                                    class="text-xs font-bold text-primary hover:text-primary-dark transition-colors">Simulate
+                                    Mitigation →</button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Core Financial Metrics Cards -->
+                    <div class="grid grid-cols-1 md:grid-cols-4 gap-6">
+                        <div class="bg-white border border-border p-5 rounded-xl shadow-sm">
+                            <span class="text-[10px] font-bold text-text-secondary uppercase">Current Cash Balance</span>
+                            <p id="dashboard-current-cash" class="text-2xl font-black text-text-primary mt-1">₹0</p>
+                            <p class="text-[10px] text-healthy font-semibold mt-2">✓ Verified via linked records</p>
+                        </div>
+                        <div class="bg-white border border-border p-5 rounded-xl shadow-sm">
+                            <span class="text-[10px] font-bold text-text-secondary uppercase">Expected Receivables</span>
+                            <p id="dashboard-receivables-val" class="text-2xl font-black text-text-primary mt-1">₹0</p>
+                            <p id="dashboard-receivables-count" class="text-[10px] text-text-secondary mt-2">Across 0 customer invoices</p>
+                        </div>
+                        <div class="bg-white border border-border p-5 rounded-xl shadow-sm">
+                            <span class="text-[10px] font-bold text-text-secondary uppercase">Upcoming Expenses</span>
+                            <p id="dashboard-expenses-val" class="text-2xl font-black text-text-primary mt-1">₹0</p>
+                            <p id="dashboard-expenses-count" class="text-[10px] text-text-secondary mt-2">Across 0 upcoming expenses</p>
+                        </div>
+                        <div class="bg-white border border-border p-5 rounded-xl shadow-sm">
+                            <span class="text-[10px] font-bold text-text-secondary uppercase">Projected Minimum Cash</span>
+                            <p id="dashboard-min-cash" class="text-2xl font-black text-text-primary mt-1">₹0</p>
+                            <p class="text-[10px] text-text-secondary mt-2">Expected minimum net cash level</p>
+                        </div>
+                    </div>
+
+                    <!-- AI Insight Widget -->
+                    <div id="dash-ai-insight-box" class="p-5 border border-amber-200 bg-amber-50/40 rounded-xl space-y-3">
+                        <div class="flex items-center space-x-2">
+                            <span class="w-2.5 h-2.5 rounded-full bg-accent"></span>
+                            <h4 class="text-xs font-bold text-attention uppercase tracking-wide">AI Forecasting Intelligence</h4>
+                        </div>
+                        <p id="ai-insight-text" class="text-xs text-text-primary font-medium">
+                            Add financial records to activate intelligence insights.
+                        </p>
+                        <div class="grid grid-cols-1 md:grid-cols-3 gap-4 pt-2 border-t border-border/60">
+                            <div>
+                                <span class="block text-[10px] font-bold text-text-secondary uppercase">Why This Matters</span>
+                                <span id="ai-insight-why" class="text-xs text-text-primary mt-0.5 block">Liquidity visibility enables working capital planning.</span>
+                            </div>
+                            <div>
+                                <span class="block text-[10px] font-bold text-text-secondary uppercase">What Caused It</span>
+                                <span id="ai-insight-cause" class="text-xs text-text-primary mt-0.5 block">Dynamic forecast generated from recorded receivables and payables.</span>
+                            </div>
+                            <div>
+                                <span class="block text-[10px] font-bold text-text-secondary uppercase">What You Can Explore</span>
+                                <span class="text-xs text-primary hover:underline cursor-pointer font-bold mt-0.5 block"
+                                    onclick="switchScreen('simulator')">Simulate payment terms inside What-If →</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Forecast Confidence Widget (Requirement 2) -->
+                    <div class="p-5 bg-white border border-border rounded-xl space-y-3 shadow-xs">
+                        <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-2 border-b border-border pb-3">
+                            <div class="flex items-center space-x-2">
+                                <span class="w-2.5 h-2.5 rounded-full bg-primary"></span>
+                                <h4 class="text-xs font-bold text-text-primary uppercase tracking-wide">Forecast Confidence</h4>
+                            </div>
+                            <span id="dash-confidence-badge" class="px-3 py-1 bg-amber-50 text-attention border border-amber-200 rounded-lg text-xs font-extrabold w-fit">
+                                Forecast Confidence: None
+                            </span>
+                        </div>
+                        
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-4 pt-1">
+                            <div class="space-y-2 text-xs">
+                                <span class="text-[10px] font-bold text-text-secondary uppercase block">Confidence Assessment Factors</span>
+                                <div id="dash-confidence-factors" class="space-y-1.5 text-xs text-text-primary font-medium">
+                                    <div class="flex items-center space-x-1.5 text-text-secondary"><span>•</span><span>Data completeness based on real ledger</span></div>
+                                </div>
+                            </div>
+                            <div class="space-y-2 text-xs bg-background p-3 rounded-lg border border-border">
+                                <span class="text-[10px] font-bold text-text-secondary uppercase block">Core Forecast Assumptions</span>
+                                <ul class="space-y-1 text-[11px] text-text-secondary list-disc pl-3 leading-relaxed">
+                                    <li>Expected payment dates are treated as estimated cash inflows.</li>
+                                    <li>Historical payment delays influence expected collection timing.</li>
+                                    <li>Recurring expenses are projected according to their existing schedule.</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Dynamic Dashboard Traceability Highlight -->
+                    <div class="bg-white border border-border rounded-xl p-5 space-y-4">
+                        <h3 class="text-xs font-bold text-text-primary uppercase tracking-wider">Projected Cash Engine Status</h3>
+
+                        <div
+                            class="flex flex-col md:flex-row items-center justify-between text-xs p-4 bg-background border border-border rounded-xl">
+                            <div class="flex items-center space-x-3">
+                                <span
+                                    class="w-3 h-3 rounded-full bg-healthy border-2 border-white ring-2 ring-healthy"></span>
+                                <div>
+                                    <p class="font-bold">Current Balance</p>
+                                    <p id="trace-balance-val" class="text-[10px] text-text-secondary">₹0 (Live)</p>
+                                </div>
+                            </div>
+
+                            <div class="text-text-secondary font-bold text-lg">→</div>
+
+                            <div class="flex items-center space-x-3">
+                                <span
+                                    class="w-3 h-3 rounded-full bg-attention border-2 border-white ring-2 ring-attention"></span>
+                                <div>
+                                    <p class="font-bold">Expected Inflow</p>
+                                    <p id="trace-inflow-val" class="text-[10px] text-text-secondary">₹0 (Receivables)</p>
+                                </div>
+                            </div>
+
+                            <div class="text-text-secondary font-bold text-lg">→</div>
+
+                            <div class="flex items-center space-x-3">
+                                <span id="trace-net-dot"
+                                    class="w-3 h-3 rounded-full bg-healthy border-2 border-white ring-2 ring-healthy"></span>
+                                <div>
+                                    <p class="font-bold">Projected Net Gap</p>
+                                    <p id="trace-net-val" class="text-[10px] text-healthy font-bold">No Gap Projected</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- SCREEN 2: DIGITAL TWIN -->
+            <section id="screen-digitaltwin" class="hidden space-y-6">
+                <div class="border-b border-border pb-4">
+                    <h2 class="text-xl font-black text-text-primary">Digital Twin Model</h2>
+                    <p class="text-xs text-text-secondary mt-1">A dynamic simulation network mapping your cash ledger
+                        dependencies.</p>
+                </div>
+
+                <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
+                    <!-- Left: Current State Twin -->
+                    <div class="bg-white border border-border rounded-xl p-5 space-y-4">
+                        <div class="flex justify-between items-center border-b border-border pb-3">
+                            <h3 class="text-xs font-bold text-text-primary uppercase tracking-wide">CURRENT STATE TWIN
+                            </h3>
+                            <span
+                                class="text-[10px] font-bold text-healthy bg-green-50 px-2 py-0.5 rounded">Active</span>
+                        </div>
+                        <div class="space-y-3">
+                            <div class="p-3 bg-background border border-border rounded-lg">
+                                <span class="text-[10px] text-text-secondary block">BANK LEDGER</span>
+                                <span id="twin-ledger-val" class="text-sm font-bold text-text-primary">₹5,20,000</span>
+                            </div>
+                            <div class="p-3 bg-background border border-border rounded-lg">
+                                <span class="text-[10px] text-text-secondary block">RECEIVABLES BALANCE</span>
+                                <span id="twin-receivables-val" class="text-sm font-bold text-text-primary">₹12,40,000</span>
+                            </div>
+                            <div class="p-3 bg-background border border-border rounded-lg opacity-60">
+                                <span class="text-[10px] text-text-secondary block">PAYMENT HISTORY SAMPLES</span>
+                                <span class="text-xs font-semibold text-text-primary">24 Months Connected</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Middle: Projection Node Mapping -->
+                    <div class="bg-white border border-border rounded-xl p-5 flex flex-col justify-between">
+                        <div>
+                            <div class="flex justify-between items-center border-b border-border pb-3">
+                                <h3 class="text-xs font-bold text-text-primary uppercase tracking-wide">PROJECTION TWIN
+                                    ENGINE</h3>
+                                <span
+                                    class="text-[10px] font-bold text-primary bg-orange-50 px-2 py-0.5 rounded">Simulating</span>
+                            </div>
+                            <p class="text-xs text-text-secondary mt-3 leading-relaxed">
+                                The projection twin maps receivables against customer payment-delay probability curves
+                                rather than basic due dates.
+                            </p>
+                        </div>
+                        <div class="py-4 flex justify-center">
+                            <svg class="w-12 h-12 text-primary animate-pulse" fill="none" stroke="currentColor"
+                                viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5"
+                                    d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364-6.364l-.707.707M6.343 17.657l-.707.707m0-12.728l.707.707m11.314 11.314l.707.707M12 5a7 7 0 100 14 7 7 0 000-14z" />
+                            </svg>
+                        </div>
+                        <div id="twin-calc-risk-box"
+                            class="p-3 bg-red-50 border border-red-100 rounded-lg text-xs text-critical font-bold text-center">
+                            Calculated Risk: High Potential Gap
+                        </div>
+                    </div>
+
+                    <!-- Right: Projected State Twin -->
+                    <div class="bg-white border border-border rounded-xl p-5 space-y-4">
+                        <div class="flex justify-between items-center border-b border-border pb-3">
+                            <h3 class="text-xs font-bold text-text-primary uppercase tracking-wide">PROJECTED STATE TWIN
+                            </h3>
+                            <span id="twin-risk-badge" class="text-[10px] font-bold text-critical bg-red-50 px-2 py-0.5 rounded">Risk
+                                State</span>
+                        </div>
+                        <div class="space-y-3">
+                            <div class="p-3 bg-background border border-border rounded-lg">
+                                <span class="text-[10px] text-text-secondary block">PROJECTED MINIMUM CASH</span>
+                                <span id="twin-min-cash" class="text-sm font-bold text-critical">₹80,000</span>
+                            </div>
+                            <div class="p-3 bg-background border border-border rounded-lg">
+                                <span class="text-[10px] text-text-secondary block">EXPECTED LIQUIDITY GAP</span>
+                                <span id="twin-gap-val" class="text-sm font-bold text-critical">₹1,50,000</span>
+                            </div>
+                            <div class="p-3 bg-background border border-border rounded-lg">
+                                <span class="text-[10px] text-text-secondary block">EXPECTED GAP DATE</span>
+                                <span class="text-sm font-bold text-critical" id="twin-gap-date">7 September</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Forecast Confidence & Modeling Assumptions Panel (Requirement 2) -->
+                <div class="bg-white border border-border rounded-xl p-6 shadow-xs space-y-4">
+                    <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-3 border-b border-border pb-3">
+                        <div>
+                            <h3 class="text-xs font-bold text-text-primary uppercase tracking-wide">Forecast Confidence & Model Explainability</h3>
+                            <p class="text-[11px] text-text-secondary mt-0.5">Underlying data integrity assessment and deterministic modeling assumptions.</p>
+                        </div>
+                        <span id="twin-confidence-badge" class="px-3 py-1 bg-amber-50 text-attention border border-amber-200 rounded-lg text-xs font-extrabold w-fit">
+                            Forecast Confidence: Medium
+                        </span>
+                    </div>
+
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-6 pt-1">
+                        <!-- Left: Data Assessment Checklist -->
+                        <div class="space-y-3">
+                            <span class="text-[10px] font-bold text-text-secondary uppercase tracking-wider block">Data Completeness & Confidence Factors</span>
+                            <div id="twin-confidence-factors" class="space-y-2 text-xs font-medium">
+                                <div class="flex items-center justify-between p-2.5 bg-background border border-border rounded-lg">
+                                    <span class="text-text-primary">Data Completeness Quality</span>
+                                    <span id="twin-fact-completeness" class="text-[10px] font-bold px-2 py-0.5 rounded bg-amber-50 text-attention border border-amber-200">92%</span>
+                                </div>
+                                <div class="flex items-center justify-between p-2.5 bg-background border border-border rounded-lg">
+                                    <span class="text-text-primary">Invoice Expected Payment Dates</span>
+                                    <span id="twin-fact-missing" class="text-[10px] font-bold px-2 py-0.5 rounded bg-amber-50 text-attention border border-amber-200">2 Invoices Missing Dates</span>
+                                </div>
+                                <div class="flex items-center justify-between p-2.5 bg-background border border-border rounded-lg">
+                                    <span class="text-text-primary">Bank Account Ledger Recency</span>
+                                    <span class="text-[10px] font-bold px-2 py-0.5 rounded bg-green-50 text-healthy border border-green-200">Active (September 2026)</span>
+                                </div>
+                                <div class="flex items-center justify-between p-2.5 bg-background border border-border rounded-lg">
+                                    <span class="text-text-primary">Counterparty Payment History Samples</span>
+                                    <span class="text-[10px] font-bold px-2 py-0.5 rounded bg-green-50 text-healthy border border-green-200">24-Month Data Available</span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Right: Assumptions & Logic -->
+                        <div class="space-y-3 bg-orange-50/30 border border-primary/15 p-4 rounded-xl">
+                            <span class="text-[10px] font-bold text-primary uppercase tracking-wider block">Deterministic Modeling Assumptions</span>
+                            <ul class="space-y-2 text-[11px] text-text-secondary leading-relaxed">
+                                <li class="flex items-start space-x-2">
+                                    <span class="text-primary font-bold">•</span>
+                                    <span><strong>Receivable Timing:</strong> Expected payment dates are modeled as anticipated cash inflow events.</span>
+                                </li>
+                                <li class="flex items-start space-x-2">
+                                    <span class="text-primary font-bold">•</span>
+                                    <span><strong>Behavioral Terms Delay:</strong> Historic client settlement timelines influence estimated collection dates.</span>
+                                </li>
+                                <li class="flex items-start space-x-2">
+                                    <span class="text-primary font-bold">•</span>
+                                    <span><strong>Scheduled Outgoings:</strong> Supplier invoices and payroll obligations are projected according to due dates.</span>
+                                </li>
+                                <li class="flex items-start space-x-2">
+                                    <span class="text-primary font-bold">•</span>
+                                    <span><strong>Safety Policy:</strong> Minimum cash threshold is fixed at ₹1,50,000 liquidity buffer.</span>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- SCREEN 3: CASH FLOW -->
+            <section id="screen-cashflow" class="hidden space-y-6">
+                <div class="border-b border-border pb-4 flex justify-between items-end">
+                    <div>
+                        <h2 class="text-xl font-black text-text-primary">Cash Flow Timeline</h2>
+                        <p class="text-xs text-text-secondary mt-1">30-day forward liquidity projection showing expected
+                            net balance trajectory.</p>
+                    </div>
+                    <div class="flex items-center space-x-2 text-xs">
+                        <button class="px-3 py-1.5 bg-primary text-white font-bold rounded-lg">30D</button>
+                        <button class="px-3 py-1.5 border border-border hover:bg-[#FFFDF9] rounded-lg">60D</button>
+                        <button class="px-3 py-1.5 border border-border hover:bg-[#FFFDF9] rounded-lg">90D</button>
+                    </div>
+                </div>
+
+                <!-- Custom Interactive SVG Chart (Requirements 15-18) -->
+                <div class="bg-white border border-border rounded-xl p-6 shadow-sm space-y-4">
+                    <div class="flex flex-wrap justify-between items-center gap-3 text-xs font-semibold text-text-secondary">
+                        <div class="flex items-center space-x-4">
+                            <span class="flex items-center"><span class="w-3 h-1 bg-healthy mr-1.5 rounded-sm"></span>Actual Balance</span>
+                            <span class="flex items-center"><span class="w-3 h-1 border-t-2 border-dashed border-primary mr-1.5"></span>Baseline Forecast</span>
+                            <span id="chart-legend-sim" class="flex items-center hidden"><span class="w-3 h-1 bg-purple-600 mr-1.5 rounded-sm"></span>Scenario Simulation</span>
+                            <span class="flex items-center"><span class="w-3 h-0.5 bg-red-400 mr-1.5"></span>Safe Threshold</span>
+                        </div>
+                        <span class="text-[10px] text-text-secondary font-bold bg-gray-100 px-2.5 py-1 rounded-lg">Safe Limit Buffer: ₹1,50,000</span>
+                    </div>
+
+                    <!-- SVG Chart Container with Left Y-Axis and Interactive Tooltip Overlay -->
+                    <div class="relative w-full h-72 bg-background/40 border border-border rounded-xl p-3 flex">
+                        <!-- Y-Axis Labels (Left) -->
+                        <div class="w-14 flex flex-col justify-between text-[9px] font-bold text-text-secondary pr-2 text-right border-r border-border/60 py-2 select-none">
+                            <span>₹6.0L</span>
+                            <span>₹4.5L</span>
+                            <span>₹3.0L</span>
+                            <span class="text-critical font-black">₹1.5L</span>
+                            <span>₹0</span>
+                        </div>
+
+                        <!-- SVG Chart Body -->
+                        <div id="chart-viewport" class="relative flex-1 h-full overflow-hidden">
+                            <svg id="cashflow-chart-svg" class="w-full h-full" viewBox="0 0 800 240" preserveAspectRatio="none">
+                                <defs>
+                                    <linearGradient id="safeZoneGrad" x1="0" y1="0" x2="0" y2="1">
+                                        <stop offset="0%" stop-color="#EF4444" stop-opacity="0.08" />
+                                        <stop offset="100%" stop-color="#EF4444" stop-opacity="0.02" />
+                                    </linearGradient>
+                                </defs>
+
+                                <!-- Background Grid Lines -->
+                                <line x1="0" y1="20" x2="800" y2="20" stroke="#F1F5F9" stroke-width="1" />
+                                <line x1="0" y1="65" x2="800" y2="65" stroke="#F1F5F9" stroke-width="1" />
+                                <line x1="0" y1="110" x2="800" y2="110" stroke="#F1F5F9" stroke-width="1" />
+                                <line x1="0" y1="155" x2="800" y2="155" stroke="#F1F5F9" stroke-width="1" />
+                                <line x1="0" y1="200" x2="800" y2="200" stroke="#F1F5F9" stroke-width="1" />
+
+                                <!-- Safe Threshold Line at y=155 (₹1,50,000) -->
+                                <line x1="0" y1="155" x2="800" y2="155" stroke="#EF4444" stroke-width="1.5" stroke-dasharray="4" />
+                                <!-- Shaded Risk Zone (below 155) -->
+                                <rect x="0" y="155" width="800" height="85" fill="url(#safeZoneGrad)" />
+
+                                <!-- ACTUAL LEDGER PATH (Aug 19 - Aug 30) -->
+                                <path id="chart-actual-path" d="M 0 45 L 90 60 L 180 30 L 260 50" fill="none" stroke="#16A34A" stroke-width="3" stroke-linecap="round" />
+                                <circle cx="260" cy="50" r="4.5" fill="#16A34A" stroke="#FFFFFF" stroke-width="2" />
+
+                                <!-- BASELINE PROJECTED PATH (Aug 30 - Sep 30) -->
+                                <path id="chart-projected-path" d="M 260 50 L 360 85 L 460 170 L 560 210 L 670 160 L 800 120" fill="none" stroke="#F97316" stroke-width="3" stroke-dasharray="6" stroke-linecap="round" />
+
+                                <!-- SCENARIO PROJECTED PATH (Optional Simulation line) -->
+                                <path id="chart-simulated-path" d="" fill="none" stroke="#9333EA" stroke-width="2.5" stroke-dasharray="4" class="hidden" />
+
+                                <!-- Dynamic Dip Point Marker -->
+                                <circle id="chart-risk-point" cx="560" cy="210" r="6" fill="#DC2626" stroke="#FFFFFF" stroke-width="2" />
+
+                                <!-- Interactive Crosshair Line -->
+                                <line id="chart-crosshair" x1="-100" y1="0" x2="-100" y2="240" stroke="#64748B" stroke-width="1.5" stroke-dasharray="3" />
+                                
+                                <!-- Cursor Tracking Dots -->
+                                <circle id="chart-dot-baseline" cx="-100" cy="-100" r="5" fill="#F97316" stroke="#FFFFFF" stroke-width="2" />
+                                <circle id="chart-dot-scenario" cx="-100" cy="-100" r="5" fill="#9333EA" stroke="#FFFFFF" stroke-width="2" class="hidden" />
+
+                                <!-- Invisible Hover Overlay capturing cursor position -->
+                                <rect id="chart-hover-overlay" x="0" y="0" width="800" height="240" fill="transparent" class="cursor-crosshair" />
+                            </svg>
+
+                            <!-- Clean Floating Tooltip Box (Requirement 15) -->
+                            <div id="chart-floating-tooltip"
+                                class="absolute hidden pointer-events-none z-30 bg-white/95 backdrop-blur-sm border border-border rounded-xl p-3 shadow-lg text-xs space-y-1.5 transition-opacity min-w-[190px]">
+                                <div class="flex items-center justify-between border-b border-border/60 pb-1 font-mono font-bold text-text-primary text-[11px]">
+                                    <span id="tt-date">18 Sep 2026</span>
+                                    <span id="tt-type-tag" class="text-[9px] px-1.5 py-0.2 rounded bg-orange-50 text-primary font-bold">Projection</span>
+                                </div>
+                                <div class="space-y-1 text-[11px]">
+                                    <div class="flex items-center justify-between">
+                                        <span class="text-text-secondary flex items-center"><span class="w-2 h-2 rounded-full bg-primary mr-1.5"></span>Baseline:</span>
+                                        <span id="tt-baseline-val" class="font-bold text-text-primary">₹80,000</span>
+                                    </div>
+                                    <div id="tt-sim-row" class="flex items-center justify-between hidden">
+                                        <span class="text-text-secondary flex items-center"><span class="w-2 h-2 rounded-full bg-purple-600 mr-1.5"></span>What-If:</span>
+                                        <span id="tt-sim-val" class="font-bold text-purple-700">₹60,000</span>
+                                    </div>
+                                    <div class="flex items-center justify-between text-text-secondary">
+                                        <span>Safe Buffer:</span>
+                                        <span class="font-mono text-[10px] font-semibold text-text-secondary">₹1,50,000</span>
+                                    </div>
+                                    <div id="tt-event-row" class="pt-1 border-t border-border/40 text-[10px] text-text-secondary italic">
+                                        <span id="tt-event-desc">ABC Retail expected payment</span>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- X-Axis Timeline Dates (Bottom) -->
+                            <div class="absolute bottom-1 left-2 right-2 flex justify-between text-[9px] font-bold text-text-secondary uppercase select-none pointer-events-none">
+                                <span>19 Aug</span>
+                                <span>25 Aug</span>
+                                <span>01 Sep</span>
+                                <span>08 Sep</span>
+                                <span class="text-critical font-black">18 Sep (Dip)</span>
+                                <span>25 Sep</span>
+                                <span>30 Sep</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- SCREEN 4: RISK CENTER -->
+            <section id="screen-riskcenter" class="hidden space-y-6">
+                <div class="border-b border-border pb-4">
+                    <h2 class="text-xl font-black text-text-primary">Risk Center</h2>
+                    <p class="text-xs text-text-secondary mt-1">Evidence-first traceability breakdown of liquidity
+                        risks.</p>
+                </div>
+
+                <div class="space-y-6">
+                    <!-- Evidence Traceability Accordion -->
+                    <div class="bg-white border border-border rounded-xl overflow-hidden">
+                        <div class="bg-background border-b border-border p-4 flex items-center justify-between">
+                            <span id="risk-status-tag"
+                                class="text-xs font-bold text-critical uppercase bg-red-50 px-2.5 py-1 rounded">Projected
+                                Liquidity Deficit Risk</span>
+                            <span id="risk-impact-val" class="text-xs font-bold text-text-secondary">Expected Impact: ₹3,20,000</span>
+                        </div>
+
+                        <div class="p-6 space-y-6">
+                            <!-- Traceability Timeline flow -->
+                            <div class="grid grid-cols-1 md:grid-cols-4 gap-6 relative">
+                                <!-- Stage 1 -->
+                                <div class="space-y-2">
+                                    <div class="text-[10px] font-bold text-critical">1. LIQUIDITY RISK</div>
+                                    <p id="risk-stage1-gap" class="text-xs font-bold text-text-primary">Gap of ₹3,20,000</p>
+                                    <p id="risk-stage1-desc" class="text-[11px] text-text-secondary leading-relaxed">Projected cash position
+                                        falls to ₹80,000, violating safety limit on 18 Sept.</p>
+                                </div>
+                                <!-- Stage 2 -->
+                                <div class="space-y-2">
+                                    <div class="text-[10px] font-bold text-attention">2. DIRECT CAUSE</div>
+                                    <p class="text-xs font-bold text-text-primary">Receivables Delay</p>
+                                    <p id="risk-stage2-desc" class="text-[11px] text-text-secondary leading-relaxed">ABC Retail payment
+                                        timeline expected at 15 days average delay past terms.</p>
+                                </div>
+                                <!-- Stage 3 -->
+                                <div class="space-y-2">
+                                    <div class="text-[10px] font-bold text-primary">3. EVIDENCE TRACE</div>
+                                    <p id="risk-stage3-id" class="text-xs font-bold text-text-primary">INV-2026-001</p>
+                                    <p id="risk-stage3-desc" class="text-[11px] text-text-secondary leading-relaxed">Amount ₹4,50,000 due Sept
+                                        1. Delayed collection history verified by ledger trace.</p>
+                                </div>
+                                <!-- Stage 4 -->
+                                <div class="space-y-2">
+                                    <div class="text-[10px] font-bold text-text-primary">4. EXPENSE COLLATERAL</div>
+                                    <p class="text-xs font-bold text-text-primary">EXP-2026-101 Due Sept 8</p>
+                                    <p class="text-[11px] text-text-secondary leading-relaxed">₹5,00,000 raw material
+                                        payable coincides directly with the late receivable gap window.</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Risk Factors Checklist -->
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                        <div class="bg-white border border-border p-5 rounded-xl space-y-3">
+                            <h3 class="text-xs font-bold text-text-primary uppercase tracking-wide">Receivable
+                                Concentration Risk</h3>
+                            <div class="flex items-center justify-between text-xs">
+                                <span id="risk-conc-label" class="font-semibold text-text-secondary">ABC Retail share:</span>
+                                <span id="risk-conc-val" class="font-bold text-critical">53% of total AR (HIGH)</span>
+                            </div>
+                            <div class="w-full bg-gray-200 h-2 rounded-full overflow-hidden">
+                                <div id="risk-conc-bar" class="bg-critical h-2 rounded-full" style="width: 53%"></div>
+                            </div>
+                            <p class="text-[10px] text-text-secondary leading-relaxed">
+                                Relying on one customer for over 50% of outstanding receivables increases volatility
+                                risk significantly.
+                            </p>
+                        </div>
+
+                        <div class="bg-white border border-border p-5 rounded-xl space-y-3">
+                            <h3 class="text-xs font-bold text-text-primary uppercase tracking-wide">Customer Payment
+                                Profile</h3>
+                            <div id="risk-customer-profiles" class="space-y-2 text-xs">
+                                <div class="flex justify-between">
+                                    <span class="text-text-secondary">ABC Retail Delay:</span>
+                                    <span class="font-bold text-attention">15 Days avg delay (MEDIUM)</span>
+                                </div>
+                                <div class="flex justify-between">
+                                    <span class="text-text-secondary">XYZ Distributing Delay:</span>
+                                    <span class="font-bold text-healthy">7 Days avg delay (LOW)</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Customer-Wise Risk Matrix View (Requirement 3) -->
+                    <div class="bg-white border border-border rounded-xl p-6 shadow-xs space-y-4">
+                        <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-2 border-b border-border pb-3">
+                            <div>
+                                <h3 class="text-xs font-bold text-text-primary uppercase tracking-wide">Customer-Wise Risk Matrix & Receivables Breakdown</h3>
+                                <p class="text-[11px] text-text-secondary mt-0.5">Traceable counterparty payment delay profiles and concentration exposure.</p>
+                            </div>
+                            <span class="text-[10px] font-bold text-text-secondary bg-gray-100 px-2.5 py-1 rounded-lg">
+                                Evidence-Based Risk Traceability
+                            </span>
+                        </div>
+
+                        <!-- Responsive Table Container -->
+                        <div class="overflow-x-auto">
+                            <table class="min-w-full divide-y divide-border text-xs text-left">
+                                <thead class="bg-background font-bold text-text-secondary uppercase text-[10px]">
+                                    <tr>
+                                        <th class="px-3.5 py-2.5">Customer Name</th>
+                                        <th class="px-3.5 py-2.5">Total Receivables</th>
+                                        <th class="px-3.5 py-2.5">Invoices</th>
+                                        <th class="px-3.5 py-2.5">Avg Delay</th>
+                                        <th class="px-3.5 py-2.5">Delay Trend Profile</th>
+                                        <th class="px-3.5 py-2.5">Concentration</th>
+                                        <th class="px-3.5 py-2.5">Risk Rating</th>
+                                        <th class="px-3.5 py-2.5 text-right">Actions</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="customer-risk-table-body" class="divide-y divide-border font-medium text-text-primary">
+                                    <!-- Populated dynamically in demo.js -->
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- SCREEN 5: WHAT-IF SIMULATOR -->
+            <section id="screen-simulator" class="hidden space-y-6">
+                <div class="border-b border-border pb-4">
+                    <h2 class="text-xl font-black text-text-primary">What-If Simulator</h2>
+                    <p class="text-xs text-text-secondary mt-1">Configure cash twin inputs to model alternative
+                        scenarios and preview liquidity effects.</p>
+                </div>
+
+                <div class="grid grid-cols-1 lg:grid-cols-12 gap-8">
+                    <!-- Left Panel: Simulator Inputs -->
+                    <div class="lg:col-span-5 bg-white border border-border rounded-xl p-5 space-y-6">
+                        <h3 class="text-xs font-bold text-text-primary uppercase tracking-wider">Configure Scenario
+                            Parameters</h3>
+
+                        <div class="space-y-4 text-xs font-semibold text-text-primary">
+                            <!-- Param 1 -->
+                            <div class="space-y-2">
+                                <div class="flex justify-between">
+                                    <label for="sim-delay" class="block">ABC Retail Payment Delay</label>
+                                    <span id="sim-delay-val" class="text-primary font-bold">+15 Days</span>
+                                </div>
+                                <input type="range" id="sim-delay" min="0" max="30" value="15"
+                                    oninput="updateSimValueDisplay()" class="w-full accent-primary">
+                            </div>
+
+                            <!-- Param 2 -->
+                            <div class="space-y-2">
+                                <div class="flex justify-between">
+                                    <label for="sim-sales" class="block">Sales Volume Change</label>
+                                    <span id="sim-sales-val" class="text-primary font-bold">-10%</span>
+                                </div>
+                                <input type="range" id="sim-sales" min="-50" max="50" value="-10"
+                                    oninput="updateSimValueDisplay()" class="w-full accent-primary">
+                            </div>
+
+                            <!-- Param 3 -->
+                            <div class="space-y-2">
+                                <div class="flex justify-between">
+                                    <label for="sim-expense" class="block">Additional Unexpected Expenses</label>
+                                    <span id="sim-expense-val" class="text-primary font-bold">₹50,000</span>
+                                </div>
+                                <input type="range" id="sim-expense" min="0" max="200000" step="10000" value="50000"
+                                    oninput="updateSimValueDisplay()" class="w-full accent-primary">
+                            </div>
+                        </div>
+
+                        <div class="pt-4">
+                            <button onclick="runSimulation()"
+                                class="w-full bg-primary hover:bg-primary-dark text-white py-3 rounded-lg text-xs font-bold tracking-wider transition-all shadow-md shadow-primary/10">
+                                RUN SIMULATION & RECALCULATE TWIN
+                            </button>
+                        </div>
+                    </div>
+
+                    <!-- Right Panel: Simulation Outputs -->
+                    <div class="lg:col-span-7 bg-white border border-border rounded-xl p-5 space-y-6">
+                        <div class="flex items-center justify-between border-b border-border pb-3">
+                            <h3 class="text-xs font-bold text-text-primary uppercase tracking-wider">Simulation Output
+                                Results</h3>
+                            <span id="sim-status-badge"
+                                class="text-[10px] font-bold text-critical bg-red-50 px-2 py-0.5 rounded">High
+                                Risk</span>
+                        </div>
+
+                        <!-- 3-Column Side-by-Side Comparison (Requirement 4) -->
+                        <div class="grid grid-cols-1 md:grid-cols-3 gap-3">
+                            <!-- Baseline Column -->
+                            <div class="p-3.5 bg-background border border-border rounded-xl space-y-2">
+                                <div class="flex items-center justify-between">
+                                    <p class="text-[10px] text-text-secondary uppercase font-bold">1. Baseline</p>
+                                    <span class="text-[9px] font-bold text-text-secondary bg-gray-100 px-1.5 py-0.5 rounded">Current Model</span>
+                                </div>
+                                <div class="space-y-1.5 text-xs">
+                                    <div class="flex justify-between">
+                                        <span class="text-text-secondary">Min Cash:</span>
+                                        <span id="sim-baseline-min" class="font-bold text-text-primary">₹2,30,000</span>
+                                    </div>
+                                    <div class="flex justify-between">
+                                        <span class="text-text-secondary">Liquidity Gap:</span>
+                                        <span id="sim-baseline-gap" class="font-bold text-text-primary">₹3,20,000</span>
+                                    </div>
+                                    <div class="flex justify-between">
+                                        <span class="text-text-secondary">Gap Date:</span>
+                                        <span id="sim-baseline-date" class="font-bold text-text-primary font-mono">18 September</span>
+                                    </div>
+                                    <div class="flex justify-between pt-1 border-t border-border/50">
+                                        <span class="text-text-secondary">Risk Status:</span>
+                                        <span id="sim-baseline-status" class="text-[10px] font-bold text-attention">Deficit Risk</span>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Simulated Column -->
+                            <div class="p-3.5 border-2 border-primary bg-orange-50/20 rounded-xl space-y-2">
+                                <div class="flex items-center justify-between">
+                                    <p class="text-[10px] text-primary-dark uppercase font-bold">2. What-If Scenario</p>
+                                    <span class="text-[9px] font-bold text-white bg-primary px-1.5 py-0.5 rounded">Simulated</span>
+                                </div>
+                                <div class="space-y-1.5 text-xs">
+                                    <div class="flex justify-between">
+                                        <span class="text-text-secondary">Min Cash:</span>
+                                        <span id="sim-out-min" class="font-bold text-critical">₹80,000</span>
+                                    </div>
+                                    <div class="flex justify-between">
+                                        <span class="text-text-secondary">Liquidity Gap:</span>
+                                        <span id="sim-out-gap" class="font-bold text-critical">₹1,50,000</span>
+                                    </div>
+                                    <div class="flex justify-between">
+                                        <span class="text-text-secondary">Gap Date:</span>
+                                        <span id="sim-out-date" class="font-bold text-critical font-mono">7 September</span>
+                                    </div>
+                                    <div class="flex justify-between pt-1 border-t border-primary/20">
+                                        <span class="text-text-secondary">Risk Status:</span>
+                                        <span id="sim-out-status" class="text-[10px] font-bold text-critical">Critical Deficit</span>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Delta / Variance Column -->
+                            <div class="p-3.5 bg-white border border-border rounded-xl space-y-2 shadow-2xs">
+                                <div class="flex items-center justify-between">
+                                    <p class="text-[10px] text-text-primary uppercase font-bold">3. Variance (Δ)</p>
+                                    <span class="text-[9px] font-bold text-primary bg-orange-50 px-1.5 py-0.5 rounded">Delta Shift</span>
+                                </div>
+                                <div class="space-y-1.5 text-xs">
+                                    <div class="flex justify-between">
+                                        <span class="text-text-secondary">Δ Min Cash:</span>
+                                        <span id="sim-diff-min" class="font-bold text-critical">-₹1,50,000</span>
+                                    </div>
+                                    <div class="flex justify-between">
+                                        <span class="text-text-secondary">Δ Deficit Gap:</span>
+                                        <span id="sim-diff-gap" class="font-bold text-critical">-₹1,70,000</span>
+                                    </div>
+                                    <div class="flex justify-between">
+                                        <span class="text-text-secondary">Δ Timing Shift:</span>
+                                        <span id="sim-diff-date" class="font-bold text-attention">11 Days Earlier</span>
+                                    </div>
+                                    <div class="flex justify-between pt-1 border-t border-border/50">
+                                        <span class="text-text-secondary">Risk Shift:</span>
+                                        <span id="sim-diff-risk" class="text-[10px] font-bold text-critical">Escalates to Critical</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Mini Output Graph representation -->
+                        <div class="p-4 bg-[#FFFDF9] border border-border rounded-xl text-center space-y-3">
+                            <p class="text-[10px] text-text-secondary font-bold uppercase">Projected Liquidity Trajectory Comparison</p>
+                            <div class="h-24 w-full relative flex items-end">
+                                <!-- Baseline Bar -->
+                                <div class="w-1/2 flex flex-col items-center">
+                                    <div id="sim-bar-baseline" class="w-12 bg-gray-300 rounded-t-md transition-all"
+                                        style="height: 60px"></div>
+                                    <span id="sim-bar-baseline-label" class="text-[9px] font-bold text-text-secondary mt-1">Baseline Min: ₹2.3L</span>
+                                </div>
+                                <!-- Simulated Bar -->
+                                <div class="w-1/2 flex flex-col items-center">
+                                    <div id="sim-bar-simulated" class="w-12 bg-critical rounded-t-md transition-all"
+                                        style="height: 25px"></div>
+                                    <span id="sim-bar-simulated-label" class="text-[9px] font-bold text-critical mt-1">Scenario Min: ₹80K</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- SCREEN 6: RESILIENCE OPTIONS -->
+            <section id="screen-resilience" class="hidden space-y-6">
+                <div class="border-b border-border pb-4">
+                    <h2 class="text-xl font-black text-text-primary">Resilience Options</h2>
+                    <p class="text-xs text-text-secondary mt-1">Decision support options for addressing projected
+                        liquidity gaps.</p>
+                </div>
+
+                <div class="space-y-4">
+                    <div class="bg-amber-50 border border-amber-200 p-4 rounded-xl text-xs text-attention font-medium">
+                        💡 **AI Assessment**: The options below represent possible actions to clear the ₹3,20,000
+                        deficit. Select an option to model its cash flow impact. CashTwin does not make the decision for
+                        you.
+                    </div>
+
+                    <!-- Option 1 -->
+                    <div
+                        class="bg-white border border-border rounded-xl p-5 flex flex-col md:flex-row md:items-center justify-between gap-4">
+                        <div class="space-y-1">
+                            <span class="text-[10px] font-bold text-primary bg-orange-50 px-2 py-0.5 rounded">INVOICE
+                                DISCOUNTING</span>
+                            <h3 class="text-sm font-bold text-text-primary mt-1">Advance Receivables from ABC Retail
+                            </h3>
+                            <p class="text-xs text-text-secondary leading-relaxed">Advance 80% of INV-2026-001
+                                (₹3,60,000) early at a flat 2.5% finance fee (₹9,000).</p>
+                        </div>
+                        <div class="text-right">
+                            <p class="text-xs font-semibold text-healthy">Impact: Resolves Gap completely</p>
+                            <button onclick="selectResilienceOption(1)"
+                                class="mt-2 text-xs font-bold text-white bg-primary hover:bg-primary-dark px-4 py-2 rounded-lg">Apply
+                                Simulation</button>
+                        </div>
+                    </div>
+
+                    <!-- Option 2 -->
+                    <div
+                        class="bg-white border border-border rounded-xl p-5 flex flex-col md:flex-row md:items-center justify-between gap-4">
+                        <div class="space-y-1">
+                            <span class="text-[10px] font-bold text-text-secondary bg-gray-100 px-2 py-0.5 rounded">BANK
+                                OVERDRAFT BUFFER</span>
+                            <h3 class="text-sm font-bold text-text-primary mt-1">Draw Under Existing Overdraft Line</h3>
+                            <p class="text-xs text-text-secondary leading-relaxed">Access ₹2,00,000 liquid capital at
+                                9.5% APR interest. Fits existing credit lines.</p>
+                        </div>
+                        <div class="text-right">
+                            <p class="text-xs font-semibold text-attention">Impact: Reduces Gap to ₹1,20,000</p>
+                            <button onclick="selectResilienceOption(2)"
+                                class="mt-2 text-xs font-bold text-text-primary border border-border hover:bg-background px-4 py-2 rounded-lg">Apply
+                                Simulation</button>
+                        </div>
+                    </div>
+
+                    <!-- Option 3 -->
+                    <div
+                        class="bg-white border border-border rounded-xl p-5 flex flex-col md:flex-row md:items-center justify-between gap-4">
+                        <div class="space-y-1">
+                            <span
+                                class="text-[10px] font-bold text-text-secondary bg-gray-100 px-2 py-0.5 rounded">EXPENSE
+                                RE-SCHEDULING</span>
+                            <h3 class="text-sm font-bold text-text-primary mt-1">Defer Steel Supplies Payable</h3>
+                            <p class="text-xs text-text-secondary leading-relaxed">Negotiate 15-day payment term
+                                extension for EXP-2026-101 (₹5,00,000). Interest charge: ₹12,000.</p>
+                        </div>
+                        <div class="text-right">
+                            <p class="text-xs font-semibold text-healthy">Impact: Shifts Gap past Sept window</p>
+                            <button onclick="selectResilienceOption(3)"
+                                class="mt-2 text-xs font-bold text-text-primary border border-border hover:bg-background px-4 py-2 rounded-lg">Apply
+                                Simulation</button>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- SCREEN 7: INVOICES -->
+            <section id="screen-invoices" class="hidden space-y-6">
+                <div class="border-b border-border pb-4 flex justify-between items-end">
+                    <div>
+                        <h2 class="text-xl font-black text-text-primary">Accounts Receivable Invoices</h2>
+                        <p class="text-xs text-text-secondary mt-1">Outstanding sales invoices linked to cash flow
+                            digital twin.</p>
+                    </div>
+                    <div class="flex items-center space-x-3">
+                        <button type="button" id="btn-add-invoice-screen" data-action="add-invoice" onclick="openAddInvoiceModal()"
+                            class="text-xs font-bold text-white bg-primary hover:bg-primary-dark px-3.5 py-1.5 rounded-lg shadow-sm transition-all flex items-center space-x-1.5 cursor-pointer">
+                            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4" />
+                            </svg>
+                            <span>+ Add Invoice</span>
+                        </button>
+                        <button id="invoices-review-badge" onclick="switchScreen('datareview')"
+                            class="text-xs font-semibold text-primary bg-orange-50 border border-primary/20 px-3 py-1.5 rounded-lg">
+                            ⚠️ 2 Invoices Require Review
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Invoice Table -->
+                <div class="bg-white border border-border rounded-xl overflow-hidden shadow-sm">
+                    <table class="min-w-full divide-y divide-border text-xs text-left">
+                        <thead class="bg-background font-bold text-text-secondary uppercase">
+                            <tr>
+                                <th class="px-5 py-3.5">Invoice ID</th>
+                                <th class="px-5 py-3.5">Customer</th>
+                                <th class="px-5 py-3.5">Amount</th>
+                                <th class="px-5 py-3.5">Due Date</th>
+                                <th class="px-5 py-3.5">Expected Date</th>
+                                <th class="px-5 py-3.5">Delay</th>
+                                <th class="px-5 py-3.5">Concentration</th>
+                                <th class="px-5 py-3.5">Status</th>
+                                <th class="px-5 py-3.5 text-right">Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody class="divide-y divide-border text-text-primary font-medium" id="invoice-table-body">
+                            <!-- Populated in JS -->
+                        </tbody>
+                    </table>
+                </div>
+            </section>
+
+            <!-- SCREEN 8: EXPENSES -->
+            <section id="screen-expenses" class="hidden space-y-6">
+                <div class="border-b border-border pb-4 flex justify-between items-end">
+                    <div>
+                        <h2 class="text-xl font-black text-text-primary">Accounts Payable Expenses</h2>
+                        <p class="text-xs text-text-secondary mt-1">Scheduled business expenses and utility outgoings.</p>
+                    </div>
+                    <button onclick="openAddExpenseModal()"
+                        class="text-xs font-bold text-white bg-primary hover:bg-primary-dark px-3.5 py-1.5 rounded-lg shadow-sm transition-all flex items-center space-x-1.5 cursor-pointer">
+                        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4" />
+                        </svg>
+                        <span>+ Add Expense</span>
+                    </button>
+                </div>
+
+                <!-- Expenses Table -->
+                <div class="bg-white border border-border rounded-xl overflow-hidden shadow-sm">
+                    <table class="min-w-full divide-y divide-border text-xs text-left">
+                        <thead class="bg-background font-bold text-text-secondary uppercase">
+                            <tr>
+                                <th class="px-5 py-3.5">Expense ID</th>
+                                <th class="px-5 py-3.5">Payee</th>
+                                <th class="px-5 py-3.5">Category</th>
+                                <th class="px-5 py-3.5">Amount</th>
+                                <th class="px-5 py-3.5">Due Date</th>
+                                <th class="px-5 py-3.5">Status</th>
+                                <th class="px-5 py-3.5 text-right">Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody class="divide-y divide-border text-text-primary font-medium" id="expenses-table-body">
+                            <!-- Populated in JS -->
+                        </tbody>
+                    </table>
+                </div>
+            </section>
+
+            <!-- SCREEN 9: DATA REVIEW -->
+            <section id="screen-datareview" class="hidden space-y-6">
+                <div class="border-b border-border pb-4 flex flex-col sm:flex-row sm:items-end justify-between gap-4">
+                    <div>
+                        <h2 class="text-xl font-black text-text-primary">Data Review Pipeline</h2>
+                        <p class="text-xs text-text-secondary mt-1">Quality audits, date corrections, and real-time backend forecast recalculation.</p>
+                    </div>
+                    <div class="flex flex-wrap items-center gap-2.5">
+                        <button type="button" onclick="openExcelGuideModal()"
+                            class="text-xs font-bold text-primary bg-orange-50 hover:bg-orange-100 border border-primary/25 px-3 py-2 rounded-lg shadow-2xs transition-all flex items-center space-x-1.5 cursor-pointer"
+                            title="View Excel/CSV sheet schemas and download templates">
+                            <span>📖 Upload Guide & Template</span>
+                        </button>
+                        <button type="button" onclick="openAppManualEntryModal()"
+                            class="text-xs font-bold text-text-primary bg-white hover:bg-background border border-border px-3 py-2 rounded-lg shadow-2xs transition-all flex items-center space-x-1.5 cursor-pointer"
+                            title="Enter financial records manually across 4 categories">
+                            <span>+ Manual Entry</span>
+                        </button>
+                        <button type="button" id="btn-recalculate-forecast" onclick="triggerForecastRecalculation()"
+                            class="text-xs font-bold text-white bg-primary hover:bg-primary-dark px-3.5 py-2 rounded-lg shadow-sm hover:shadow-md transition-all flex items-center space-x-1.5 cursor-pointer active:scale-95"
+                            title="Recalculate central digital twin forecast using latest saved database dates">
+                            <svg id="recalc-btn-icon" class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15" />
+                            </svg>
+                            <span id="recalc-btn-text">Recalculate</span>
+                        </button>
+                        <span id="datareview-score-badge"
+                            class="px-3 py-2 bg-amber-50 text-attention border border-attention/20 rounded-lg text-xs font-bold shadow-2xs">
+                            Data Quality: 92%
+                        </span>
+                    </div>
+                </div>
+
+                <!-- Visible Calculation Result Banner & Metrics Card -->
+                <div id="datareview-calc-result-panel"
+                    class="p-5 bg-white border border-border rounded-xl shadow-xs space-y-4">
+                    <div class="flex flex-col sm:flex-row sm:items-center justify-between pb-3 border-b border-border/70 gap-2">
+                        <div class="flex items-center space-x-2.5">
+                            <span id="datareview-calc-dot" class="w-2.5 h-2.5 rounded-full bg-healthy animate-pulse"></span>
+                            <div>
+                                <h3 id="datareview-calc-title" class="text-xs font-extrabold text-text-primary tracking-wide uppercase">
+                                    ✓ Forecast Recalculated Successfully
+                                </h3>
+                                <p id="datareview-calc-time" class="text-[11px] text-text-secondary font-mono mt-0.5">
+                                    Last calculated: Just now
+                                </p>
+                            </div>
+                        </div>
+                        <span class="inline-flex items-center px-2.5 py-1 rounded-md text-[10px] font-bold bg-primary/10 text-primary border border-primary/20">
+                            Central Shared Baseline
+                        </span>
+                    </div>
+
+                    <!-- 5-Metric Results Grid -->
+                    <div class="grid grid-cols-2 md:grid-cols-5 gap-3 pt-1 text-xs">
+                        <!-- Minimum Cash -->
+                        <div class="p-3 bg-background border border-border rounded-xl space-y-1">
+                            <span class="text-[10px] font-bold text-text-secondary uppercase block">Minimum Cash</span>
+                            <p id="datareview-min-cash" class="text-base font-black text-text-primary">₹80,000</p>
+                            <span id="datareview-min-cash-sub" class="text-[9px] text-text-secondary block">Projected lowest cash</span>
+                        </div>
+
+                        <!-- Liquidity Gap -->
+                        <div class="p-3 bg-background border border-border rounded-xl space-y-1">
+                            <span class="text-[10px] font-bold text-text-secondary uppercase block">Liquidity Gap</span>
+                            <p id="datareview-gap-val" class="text-base font-black text-critical">₹3,20,000</p>
+                            <span class="text-[9px] text-text-secondary block">Below safe limit</span>
+                        </div>
+
+                        <!-- Gap Date -->
+                        <div class="p-3 bg-background border border-border rounded-xl space-y-1">
+                            <span class="text-[10px] font-bold text-text-secondary uppercase block">Gap Date</span>
+                            <p id="datareview-gap-date" class="text-base font-bold text-text-primary font-mono">18 Sept</p>
+                            <span class="text-[9px] text-text-secondary block">Projected dip window</span>
+                        </div>
+
+                        <!-- Safety Threshold -->
+                        <div class="p-3 bg-background border border-border rounded-xl space-y-1">
+                            <span class="text-[10px] font-bold text-text-secondary uppercase block">Safety Threshold</span>
+                            <p id="datareview-safe-threshold" class="text-base font-bold text-text-primary font-mono">₹1,50,000</p>
+                            <span class="text-[9px] text-text-secondary block">Policy minimum buffer</span>
+                        </div>
+
+                        <!-- Forecast Status -->
+                        <div class="p-3 bg-background border border-border rounded-xl space-y-1 col-span-2 md:col-span-1">
+                            <span class="text-[10px] font-bold text-text-secondary uppercase block">Forecast Status</span>
+                            <div class="pt-0.5">
+                                <span id="datareview-status-badge"
+                                    class="inline-flex items-center px-2 py-0.5 rounded text-[10px] font-black uppercase bg-red-50 text-critical border border-red-200">
+                                    Deficit Risk
+                                </span>
+                            </div>
+                            <span class="text-[9px] text-text-secondary block">Twin Engine calculation</span>
+                        </div>
+                    </div>
+
+                    <p class="text-[10px] text-text-secondary italic pt-1">
+                        ⓘ Note: This recalculated baseline is the single source of truth shared across Dashboard, Digital Twin, Cash Flow timeline, Risk Center, and What-If Simulator.
+                    </p>
+                </div>
+
+                <div class="grid grid-cols-1 lg:grid-cols-12 gap-8">
+                    <!-- Left: Checklist -->
+                    <div class="lg:col-span-5 bg-white border border-border rounded-xl p-5 space-y-4 shadow-2xs">
+                        <h3 class="text-xs font-bold text-text-primary uppercase tracking-wide">Data Quality Checklist</h3>
+                        <div class="space-y-3 text-xs font-medium">
+                            <div class="flex items-center justify-between text-healthy">
+                                <span>✓ Invoice completeness checks passed</span>
+                                <span class="text-[10px] bg-green-50 px-1.5 py-0.5 rounded font-bold">Passed</span>
+                            </div>
+                            <div class="flex items-center justify-between text-healthy">
+                                <span>✓ Expense completeness checks passed</span>
+                                <span class="text-[10px] bg-green-50 px-1.5 py-0.5 rounded font-bold">Passed</span>
+                            </div>
+                            <div class="flex items-center justify-between text-healthy">
+                                <span>✓ Bank balance feed synchronization verified</span>
+                                <span class="text-[10px] bg-green-50 px-1.5 py-0.5 rounded font-bold">Synced</span>
+                            </div>
+                            <div id="check-missing-dates-row" class="flex items-center justify-between text-attention">
+                                <span id="check-missing-dates-text">⚠️ 2 invoices have missing expected payment dates</span>
+                                <span id="check-missing-dates-badge" class="text-[10px] bg-amber-50 px-1.5 py-0.5 rounded font-bold">Action Required</span>
+                            </div>
+                        </div>
+
+                        <div class="pt-3 border-t border-border/70 text-[11px] text-text-secondary leading-relaxed">
+                            <p>
+                                <strong>Deterministic Twin Rules:</strong> Verified payment dates immediately reflect in the cash ledger projection when you save corrections.
+                            </p>
+                        </div>
+                    </div>
+
+                    <!-- Right: User Correction Form/Action -->
+                    <div class="lg:col-span-7 bg-white border border-border rounded-xl p-5 space-y-5 shadow-2xs">
+                        <div>
+                            <h3 class="text-xs font-bold text-text-primary uppercase tracking-wide">User Data Corrections</h3>
+                            <p class="text-xs text-text-secondary mt-1 leading-relaxed">
+                                Review individual invoices with missing expected payment dates. Enter user-verified dates and click <strong>Save Correction</strong> to update the database.
+                            </p>
+                        </div>
+
+                        <div id="correction-needed-panel"
+                            class="space-y-3 p-4 bg-amber-50/50 border border-amber-200 rounded-xl text-xs">
+                            <div class="flex items-center justify-between">
+                                <p class="font-bold text-attention">Invoices Requiring Date Verification:</p>
+                                <span class="text-[10px] font-bold text-attention bg-white px-2 py-0.5 rounded border border-amber-200" id="datareview-pending-count">2 Pending</span>
+                            </div>
+                            <div id="datareview-pending-list" class="space-y-2.5 pt-1">
+                                <!-- Dynamic review rows populated in JS -->
+                            </div>
+                        </div>
+
+                        <div id="correction-success-panel"
+                            class="hidden p-4 bg-green-50 border border-green-200 rounded-xl text-xs space-y-2">
+                            <p class="font-bold text-healthy">✓ ALL INVOICES VERIFIED & PIPELINE STABLE</p>
+                            <p id="correction-success-desc" class="text-text-secondary leading-relaxed">
+                                All active invoices have verified expected payment dates saved in the database. Cash Flow timeline, Digital Twin, Risk Center, and What-If Simulator are operating with 100% data integrity.
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- SCREEN 10: CONSENT & PRIVACY -->
+            <section id="screen-consent" class="hidden space-y-6">
+                <div class="border-b border-border pb-4">
+                    <h2 class="text-xl font-black text-text-primary">Consent & Privacy</h2>
+                    <p class="text-xs text-text-secondary mt-1">Manage connected accounting and banking authorization
+                        layers.</p>
+                </div>
+
+                <div class="bg-white border border-border rounded-xl p-6 space-y-6">
+                    <div class="space-y-4">
+                        <div class="flex items-center justify-between border-b border-border pb-4">
+                            <div>
+                                <h4 class="text-sm font-bold text-text-primary">Invoice Ledger Feed</h4>
+                                <p class="text-xs text-text-secondary">Allows reading pending receivables and client
+                                    payment profiles.</p>
+                            </div>
+                            <span
+                                class="text-xs font-bold text-healthy bg-green-50 px-3 py-1 rounded-full border border-green-200">CONNECTED</span>
+                        </div>
+
+                        <div class="flex items-center justify-between border-b border-border pb-4">
+                            <div>
+                                <h4 class="text-sm font-bold text-text-primary">Bank Account Ledger</h4>
+                                <p class="text-xs text-text-secondary">Reads live deposit balance feeds and payment
+                                    clearing records.</p>
+                            </div>
+                            <span
+                                class="text-xs font-bold text-healthy bg-green-50 px-3 py-1 rounded-full border border-green-200">CONNECTED</span>
+                        </div>
+
+                        <div class="flex items-center justify-between">
+                            <div>
+                                <h4 class="text-sm font-bold text-text-primary">Expense & AP Ledger</h4>
+                                <p class="text-xs text-text-secondary">Scans supplier invoice timelines and payroll
+                                    schedule tables.</p>
+                            </div>
+                            <span
+                                class="text-xs font-bold text-healthy bg-green-50 px-3 py-1 rounded-full border border-green-200">CONNECTED</span>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- SCREEN 11: AUDIT LOG -->
+            <section id="screen-auditlog" class="hidden space-y-6">
+                <div class="border-b border-border pb-4">
+                    <h2 class="text-xl font-black text-text-primary">Audit Log Ledger</h2>
+                    <p class="text-xs text-text-secondary mt-1">Permanent traceability logs of data inputs, consent
+                        modifications, and engine calculations.</p>
+                </div>
+
+                <div class="bg-white border border-border rounded-xl overflow-hidden">
+                    <table class="min-w-full divide-y divide-border text-xs text-left">
+                        <thead class="bg-background font-bold text-text-secondary uppercase">
+                            <tr>
+                                <th class="px-6 py-3.5">Timestamp</th>
+                                <th class="px-6 py-3.5">Action Entity</th>
+                                <th class="px-6 py-3.5">Event Description</th>
+                                <th class="px-6 py-3.5">IP / Source</th>
+                            </tr>
+                        </thead>
+                        <tbody class="divide-y divide-border text-text-primary font-medium" id="audit-log-body">
+                            <!-- Populated in JS -->
+                        </tbody>
+                    </table>
+                </div>
+            </section>
+
+        </div>
+    </main>
+</div>
+
+<!-- FLOATING DEMO GUIDE PLAYBOOK -->
+<div id="demo-playbook-widget"
+    class="fixed bottom-6 right-6 w-96 bg-white border-2 border-primary rounded-2xl shadow-2xl z-50 overflow-hidden">
+    <div class="bg-primary px-4 py-3 flex items-center justify-between text-white">
+        <span class="text-xs font-black tracking-wider uppercase">🏆 Hackathon Demo Guide</span>
+        <button onclick="togglePlaybook()" class="text-xs font-bold hover:underline">Minimize</button>
+    </div>
+    <div id="playbook-body" class="p-4 space-y-3">
+        <p class="text-xs text-text-secondary leading-relaxed">
+            Follow these steps to demonstrate the complete, explainable AI pipeline:
+        </p>
+
+        <div class="space-y-2 text-xs">
+            <!-- Step 1 -->
+            <div id="play-step-1"
+                class="p-2 border border-primary/20 bg-primary/5 rounded-lg font-medium text-text-primary">
+                <span class="font-bold text-primary mr-1">1. Observe Baseline:</span> Look at the Dashboard alert. The
+                system projects a ₹3,20,000 liquidity gap on 18-Sept.
+            </div>
+
+            <!-- Step 2 -->
+            <div id="play-step-2" class="p-2 border border-border rounded-lg text-text-secondary">
+                <span class="font-bold text-text-primary mr-1">2. Risk Center:</span> Click <button
+                    onclick="switchScreen('riskcenter')" class="underline text-primary font-bold">Risk Center</button>
+                in the sidebar to trace why the gap exists (ABC Retail concentration & delay).
+            </div>
+
+            <!-- Step 3 -->
+            <div id="play-step-3" class="p-2 border border-border rounded-lg text-text-secondary">
+                <span class="font-bold text-text-primary mr-1">3. Simulate What-If:</span> Go to <button
+                    onclick="switchScreen('simulator')" class="underline text-primary font-bold">What-If
+                    Simulator</button>, slide Delay to +15 days, and click "Run Simulation".
+            </div>
+
+            <!-- Step 4 -->
+            <div id="play-step-4" class="p-2 border border-border rounded-lg text-text-secondary">
+                <span class="font-bold text-text-primary mr-1">4. Review Mitigations:</span> View the <button
+                    onclick="switchScreen('resilience')" class="underline text-primary font-bold">Resilience
+                    Options</button> to compare human-selected strategies.
+            </div>
+
+            <!-- Step 5 -->
+            <div id="play-step-5" class="p-2 border border-border rounded-lg text-text-secondary">
+                <span class="font-bold text-text-primary mr-1">5. Data Quality:</span> Visit <button
+                    onclick="switchScreen('datareview')" class="underline text-primary font-bold">Data Review</button>,
+                click "Review & Set Date" to manually provide verified dates and see quality jump to 100%.
+            </div>
+        </div>
+
+        <div class="pt-2 border-t border-border flex justify-between items-center text-[10px] font-bold">
+            <span class="text-text-secondary">Demo Mode: ACTIVE</span>
+            <button onclick="resetDemoFlow()" class="text-primary hover:underline">Reset Demo State</button>
+        </div>
+    </div>
+</div>
+
+<!-- INVOICE MODAL (ADD / EDIT) -->
+<div id="invoice-modal" class="fixed inset-0 z-[100] hidden bg-black/60 backdrop-blur-sm items-center justify-center p-4">
+    <div class="bg-white rounded-2xl border border-border shadow-2xl max-w-lg w-full overflow-hidden animate-in fade-in zoom-in duration-150">
+        <!-- Modal Header -->
+        <div class="px-6 py-4 border-b border-border bg-[#FFFDF9] flex items-center justify-between">
+            <div class="flex items-center space-x-2.5">
+                <span class="w-2.5 h-2.5 rounded-full bg-primary animate-pulse"></span>
+                <h3 id="invoice-modal-title" class="text-sm font-extrabold text-text-primary">Add New Invoice</h3>
+            </div>
+            <button type="button" onclick="closeInvoiceModal()" class="text-text-secondary hover:text-text-primary p-1.5 rounded-lg hover:bg-gray-100 transition-colors">
+                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
+                </svg>
+            </button>
+        </div>
+
+        <!-- Modal Form -->
+        <form id="invoice-form" onsubmit="handleSaveInvoice(event)" class="p-6 space-y-4 text-xs">
+            <input type="hidden" id="invoice-edit-id" value="">
+            
+            <div class="grid grid-cols-2 gap-4">
+                <!-- Invoice ID -->
+                <div class="space-y-1">
+                    <label for="inv-id" class="font-bold text-text-primary block">Invoice ID <span class="text-critical">*</span></label>
+                    <input type="text" id="inv-id" required placeholder="e.g. INV-2026-005"
+                        class="w-full px-3 py-2 border border-border rounded-lg bg-background focus:outline-none focus:ring-2 focus:ring-primary/40 focus:border-primary font-mono text-xs font-semibold">
+                </div>
+
+                <!-- Customer Concentration -->
+                <div class="space-y-1">
+                    <label for="inv-concentration" class="font-bold text-text-primary block">Customer Concentration <span class="text-critical">*</span></label>
+                    <select id="inv-concentration" required
+                        class="w-full px-3 py-2 border border-border rounded-lg bg-white focus:outline-none focus:ring-2 focus:ring-primary/40 focus:border-primary text-xs font-medium">
+                        <option value="Low">Low</option>
+                        <option value="Medium" selected>Medium</option>
+                        <option value="High">High</option>
+                    </select>
+                </div>
+            </div>
+
+            <!-- Customer Name -->
+            <div class="space-y-1">
+                <label for="inv-customer" class="font-bold text-text-primary block">Customer Name <span class="text-critical">*</span></label>
+                <input type="text" id="inv-customer" required placeholder="e.g. Acme Corporation"
+                    class="w-full px-3 py-2 border border-border rounded-lg bg-background focus:outline-none focus:ring-2 focus:ring-primary/40 focus:border-primary text-xs font-semibold">
+            </div>
+
+            <div class="grid grid-cols-2 gap-4">
+                <!-- Invoice Amount -->
+                <div class="space-y-1">
+                    <label for="inv-amount" class="font-bold text-text-primary block">Invoice Amount (₹) <span class="text-critical">*</span></label>
+                    <div class="relative">
+                        <span class="absolute left-3 top-2 text-text-secondary font-bold text-xs">₹</span>
+                        <input type="number" id="inv-amount" required min="1" step="1" placeholder="250000"
+                            class="w-full pl-7 pr-3 py-2 border border-border rounded-lg bg-background focus:outline-none focus:ring-2 focus:ring-primary/40 focus:border-primary text-xs font-bold">
+                    </div>
+                </div>
+
+                <!-- Status -->
+                <div class="space-y-1">
+                    <label for="inv-status" class="font-bold text-text-primary block">Status <span class="text-critical">*</span></label>
+                    <select id="inv-status" required
+                        class="w-full px-3 py-2 border border-border rounded-lg bg-white focus:outline-none focus:ring-2 focus:ring-primary/40 focus:border-primary text-xs font-medium">
+                        <option value="Pending" selected>Pending</option>
+                        <option value="Paid">Paid</option>
+                        <option value="Overdue">Overdue</option>
+                    </select>
+                </div>
+            </div>
+
+            <div class="grid grid-cols-2 gap-4">
+                <!-- Due Date -->
+                <div class="space-y-1">
+                    <label for="inv-due-date" class="font-bold text-text-primary block">Due Date <span class="text-critical">*</span></label>
+                    <input type="date" id="inv-due-date" required oninput="calculateDelayFromForm()"
+                        class="w-full px-3 py-2 border border-border rounded-lg bg-background focus:outline-none focus:ring-2 focus:ring-primary/40 focus:border-primary text-xs">
+                </div>
+
+                <!-- Expected Payment Date -->
+                <div class="space-y-1">
+                    <label for="inv-expected-date" class="font-bold text-text-primary block">Expected Payment Date</label>
+                    <input type="date" id="inv-expected-date" oninput="calculateDelayFromForm()"
+                        class="w-full px-3 py-2 border border-border rounded-lg bg-background focus:outline-none focus:ring-2 focus:ring-primary/40 focus:border-primary text-xs">
+                </div>
+            </div>
+
+            <!-- Payment Delay (days) - Automatically calculated -->
+            <div class="p-3 bg-amber-50/70 border border-amber-200 rounded-xl flex items-center justify-between">
+                <div>
+                    <span class="font-bold text-text-primary block">Payment Delay</span>
+                    <span class="text-[10px] text-text-secondary">Auto-calculated: Expected Date − Due Date</span>
+                </div>
+                <div id="inv-delay-display" class="px-3 py-1 rounded-lg text-xs font-black bg-white border border-amber-200 text-attention">
+                    0 days
+                </div>
+            </div>
+
+            <!-- Modal Action Buttons -->
+            <div class="pt-3 border-t border-border flex items-center justify-end space-x-3">
+                <button type="button" onclick="closeInvoiceModal()"
+                    class="px-4 py-2 rounded-lg border border-border text-text-secondary hover:text-text-primary hover:bg-gray-50 font-bold transition-colors cursor-pointer">
+                    Cancel
+                </button>
+                <button type="submit" id="invoice-submit-btn" onclick="handleSaveInvoice(event)"
+                    class="px-5 py-2 rounded-lg bg-primary hover:bg-primary-dark text-white font-bold shadow-md shadow-primary/20 transition-all flex items-center space-x-1.5 cursor-pointer">
+                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" />
+                    </svg>
+                    <span id="invoice-submit-text">Save Invoice</span>
+                </button>
+            </div>
+        </form>
+    </div>
+</div>
+
+<!-- DELETE CONFIRMATION MODAL -->
+<div id="delete-confirm-modal" class="fixed inset-0 z-[100] hidden bg-black/60 backdrop-blur-sm items-center justify-center p-4">
+    <div class="bg-white rounded-2xl border border-border shadow-2xl max-w-sm w-full overflow-hidden p-6 space-y-4 text-xs animate-in fade-in zoom-in duration-150">
+        <div class="flex items-center space-x-3 text-critical">
+            <div class="p-2 bg-red-100 rounded-xl">
+                <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                        d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
+                </svg>
+            </div>
+            <div>
+                <h3 class="text-sm font-extrabold text-text-primary">Delete Invoice</h3>
+                <p class="text-[11px] text-text-secondary">This action cannot be undone.</p>
+            </div>
+        </div>
+
+        <p class="text-xs text-text-secondary leading-relaxed">
+            Are you sure you want to delete invoice <span id="delete-modal-inv-id" class="font-mono font-bold text-text-primary">INV-2026-001</span>? This will immediately recalculate all cash flow forecasts.
+        </p>
+
+        <div class="pt-2 flex items-center justify-end space-x-3">
+            <button type="button" onclick="closeDeleteModal()"
+                class="px-4 py-2 rounded-lg border border-border text-text-secondary hover:text-text-primary hover:bg-gray-50 font-bold transition-colors cursor-pointer">
+                Cancel
+            </button>
+            <button type="button" id="confirm-delete-btn" onclick="executeDeleteInvoice()"
+                class="px-4 py-2 rounded-lg bg-critical hover:bg-red-700 text-white font-bold shadow-md shadow-red-600/20 transition-all cursor-pointer">
+                Delete Invoice
+            </button>
+        </div>
+    </div>
+</div>
+
+<!-- EXPENSE MODAL (ADD / EDIT) -->
+<div id="expense-modal" class="fixed inset-0 z-[100] hidden bg-black/60 backdrop-blur-sm items-center justify-center p-4">
+    <div class="bg-white rounded-2xl border border-border shadow-2xl max-w-lg w-full overflow-hidden animate-in fade-in zoom-in duration-150">
+        <!-- Modal Header -->
+        <div class="px-6 py-4 border-b border-border bg-[#FFFDF9] flex items-center justify-between">
+            <div class="flex items-center space-x-2.5">
+                <span class="w-2.5 h-2.5 rounded-full bg-primary animate-pulse"></span>
+                <h3 id="expense-modal-title" class="text-sm font-extrabold text-text-primary">Add New Expense</h3>
+            </div>
+            <button type="button" onclick="closeExpenseModal()" class="text-text-secondary hover:text-text-primary p-1.5 rounded-lg hover:bg-gray-100 transition-colors">
+                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
+                </svg>
+            </button>
+        </div>
+
+        <!-- Modal Form -->
+        <form id="expense-form" onsubmit="handleSaveExpense(event)" class="p-6 space-y-4 text-xs">
+            <input type="hidden" id="expense-edit-id" value="">
+            
+            <div class="grid grid-cols-2 gap-4">
+                <!-- Expense ID -->
+                <div class="space-y-1">
+                    <label for="exp-id" class="font-bold text-text-primary block">Expense ID <span class="text-critical">*</span></label>
+                    <input type="text" id="exp-id" required placeholder="e.g. EXP-2026-104"
+                        class="w-full px-3 py-2 border border-border rounded-lg bg-background focus:outline-none focus:ring-2 focus:ring-primary/40 focus:border-primary font-mono text-xs font-semibold">
+                </div>
+
+                <!-- Category -->
+                <div class="space-y-1">
+                    <label for="exp-category" class="font-bold text-text-primary block">Category <span class="text-critical">*</span></label>
+                    <select id="exp-category" required
+                        class="w-full px-3 py-2 border border-border rounded-lg bg-white focus:outline-none focus:ring-2 focus:ring-primary/40 focus:border-primary text-xs font-medium">
+                        <option value="Raw Materials">Raw Materials</option>
+                        <option value="Payroll">Payroll</option>
+                        <option value="Utilities">Utilities</option>
+                        <option value="Logistics">Logistics</option>
+                        <option value="Taxes">Taxes</option>
+                        <option value="Rent & Facilities">Rent & Facilities</option>
+                        <option value="Other">Other</option>
+                    </select>
+                </div>
+            </div>
+
+            <!-- Payee Name -->
+            <div class="space-y-1">
+                <label for="exp-payee" class="font-bold text-text-primary block">Payee / Vendor Name <span class="text-critical">*</span></label>
+                <input type="text" id="exp-payee" required placeholder="e.g. Steel Supplies Inc"
+                    class="w-full px-3 py-2 border border-border rounded-lg bg-background focus:outline-none focus:ring-2 focus:ring-primary/40 focus:border-primary text-xs font-semibold">
+            </div>
+
+            <div class="grid grid-cols-2 gap-4">
+                <!-- Expense Amount -->
+                <div class="space-y-1">
+                    <label for="exp-amount" class="font-bold text-text-primary block">Amount (₹) <span class="text-critical">*</span></label>
+                    <div class="relative">
+                        <span class="absolute left-3 top-2 text-text-secondary font-bold text-xs">₹</span>
+                        <input type="number" id="exp-amount" required min="1" step="1" placeholder="150000"
+                            class="w-full pl-7 pr-3 py-2 border border-border rounded-lg bg-background focus:outline-none focus:ring-2 focus:ring-primary/40 focus:border-primary text-xs font-bold">
+                    </div>
+                </div>
+
+                <!-- Status -->
+                <div class="space-y-1">
+                    <label for="exp-status" class="font-bold text-text-primary block">Status <span class="text-critical">*</span></label>
+                    <select id="exp-status" required
+                        class="w-full px-3 py-2 border border-border rounded-lg bg-white focus:outline-none focus:ring-2 focus:ring-primary/40 focus:border-primary text-xs font-medium">
+                        <option value="Upcoming" selected>Upcoming</option>
+                        <option value="Pending">Pending</option>
+                        <option value="Paid">Paid</option>
+                    </select>
+                </div>
+            </div>
+
+            <!-- Due Date -->
+            <div class="space-y-1">
+                <label for="exp-due-date" class="font-bold text-text-primary block">Due Date <span class="text-critical">*</span></label>
+                <input type="date" id="exp-due-date" required
+                    class="w-full px-3 py-2 border border-border rounded-lg bg-background focus:outline-none focus:ring-2 focus:ring-primary/40 focus:border-primary text-xs">
+            </div>
+
+            <!-- Modal Action Buttons -->
+            <div class="pt-3 border-t border-border flex items-center justify-end space-x-3">
+                <button type="button" onclick="closeExpenseModal()"
+                    class="px-4 py-2 rounded-lg border border-border text-text-secondary hover:text-text-primary hover:bg-gray-50 font-bold transition-colors cursor-pointer">
+                    Cancel
+                </button>
+                <button type="submit" id="expense-submit-btn" onclick="handleSaveExpense(event)"
+                    class="px-5 py-2 rounded-lg bg-primary hover:bg-primary-dark text-white font-bold shadow-md shadow-primary/20 transition-all flex items-center space-x-1.5 cursor-pointer">
+                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" />
+                    </svg>
+                    <span id="expense-submit-text">Save Expense</span>
+                </button>
+            </div>
+        </form>
+    </div>
+</div>
+
+<!-- DELETE EXPENSE MODAL -->
+<div id="delete-expense-modal" class="fixed inset-0 z-[100] hidden bg-black/60 backdrop-blur-sm items-center justify-center p-4">
+    <div class="bg-white rounded-2xl border border-border shadow-2xl max-w-sm w-full overflow-hidden p-6 space-y-4 text-xs animate-in fade-in zoom-in duration-150">
+        <div class="flex items-center space-x-3 text-critical">
+            <div class="p-2 bg-red-100 rounded-xl">
+                <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                        d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
+                </svg>
+            </div>
+            <div>
+                <h3 class="text-sm font-extrabold text-text-primary">Delete Expense</h3>
+                <p class="text-[11px] text-text-secondary">This action cannot be undone.</p>
+            </div>
+        </div>
+
+        <p class="text-xs text-text-secondary leading-relaxed">
+            Are you sure you want to delete expense <span id="delete-modal-exp-id" class="font-mono font-bold text-text-primary">EXP-2026-101</span>? This will immediately recalculate all cash flow forecasts.
+        </p>
+
+        <div class="pt-2 flex items-center justify-end space-x-3">
+            <button type="button" onclick="closeDeleteExpenseModal()"
+                class="px-4 py-2 rounded-lg border border-border text-text-secondary hover:text-text-primary hover:bg-gray-50 font-bold transition-colors cursor-pointer">
+                Cancel
+            </button>
+            <button type="button" id="confirm-delete-exp-btn" onclick="executeDeleteExpense()"
+                class="px-4 py-2 rounded-lg bg-critical hover:bg-red-700 text-white font-bold shadow-md shadow-red-600/20 transition-all cursor-pointer">
+                Delete Expense
+            </button>
+        </div>
+    </div>
+</div>
+
+<!-- USER CORRECTION MODAL (DATA REVIEW) -->
+<div id="user-correction-modal" class="fixed inset-0 z-[100] hidden bg-black/60 backdrop-blur-sm items-center justify-center p-4">
+    <div class="bg-white rounded-2xl border border-border shadow-2xl max-w-md w-full overflow-hidden animate-in fade-in zoom-in duration-150">
+        <div class="px-6 py-4 border-b border-border bg-[#FFFDF9] flex items-center justify-between">
+            <div class="flex items-center space-x-2.5">
+                <span class="w-2.5 h-2.5 rounded-full bg-attention animate-pulse"></span>
+                <h3 class="text-sm font-extrabold text-text-primary">User Data Correction</h3>
+            </div>
+            <button type="button" onclick="closeUserCorrectionModal()" class="text-text-secondary hover:text-text-primary p-1.5 rounded-lg hover:bg-gray-100 transition-colors">
+                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
+                </svg>
+            </button>
+        </div>
+
+        <form id="user-correction-form" onsubmit="handleSaveUserCorrection(event)" class="p-6 space-y-4 text-xs">
+            <input type="hidden" id="correct-inv-id" value="">
+
+            <div class="p-3 bg-background border border-border rounded-xl space-y-1.5">
+                <div class="flex justify-between font-bold">
+                    <span class="text-text-secondary">Invoice:</span>
+                    <span id="correct-display-id" class="font-mono text-primary">INV-2026-003</span>
+                </div>
+                <div class="flex justify-between">
+                    <span class="text-text-secondary">Customer:</span>
+                    <span id="correct-display-customer" class="font-semibold text-text-primary">ABC Retail</span>
+                </div>
+                <div class="flex justify-between">
+                    <span class="text-text-secondary">Amount:</span>
+                    <span id="correct-display-amount" class="font-bold text-text-primary">₹2,10,000</span>
+                </div>
+                <div class="flex justify-between">
+                    <span class="text-text-secondary">Due Date:</span>
+                    <span id="correct-display-due" class="font-mono text-text-primary">2026-09-10</span>
+                </div>
+            </div>
+
+            <!-- Expected Payment Date Input -->
+            <div class="space-y-1">
+                <label for="correct-expected-date" class="font-bold text-text-primary block">
+                    Expected Payment Date <span class="text-critical">*</span>
+                </label>
+                <input type="date" id="correct-expected-date" required oninput="calculateCorrectionDelay()"
+                    class="w-full px-3 py-2 border border-border rounded-lg bg-white focus:outline-none focus:ring-2 focus:ring-primary/40 focus:border-primary text-xs font-semibold">
+                <p class="text-[10px] text-text-secondary">Enter verified payment arrival date from accounts follow-up.</p>
+            </div>
+
+            <!-- Calculated Delay Badge -->
+            <div class="p-3 bg-orange-50/60 border border-primary/20 rounded-xl flex items-center justify-between">
+                <div>
+                    <span class="font-bold text-text-primary block">Calculated Terms Delay</span>
+                    <span class="text-[10px] text-text-secondary">Expected Date − Due Date</span>
+                </div>
+                <div id="correct-delay-display" class="px-3 py-1 rounded-lg text-xs font-black bg-white border border-primary/20 text-primary">
+                    +0 days
+                </div>
+            </div>
+
+            <div class="pt-3 border-t border-border flex items-center justify-end space-x-3">
+                <button type="button" onclick="closeUserCorrectionModal()"
+                    class="px-4 py-2 rounded-lg border border-border text-text-secondary hover:text-text-primary hover:bg-gray-50 font-bold transition-colors cursor-pointer">
+                    Cancel
+                </button>
+                <button type="submit" onclick="handleSaveUserCorrection(event)"
+                    class="px-5 py-2 rounded-lg bg-primary hover:bg-primary-dark text-white font-bold shadow-md shadow-primary/20 transition-all cursor-pointer">
+                    Save Correction & Re-Forecast
+                </button>
+            </div>
+        </form>
+    </div>
+</div>
+
+<!-- COMPANY PROFILE MODAL -->
+<div id="profile-modal" class="fixed inset-0 z-[100] hidden bg-black/60 backdrop-blur-sm items-center justify-center p-4">
+    <div class="bg-white rounded-2xl border border-border shadow-2xl max-w-md w-full overflow-hidden animate-in fade-in zoom-in duration-150">
+        <div class="px-6 py-4 border-b border-border bg-[#FFFDF9] flex items-center justify-between">
+            <div class="flex items-center space-x-2.5">
+                <div class="w-7 h-7 rounded-full bg-primary text-white flex items-center justify-center font-bold text-xs">AM</div>
+                <h3 class="text-sm font-extrabold text-text-primary">Company Profile & Account</h3>
+            </div>
+            <button type="button" onclick="closeProfileModal()" class="text-text-secondary hover:text-text-primary p-1.5 rounded-lg hover:bg-gray-100 transition-colors">
+                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
+                </svg>
+            </button>
+        </div>
+
+        <div class="p-6 space-y-4 text-xs">
+            <div class="space-y-3">
+                <div class="flex justify-between py-1 border-b border-border/50">
+                    <span class="text-text-secondary font-medium">Business Name:</span>
+                    <span class="font-bold text-text-primary">ABC Manufacturing Pvt Ltd</span>
+                </div>
+                <div class="flex justify-between py-1 border-b border-border/50">
+                    <span class="text-text-secondary font-medium">Registered Email:</span>
+                    <span class="font-mono font-semibold text-text-primary">finance@abcmfg.in</span>
+                </div>
+                <div class="flex justify-between py-1 border-b border-border/50">
+                    <span class="text-text-secondary font-medium">Entity Structure:</span>
+                    <span class="font-semibold text-text-primary">Private Limited Company (Pvt Ltd)</span>
+                </div>
+                <div class="flex justify-between py-1 border-b border-border/50">
+                    <span class="text-text-secondary font-medium">GSTIN / Corporate ID:</span>
+                    <span class="font-mono text-text-primary">27AAACA1234B1Z5</span>
+                </div>
+                <div class="flex justify-between py-1 border-b border-border/50">
+                    <span class="text-text-secondary font-medium">Primary Ledger Feed:</span>
+                    <span class="text-healthy font-bold">✓ Connected (Tally/Zoho Sync)</span>
+                </div>
+                <div class="flex justify-between py-1">
+                    <span class="text-text-secondary font-medium">Bank Balance Feed:</span>
+                    <span class="text-healthy font-bold">✓ Active (HDFC Current A/c)</span>
+                </div>
+            </div>
+
+            <div class="pt-3 border-t border-border flex items-center justify-between">
+                <a href="{% url 'core:logout' %}" onclick="handleLogout(event)"
+                    class="text-critical font-bold hover:underline flex items-center space-x-1">
+                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1" />
+                    </svg>
+                    <span>Log Out</span>
+                </a>
+                <button type="button" onclick="closeProfileModal()"
+                    class="px-4 py-2 rounded-lg bg-primary hover:bg-primary-dark text-white font-bold transition-all cursor-pointer">
+                    Close
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- ACCESSIBLE EXCEL UPLOAD GUIDE & TEMPLATE MODAL (Requirement 1) -->
+<div id="excel-guide-modal" class="fixed inset-0 z-[100] hidden bg-black/60 backdrop-blur-sm items-center justify-center p-4">
+    <div class="bg-white rounded-2xl border border-border shadow-2xl max-w-2xl w-full max-h-[90vh] overflow-y-auto animate-in fade-in zoom-in duration-150 p-6 space-y-5 text-xs">
+        <div class="flex items-center justify-between border-b border-border pb-3">
+            <div>
+                <h3 class="text-base font-extrabold text-text-primary flex items-center space-x-2">
+                    <span>📖 Excel & CSV Upload Guide</span>
+                </h3>
+                <p class="text-[11px] text-text-secondary mt-0.5">Required structure, multi-sheet workbook schemas, and field definitions.</p>
+            </div>
+            <button type="button" onclick="closeExcelGuideModal()" class="text-text-secondary hover:text-text-primary p-1.5 rounded-lg hover:bg-gray-100 transition">
+                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
+                </svg>
+            </button>
+        </div>
+
+        <p class="text-text-secondary leading-relaxed">
+            CashTwin models your cash flow twin by analyzing 4 core financial record categories. You can upload an Excel workbook (<code class="font-mono bg-gray-100 px-1 py-0.5 rounded">.xlsx</code>) containing separate tabs/sheets or combined CSV files (<code class="font-mono bg-gray-100 px-1 py-0.5 rounded">.csv</code>).
+        </p>
+
+        <!-- 4 Schema Sections -->
+        <div class="space-y-4">
+            <!-- Sheet 1: Invoices -->
+            <div class="p-3.5 bg-orange-50/40 border border-primary/20 rounded-xl space-y-2">
+                <div class="flex items-center justify-between">
+                    <span class="font-bold text-primary text-xs uppercase tracking-wide">1. Invoices (Accounts Receivable)</span>
+                    <span class="text-[10px] font-bold text-primary bg-white px-2 py-0.5 rounded border border-primary/20">Sheet: Invoices</span>
+                </div>
+                <div class="grid grid-cols-2 gap-2 text-[11px]">
+                    <div>• <strong class="text-text-primary">Invoice ID:</strong> Unique alphanumeric code (e.g. INV-2026-001)</div>
+                    <div>• <strong class="text-text-primary">Customer Name:</strong> Counterparty entity name</div>
+                    <div>• <strong class="text-text-primary">Amount:</strong> Gross receivable amount in INR (₹)</div>
+                    <div>• <strong class="text-text-primary">Due Date:</strong> Contractual payment due date (YYYY-MM-DD)</div>
+                    <div>• <strong class="text-text-primary">Expected Payment Date:</strong> Estimated cash realization date</div>
+                    <div>• <strong class="text-text-primary">Payment Status:</strong> Pending / Paid / Overdue</div>
+                    <div>• <strong class="text-text-primary">Concentration Risk:</strong> High / Medium / Low exposure share</div>
+                </div>
+            </div>
+
+            <!-- Sheet 2: Expenses -->
+            <div class="p-3.5 bg-background border border-border rounded-xl space-y-2">
+                <div class="flex items-center justify-between">
+                    <span class="font-bold text-text-primary text-xs uppercase tracking-wide">2. Expenses (Accounts Payable & Utilities)</span>
+                    <span class="text-[10px] font-bold text-text-secondary bg-white px-2 py-0.5 rounded border border-border">Sheet: Expenses</span>
+                </div>
+                <div class="grid grid-cols-2 gap-2 text-[11px]">
+                    <div>• <strong class="text-text-primary">Expense ID:</strong> Unique ID (e.g. EXP-2026-101)</div>
+                    <div>• <strong class="text-text-primary">Payee / Vendor:</strong> Supplier or expense entity</div>
+                    <div>• <strong class="text-text-primary">Expense Category:</strong> Raw Materials, Payroll, Utilities, Logistics</div>
+                    <div>• <strong class="text-text-primary">Amount:</strong> Payable amount in INR (₹)</div>
+                    <div>• <strong class="text-text-primary">Due Date:</strong> Payment cut-off date (YYYY-MM-DD)</div>
+                    <div>• <strong class="text-text-primary">Recurring Status:</strong> Upcoming / Recurring / One-time</div>
+                </div>
+            </div>
+
+            <!-- Sheet 3: Payment History -->
+            <div class="p-3.5 bg-background border border-border rounded-xl space-y-2">
+                <div class="flex items-center justify-between">
+                    <span class="font-bold text-text-primary text-xs uppercase tracking-wide">3. Payment History (Counterparty Behavior)</span>
+                    <span class="text-[10px] font-bold text-text-secondary bg-white px-2 py-0.5 rounded border border-border">Sheet: Payment History</span>
+                </div>
+                <div class="grid grid-cols-2 gap-2 text-[11px]">
+                    <div>• <strong class="text-text-primary">Customer Name:</strong> Client identifier</div>
+                    <div>• <strong class="text-text-primary">Average Payment Delay:</strong> Historic average days past term</div>
+                    <div>• <strong class="text-text-primary">Payment Behaviour:</strong> Stable / Moderate Delay / Volatile</div>
+                    <div>• <strong class="text-text-primary">Risk Rating:</strong> Behavioral risk category (High / Med / Low)</div>
+                </div>
+            </div>
+
+            <!-- Sheet 4: Bank Transactions -->
+            <div class="p-3.5 bg-background border border-border rounded-xl space-y-2">
+                <div class="flex items-center justify-between">
+                    <span class="font-bold text-text-primary text-xs uppercase tracking-wide">4. Bank Transactions (Cash Position)</span>
+                    <span class="text-[10px] font-bold text-text-secondary bg-white px-2 py-0.5 rounded border border-border">Sheet: Bank Transactions</span>
+                </div>
+                <div class="grid grid-cols-2 gap-2 text-[11px]">
+                    <div>• <strong class="text-text-primary">Transaction Date:</strong> Clearing timestamp (YYYY-MM-DD)</div>
+                    <div>• <strong class="text-text-primary">Description:</strong> Transaction narrative</div>
+                    <div>• <strong class="text-text-primary">Credit (INR):</strong> Cash deposit inflow</div>
+                    <div>• <strong class="text-text-primary">Debit (INR):</strong> Outflow settlement amount</div>
+                    <div>• <strong class="text-text-primary">Balance (INR):</strong> Net account ledger balance</div>
+                </div>
+            </div>
+        </div>
+
+        <div class="pt-3 border-t border-border flex items-center justify-between">
+            <a href="{% url 'core:api_download_template' %}" download
+                class="px-4 py-2 bg-primary hover:bg-primary-dark text-white rounded-lg font-bold text-xs shadow-md shadow-primary/20 transition flex items-center space-x-1.5">
+                <span>📥 Download Sample Excel Template (.csv/.xlsx)</span>
+            </a>
+            <button type="button" onclick="closeExcelGuideModal()"
+                class="px-4 py-2 border border-border rounded-lg font-bold text-xs text-text-secondary hover:text-text-primary transition">
+                Close Guide
+            </button>
+        </div>
+    </div>
+</div>
+
+<!-- CUSTOMER RISK SUPPORTING EVIDENCE DRAWER / MODAL (Requirement 3) -->
+<div id="customer-evidence-modal" class="fixed inset-0 z-[100] hidden bg-black/60 backdrop-blur-sm items-center justify-center p-4">
+    <div class="bg-white rounded-2xl border border-border shadow-2xl max-w-xl w-full max-h-[85vh] overflow-y-auto animate-in fade-in zoom-in duration-150 p-6 space-y-4 text-xs">
+        <div class="flex items-center justify-between border-b border-border pb-3">
+            <div class="flex items-center space-x-2.5">
+                <span class="w-3 h-3 rounded-full bg-primary"></span>
+                <div>
+                    <h3 id="cust-modal-title" class="text-sm font-extrabold text-text-primary">Customer Risk Traceability</h3>
+                    <p id="cust-modal-sub" class="text-[11px] text-text-secondary">Supporting invoices and payment history records</p>
+                </div>
+            </div>
+            <button type="button" onclick="closeCustomerEvidenceModal()" class="text-text-secondary hover:text-text-primary p-1.5 rounded-lg hover:bg-gray-100 transition">
+                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
+                </svg>
+            </button>
+        </div>
+
+        <div id="cust-modal-stats" class="grid grid-cols-3 gap-2.5 text-center">
+            <!-- Dynamic stats -->
+        </div>
+
+        <div class="space-y-2">
+            <h4 class="font-bold text-text-primary uppercase tracking-wide text-[10px]">Underlying Accounts Receivable Invoices</h4>
+            <div id="cust-modal-invoices" class="space-y-2 max-h-48 overflow-y-auto">
+                <!-- Dynamic invoice cards -->
+            </div>
+        </div>
+
+        <div class="space-y-2 pt-2 border-t border-border">
+            <h4 class="font-bold text-text-primary uppercase tracking-wide text-[10px]">Historical Settlement & Delay Behavior</h4>
+            <div id="cust-modal-history" class="p-3 bg-background border border-border rounded-xl space-y-1 text-[11px]">
+                <!-- Dynamic history explanation -->
+            </div>
+        </div>
+
+        <div class="pt-2 border-t border-border flex justify-end">
+            <button type="button" onclick="closeCustomerEvidenceModal()" class="px-4 py-2 bg-primary hover:bg-primary-dark text-white rounded-lg font-bold text-xs">
+                Close Trace
+            </button>
+        </div>
+    </div>
+</div>
+
+<!-- MULTI-CATEGORY MANUAL ENTRY MODAL IN APP (Requirement 6) -->
+<div id="app-manual-entry-modal" class="fixed inset-0 z-[100] hidden bg-black/60 backdrop-blur-sm items-center justify-center p-4">
+    <div class="bg-white rounded-2xl border border-border shadow-2xl max-w-lg w-full max-h-[90vh] overflow-y-auto animate-in fade-in zoom-in duration-150 p-6 space-y-4 text-xs">
+        <div class="flex items-center justify-between border-b border-border pb-3">
+            <div>
+                <h3 class="text-sm font-extrabold text-text-primary">Manual Financial Record Entry</h3>
+                <p class="text-[11px] text-text-secondary mt-0.5">Add verified invoices, expenses, payment history, or bank entries.</p>
+            </div>
+            <button type="button" onclick="closeAppManualEntryModal()" class="text-text-secondary hover:text-text-primary p-1.5 rounded-lg hover:bg-gray-100 transition">
+                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
+                </svg>
+            </button>
+        </div>
+
+        <!-- 4 Category Tabs -->
+        <div class="flex space-x-1.5 border-b border-border pb-2.5 overflow-x-auto">
+            <button type="button" onclick="switchAppManualTab('inv')" id="app-mtab-inv" class="px-3 py-1.5 bg-primary text-white rounded-lg font-bold text-xs shrink-0 cursor-pointer">Invoices</button>
+            <button type="button" onclick="switchAppManualTab('exp')" id="app-mtab-exp" class="px-3 py-1.5 bg-white text-text-secondary border border-border rounded-lg font-bold text-xs shrink-0 cursor-pointer">Expenses</button>
+            <button type="button" onclick="switchAppManualTab('pay')" id="app-mtab-pay" class="px-3 py-1.5 bg-white text-text-secondary border border-border rounded-lg font-bold text-xs shrink-0 cursor-pointer">Payment Hist</button>
+            <button type="button" onclick="switchAppManualTab('bnk')" id="app-mtab-bnk" class="px-3 py-1.5 bg-white text-text-secondary border border-border rounded-lg font-bold text-xs shrink-0 cursor-pointer">Bank Txns</button>
+        </div>
+
+        <!-- Tab 1: Invoice -->
+        <div id="app-mform-inv" class="space-y-3">
+            <div class="grid grid-cols-2 gap-2.5">
+                <div>
+                    <label class="font-bold text-text-primary block text-[11px]">Invoice ID *</label>
+                    <input type="text" id="app-minv-id" required placeholder="INV-2026-005" class="w-full px-2.5 py-1.5 border border-border rounded-lg bg-background text-xs font-mono">
+                </div>
+                <div>
+                    <label class="font-bold text-text-primary block text-[11px]">Customer Name *</label>
+                    <input type="text" id="app-minv-customer" required placeholder="Apex Heavy Industries" class="w-full px-2.5 py-1.5 border border-border rounded-lg bg-background text-xs">
+                </div>
+            </div>
+            <div class="grid grid-cols-2 gap-2.5">
+                <div>
+                    <label class="font-bold text-text-primary block text-[11px]">Amount (₹) *</label>
+                    <input type="number" id="app-minv-amount" required min="1" placeholder="250000" class="w-full px-2.5 py-1.5 border border-border rounded-lg bg-background text-xs font-bold">
+                </div>
+                <div>
+                    <label class="font-bold text-text-primary block text-[11px]">Concentration</label>
+                    <select id="app-minv-concentration" class="w-full px-2.5 py-1.5 border border-border rounded-lg bg-white text-xs font-medium">
+                        <option value="Low">Low</option>
+                        <option value="Medium" selected>Medium</option>
+                        <option value="High">High</option>
+                    </select>
+                </div>
+            </div>
+            <div class="grid grid-cols-2 gap-2.5">
+                <div>
+                    <label class="font-bold text-text-primary block text-[11px]">Due Date *</label>
+                    <input type="date" id="app-minv-due" required value="2026-09-20" class="w-full px-2.5 py-1.5 border border-border rounded-lg bg-background text-xs">
+                </div>
+                <div>
+                    <label class="font-bold text-text-primary block text-[11px]">Expected Date</label>
+                    <input type="date" id="app-minv-exp" value="2026-09-27" class="w-full px-2.5 py-1.5 border border-border rounded-lg bg-background text-xs">
+                </div>
+            </div>
+            <div class="pt-2 flex justify-end space-x-2">
+                <button type="button" onclick="closeAppManualEntryModal()" class="px-3 py-1.5 border border-border rounded-lg font-bold text-xs">Cancel</button>
+                <button type="button" onclick="submitAppManualInvoice()" class="px-4 py-1.5 bg-primary hover:bg-primary-dark text-white rounded-lg font-bold text-xs">Save Invoice</button>
+            </div>
+        </div>
+
+        <!-- Tab 2: Expense -->
+        <div id="app-mform-exp" class="hidden space-y-3">
+            <div class="grid grid-cols-2 gap-2.5">
+                <div>
+                    <label class="font-bold text-text-primary block text-[11px]">Expense ID *</label>
+                    <input type="text" id="app-mexp-id" required placeholder="EXP-2026-104" class="w-full px-2.5 py-1.5 border border-border rounded-lg bg-background text-xs font-mono">
+                </div>
+                <div>
+                    <label class="font-bold text-text-primary block text-[11px]">Payee / Vendor *</label>
+                    <input type="text" id="app-mexp-payee" required placeholder="Industrial Gas Corp" class="w-full px-2.5 py-1.5 border border-border rounded-lg bg-background text-xs">
+                </div>
+            </div>
+            <div class="grid grid-cols-2 gap-2.5">
+                <div>
+                    <label class="font-bold text-text-primary block text-[11px]">Category</label>
+                    <select id="app-mexp-cat" class="w-full px-2.5 py-1.5 border border-border rounded-lg bg-white text-xs">
+                        <option>Raw Materials</option>
+                        <option>Utilities</option>
+                        <option>Payroll</option>
+                        <option>Logistics</option>
+                    </select>
+                </div>
+                <div>
+                    <label class="font-bold text-text-primary block text-[11px]">Amount (₹) *</label>
+                    <input type="number" id="app-mexp-amount" required min="1" placeholder="95000" class="w-full px-2.5 py-1.5 border border-border rounded-lg bg-background text-xs font-bold">
+                </div>
+            </div>
+            <div>
+                <label class="font-bold text-text-primary block text-[11px]">Due Date *</label>
+                <input type="date" id="app-mexp-due" required value="2026-09-18" class="w-full px-2.5 py-1.5 border border-border rounded-lg bg-background text-xs">
+            </div>
+            <div class="pt-2 flex justify-end space-x-2">
+                <button type="button" onclick="closeAppManualEntryModal()" class="px-3 py-1.5 border border-border rounded-lg font-bold text-xs">Cancel</button>
+                <button type="button" onclick="submitAppManualExpense()" class="px-4 py-1.5 bg-primary hover:bg-primary-dark text-white rounded-lg font-bold text-xs">Save Expense</button>
+            </div>
+        </div>
+
+        <!-- Tab 3: Payment History -->
+        <div id="app-mform-pay" class="hidden space-y-3">
+            <div class="grid grid-cols-2 gap-2.5">
+                <div>
+                    <label class="font-bold text-text-primary block text-[11px]">Customer Name *</label>
+                    <input type="text" id="app-mpay-customer" placeholder="Apex Heavy Industries" class="w-full px-2.5 py-1.5 border border-border rounded-lg bg-background text-xs">
+                </div>
+                <div>
+                    <label class="font-bold text-text-primary block text-[11px]">Avg Delay (Days)</label>
+                    <input type="number" id="app-mpay-delay" value="8" min="0" class="w-full px-2.5 py-1.5 border border-border rounded-lg bg-background text-xs">
+                </div>
+            </div>
+            <div class="pt-2 flex justify-end space-x-2">
+                <button type="button" onclick="closeAppManualEntryModal()" class="px-3 py-1.5 border border-border rounded-lg font-bold text-xs">Cancel</button>
+                <button type="button" onclick="submitAppManualPayment()" class="px-4 py-1.5 bg-primary hover:bg-primary-dark text-white rounded-lg font-bold text-xs">Save Payment History</button>
+            </div>
+        </div>
+
+        <!-- Tab 4: Bank Txns -->
+        <div id="app-mform-bnk" class="hidden space-y-3">
+            <div class="grid grid-cols-2 gap-2.5">
+                <div>
+                    <label class="font-bold text-text-primary block text-[11px]">Transaction Date *</label>
+                    <input type="date" id="app-mbnk-date" value="2026-08-31" class="w-full px-2.5 py-1.5 border border-border rounded-lg bg-background text-xs">
+                </div>
+                <div>
+                    <label class="font-bold text-text-primary block text-[11px]">Description *</label>
+                    <input type="text" id="app-mbnk-desc" placeholder="Customer Remittance" class="w-full px-2.5 py-1.5 border border-border rounded-lg bg-background text-xs">
+                </div>
+            </div>
+            <div class="grid grid-cols-2 gap-2.5">
+                <div>
+                    <label class="font-bold text-text-primary block text-[11px]">Credit (₹)</label>
+                    <input type="number" id="app-mbnk-credit" placeholder="150000" class="w-full px-2.5 py-1.5 border border-border rounded-lg bg-background text-xs">
+                </div>
+                <div>
+                    <label class="font-bold text-text-primary block text-[11px]">Debit (₹)</label>
+                    <input type="number" id="app-mbnk-debit" placeholder="0" class="w-full px-2.5 py-1.5 border border-border rounded-lg bg-background text-xs">
+                </div>
+            </div>
+            <div class="pt-2 flex justify-end space-x-2">
+                <button type="button" onclick="closeAppManualEntryModal()" class="px-3 py-1.5 border border-border rounded-lg font-bold text-xs">Cancel</button>
+                <button type="button" onclick="submitAppManualBank()" class="px-4 py-1.5 bg-primary hover:bg-primary-dark text-white rounded-lg font-bold text-xs">Save Bank Txn</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- FULL EDIT RECORD MODAL IN DATA REVIEW (Requirement 7) -->
+<div id="datareview-edit-modal" class="fixed inset-0 z-[100] hidden bg-black/60 backdrop-blur-sm items-center justify-center p-4">
+    <div class="bg-white rounded-2xl border border-border shadow-2xl max-w-md w-full overflow-hidden animate-in fade-in zoom-in duration-150">
+        <div class="px-6 py-4 border-b border-border bg-[#FFFDF9] flex items-center justify-between">
+            <div class="flex items-center space-x-2.5">
+                <span class="w-2.5 h-2.5 rounded-full bg-primary animate-pulse"></span>
+                <h3 class="text-sm font-extrabold text-text-primary">Edit Financial Record</h3>
+            </div>
+            <button type="button" onclick="closeDataReviewEditModal()" class="text-text-secondary hover:text-text-primary p-1.5 rounded-lg hover:bg-gray-100 transition-colors">
+                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
+                </svg>
+            </button>
+        </div>
+
+        <form id="datareview-edit-form" onsubmit="handleSaveDataReviewEdit(event)" class="p-6 space-y-4 text-xs">
+            <input type="hidden" id="dr-edit-id" value="">
+
+            <div class="space-y-1">
+                <label for="dr-edit-customer" class="font-bold text-text-primary block">Customer / Counterparty *</label>
+                <input type="text" id="dr-edit-customer" required class="w-full px-3 py-2 border border-border rounded-lg bg-background font-semibold text-xs">
+            </div>
+
+            <div class="grid grid-cols-2 gap-3">
+                <div class="space-y-1">
+                    <label for="dr-edit-amount" class="font-bold text-text-primary block">Amount (₹) *</label>
+                    <input type="number" id="dr-edit-amount" required min="1" class="w-full px-3 py-2 border border-border rounded-lg bg-background font-bold text-xs">
+                </div>
+                <div class="space-y-1">
+                    <label for="dr-edit-status" class="font-bold text-text-primary block">Status *</label>
+                    <select id="dr-edit-status" class="w-full px-3 py-2 border border-border rounded-lg bg-white text-xs font-medium">
+                        <option value="Pending">Pending</option>
+                        <option value="Verified">Verified</option>
+                        <option value="Paid">Paid</option>
+                        <option value="Overdue">Overdue</option>
+                    </select>
+                </div>
+            </div>
+
+            <div class="grid grid-cols-2 gap-3">
+                <div class="space-y-1">
+                    <label for="dr-edit-due-date" class="font-bold text-text-primary block">Due Date *</label>
+                    <input type="date" id="dr-edit-due-date" required class="w-full px-3 py-2 border border-border rounded-lg bg-background text-xs">
+                </div>
+                <div class="space-y-1">
+                    <label for="dr-edit-expected-date" class="font-bold text-text-primary block">Expected Payment Date</label>
+                    <input type="date" id="dr-edit-expected-date" class="w-full px-3 py-2 border border-border rounded-lg bg-background text-xs">
+                </div>
+            </div>
+
+            <div class="pt-3 border-t border-border flex items-center justify-end space-x-3">
+                <button type="button" onclick="closeDataReviewEditModal()"
+                    class="px-4 py-2 rounded-lg border border-border text-text-secondary hover:text-text-primary hover:bg-gray-50 font-bold transition-colors cursor-pointer">
+                    Cancel
+                </button>
+                <button type="submit"
+                    class="px-5 py-2 rounded-lg bg-primary hover:bg-primary-dark text-white font-bold shadow-md shadow-primary/20 transition-all cursor-pointer">
+                    Save Changes & Recalculate
+                </button>
+            </div>
+        </form>
+    </div>
+</div>
+
+<!-- FLOATING TOAST CONTAINER -->
+<div id="toast-container" class="fixed top-5 right-5 z-[200] flex flex-col space-y-2 pointer-events-none max-w-sm w-full"></div>
+{% endblock %}
+
+{% block extra_js %}
+<!-- Pass Django Context to global JS variables -->
+<script>
+    const MOCK_DATA = JSON.parse('{{ mock_data_json|escapejs }}');
+    const CSRF_TOKEN = '{{ csrf_token }}';
+</script>
+<script src="{% static 'core/js/demo.js' %}"></script>
+{% endblock %}

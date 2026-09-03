@@ -1,0 +1,1175 @@
+{% extends 'core/base.html' %}
+
+{% block title %}CashTwin - Onboarding & Financial Data Ingestion{% endblock %}
+
+{% block content %}
+<div class="min-h-screen flex flex-col justify-between py-10 px-4 sm:px-6 lg:px-8 bg-background">
+    <!-- Header Logo -->
+    <div class="sm:mx-auto sm:w-full sm:max-w-xl text-center">
+        <a href="/" class="inline-flex items-center space-x-2 text-2xl font-extrabold tracking-tight text-primary">
+            <span class="bg-primary text-white px-2.5 py-1 rounded-md text-xl font-black">C</span>
+            <span class="text-text-primary">Cash<span class="text-primary">Twin</span></span>
+        </a>
+        <p class="text-xs text-text-secondary mt-1 font-medium">Consented Financial Ingestion & Explainable AI Liquidity Engine</p>
+    </div>
+
+    <!-- Main Container -->
+    <div class="mt-6 sm:mx-auto sm:w-full sm:max-w-xl">
+        <!-- ALERT BANNER -->
+        <div id="auth-alert-banner" class="hidden"></div>
+
+        <!-- ONBOARDING PROGRESS BREADCRUMB -->
+        <div id="onboarding-progress-bar" class="mb-5 bg-white border border-border rounded-xl p-3 shadow-xs">
+            <div class="flex items-center justify-between text-[11px] font-bold">
+                <div id="pstep-1" class="flex items-center space-x-1.5 text-primary">
+                    <span class="w-5 h-5 rounded-full bg-primary text-white flex items-center justify-center text-[10px]">1</span>
+                    <span>Account</span>
+                </div>
+                <div class="w-6 h-0.5 bg-border"></div>
+                <div id="pstep-2" class="flex items-center space-x-1.5 text-text-secondary">
+                    <span class="w-5 h-5 rounded-full bg-gray-100 text-text-secondary flex items-center justify-center text-[10px]">2</span>
+                    <span>Business</span>
+                </div>
+                <div class="w-6 h-0.5 bg-border"></div>
+                <div id="pstep-3" class="flex items-center space-x-1.5 text-text-secondary">
+                    <span class="w-5 h-5 rounded-full bg-gray-100 text-text-secondary flex items-center justify-center text-[10px]">3</span>
+                    <span>Import Records</span>
+                </div>
+                <div class="w-6 h-0.5 bg-border"></div>
+                <div id="pstep-4" class="flex items-center space-x-1.5 text-text-secondary">
+                    <span class="w-5 h-5 rounded-full bg-gray-100 text-text-secondary flex items-center justify-center text-[10px]">4</span>
+                    <span>Validate</span>
+                </div>
+                <div class="w-6 h-0.5 bg-border"></div>
+                <div id="pstep-5" class="flex items-center space-x-1.5 text-text-secondary">
+                    <span class="w-5 h-5 rounded-full bg-gray-100 text-text-secondary flex items-center justify-center text-[10px]">5</span>
+                    <span>Consent</span>
+                </div>
+            </div>
+        </div>
+
+        <!-- MAIN CARD -->
+        <div class="bg-white py-7 px-6 shadow-xl shadow-primary/5 rounded-2xl border border-border sm:px-8">
+            
+            <!-- ================================================================= -->
+            <!-- STEP 1: SIGN UP SCREEN -->
+            <!-- ================================================================= -->
+            <div id="step-signup" class="space-y-5">
+                <div>
+                    <h2 class="text-xl font-black tracking-tight text-text-primary">Create your CashTwin Account</h2>
+                    <p class="text-xs text-text-secondary mt-1">Start modeling cash flow resilience and forecasting liquidity gaps.</p>
+                </div>
+
+                <form onsubmit="handleSignup(event)" class="space-y-3.5">
+                    <div>
+                        <label for="signup-name" class="block text-xs font-bold text-text-primary">Business / Entity Name</label>
+                        <input id="signup-name" type="text" required placeholder="e.g. Apex Industrial Solutions Ltd"
+                            class="mt-1 block w-full px-3 py-2 border border-border rounded-lg text-xs font-semibold bg-background focus:ring-2 focus:ring-primary/40 focus:border-primary outline-none">
+                    </div>
+                    <div>
+                        <label for="signup-email" class="block text-xs font-bold text-text-primary">Work Email Address</label>
+                        <input id="signup-email" type="email" required placeholder="e.g. finance@apexsolutions.in"
+                            class="mt-1 block w-full px-3 py-2 border border-border rounded-lg text-xs font-semibold bg-background focus:ring-2 focus:ring-primary/40 focus:border-primary outline-none">
+                    </div>
+                    <div class="grid grid-cols-2 gap-3">
+                        <div>
+                            <label for="signup-password" class="block text-xs font-bold text-text-primary">Password</label>
+                            <input id="signup-password" type="password" required placeholder="••••••••"
+                                class="mt-1 block w-full px-3 py-2 border border-border rounded-lg text-xs bg-background focus:ring-2 focus:ring-primary/40 focus:border-primary outline-none">
+                        </div>
+                        <div>
+                            <label for="signup-confirm" class="block text-xs font-bold text-text-primary">Confirm Password</label>
+                            <input id="signup-confirm" type="password" required placeholder="••••••••"
+                                class="mt-1 block w-full px-3 py-2 border border-border rounded-lg text-xs bg-background focus:ring-2 focus:ring-primary/40 focus:border-primary outline-none">
+                        </div>
+                    </div>
+                    <button type="submit"
+                        class="w-full bg-primary hover:bg-primary-dark text-white py-2.5 rounded-lg text-xs font-bold tracking-wide transition shadow-md shadow-primary/10 cursor-pointer">
+                        CREATE ACCOUNT & CONTINUE →
+                    </button>
+                </form>
+
+                <div class="text-center pt-2 border-t border-border">
+                    <p class="text-xs text-text-secondary">
+                        Already have an account?
+                        <button type="button" onclick="showStep('login')" class="font-bold text-primary hover:underline cursor-pointer">Log In</button>
+                    </p>
+                </div>
+            </div>
+
+            <!-- ================================================================= -->
+            <!-- STEP 2: LOGIN SCREEN -->
+            <!-- ================================================================= -->
+            <div id="step-login" class="hidden space-y-5">
+                <div>
+                    <h2 class="text-xl font-black tracking-tight text-text-primary">Welcome back.</h2>
+                    <p class="text-xs text-text-secondary mt-1">Access your risk forecasting intelligence dashboard.</p>
+                </div>
+
+                <form onsubmit="handleLogin(event)" class="space-y-4">
+                    <div>
+                        <label for="login-email" class="block text-xs font-bold text-text-primary">Business Email</label>
+                        <input id="login-email" type="email" required placeholder="e.g. finance@apexsolutions.in"
+                            class="mt-1 block w-full px-3 py-2 border border-border rounded-lg text-xs font-semibold bg-background focus:ring-2 focus:ring-primary/40 focus:border-primary outline-none">
+                    </div>
+                    <div>
+                        <label for="login-password" class="block text-xs font-bold text-text-primary">Password</label>
+                        <input id="login-password" type="password" required placeholder="••••••••"
+                            class="mt-1 block w-full px-3 py-2 border border-border rounded-lg text-xs bg-background focus:ring-2 focus:ring-primary/40 focus:border-primary outline-none">
+                    </div>
+                    <div class="flex items-center justify-between text-xs font-semibold">
+                        <div class="flex items-center">
+                            <input id="remember-me" type="checkbox" checked
+                                class="h-4 w-4 text-primary border-border rounded">
+                            <label for="remember-me" class="ml-2 text-text-secondary text-[11px]">Remember me</label>
+                        </div>
+                        <a href="#" class="text-primary hover:underline text-[11px]">Forgot Password?</a>
+                    </div>
+                    <button type="submit"
+                        class="w-full bg-primary hover:bg-primary-dark text-white py-2.5 rounded-lg text-xs font-bold tracking-wide transition shadow-md shadow-primary/10 cursor-pointer">
+                        LOG IN →
+                    </button>
+                </form>
+
+                <div class="text-center pt-2 border-t border-border">
+                    <p class="text-xs text-text-secondary">
+                        Don't have an account?
+                        <button type="button" onclick="showStep('signup')" class="font-bold text-primary hover:underline cursor-pointer">Sign Up</button>
+                    </p>
+                </div>
+            </div>
+
+            <!-- ================================================================= -->
+            <!-- STEP 3: BUSINESS INFORMATION (ONBOARDING) -->
+            <!-- ================================================================= -->
+            <div id="step-onboarding" class="hidden space-y-5">
+                <div>
+                    <h2 class="text-xl font-black tracking-tight text-text-primary">Business Information</h2>
+                    <p class="text-xs text-text-secondary mt-1">Configure baseline parameters for your enterprise liquidity twin.</p>
+                </div>
+
+                <form onsubmit="handleOnboarding(event)" class="space-y-4">
+                    <div>
+                        <label for="biz-type" class="block text-xs font-bold text-text-primary">Entity Legal Structure</label>
+                        <select id="biz-type"
+                            class="mt-1 block w-full px-3 py-2 border border-border rounded-lg text-xs font-medium bg-white focus:ring-2 focus:ring-primary/40 focus:border-primary outline-none">
+                            <option selected>Private Limited Company (Pvt Ltd)</option>
+                            <option>Sole Proprietorship</option>
+                            <option>Partnership Firm</option>
+                            <option>Limited Liability Partnership (LLP)</option>
+                        </select>
+                    </div>
+                    <div>
+                        <label for="biz-activity" class="block text-xs font-bold text-text-primary">Primary Business Activity</label>
+                        <select id="biz-activity"
+                            class="mt-1 block w-full px-3 py-2 border border-border rounded-lg text-xs font-medium bg-white focus:ring-2 focus:ring-primary/40 focus:border-primary outline-none">
+                            <option selected>Manufacturing (Precision Components & Fabrication)</option>
+                            <option>Wholesale Trade & Distribution</option>
+                            <option>Retail Trade</option>
+                            <option>Engineering & Services</option>
+                        </select>
+                    </div>
+                    <div class="grid grid-cols-2 gap-3">
+                        <div>
+                            <label for="biz-scale" class="block text-xs font-bold text-text-primary">Annual Turnover Scale</label>
+                            <select id="biz-scale"
+                                class="mt-1 block w-full px-3 py-2 border border-border rounded-lg text-xs font-medium bg-white focus:ring-2 focus:ring-primary/40 focus:border-primary outline-none">
+                                <option>Below ₹1 Crore</option>
+                                <option selected>₹1 Crore – ₹5 Crore</option>
+                                <option>₹5 Crore – ₹25 Crore</option>
+                                <option>₹25 Crore – ₹100 Crore</option>
+                            </select>
+                        </div>
+                        <div>
+                            <label for="biz-gstin" class="block text-xs font-bold text-text-primary">Corporate ID / GSTIN</label>
+                            <input id="biz-gstin" type="text" placeholder="27AAACA1234B1Z5"
+                                class="mt-1 block w-full px-3 py-2 border border-border rounded-lg text-xs font-mono font-semibold bg-background focus:ring-2 focus:ring-primary/40 focus:border-primary outline-none">
+                        </div>
+                    </div>
+
+                    <div class="pt-2 flex items-center space-x-3">
+                        <button type="button" onclick="showStep('signup')"
+                            class="px-4 py-2.5 border border-border rounded-lg text-xs font-bold text-text-secondary hover:text-text-primary transition-colors cursor-pointer">
+                            ← Back
+                        </button>
+                        <button type="submit"
+                            class="flex-1 bg-primary hover:bg-primary-dark text-white py-2.5 rounded-lg text-xs font-bold tracking-wide transition shadow-md shadow-primary/10 cursor-pointer">
+                            NEXT: IMPORT FINANCIAL RECORDS →
+                        </button>
+                    </div>
+                </form>
+            </div>
+
+            <!-- ================================================================= -->
+            <!-- STEP 4: IMPORT FINANCIAL RECORDS -->
+            <!-- ================================================================= -->
+            <div id="step-import" class="hidden space-y-5">
+                <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-2">
+                    <div>
+                        <h2 class="text-xl font-black tracking-tight text-text-primary">Import Financial Records</h2>
+                        <p class="text-xs text-text-secondary mt-1">Upload your existing business records to build your CashTwin.</p>
+                    </div>
+                    <!-- Guide Trigger Button -->
+                    <div class="flex items-center space-x-2 shrink-0">
+                        <button type="button" onclick="openExcelGuideModal()"
+                            class="px-2.5 py-1.5 bg-orange-50 hover:bg-orange-100 text-primary border border-primary/25 rounded-lg text-xs font-bold transition flex items-center space-x-1 cursor-pointer"
+                            title="View required format and column specifications">
+                            <span>📖 Upload Guide</span>
+                        </button>
+                        <a href="{% url 'core:api_download_template' %}" download
+                            class="px-2.5 py-1.5 bg-white hover:bg-background text-text-primary border border-border rounded-lg text-xs font-bold transition flex items-center space-x-1 shadow-2xs"
+                            title="Download sample Excel/CSV template">
+                            <span>📥 Template</span>
+                        </a>
+                    </div>
+                </div>
+
+                <!-- Feature description pills -->
+                <div class="grid grid-cols-2 gap-2 text-[10px] text-text-secondary">
+                    <div class="p-2 bg-orange-50/50 border border-primary/15 rounded-lg flex items-center space-x-1.5 font-medium">
+                        <span class="text-primary font-bold">✓</span>
+                        <span>Cash-flow forecasting</span>
+                    </div>
+                    <div class="p-2 bg-orange-50/50 border border-primary/15 rounded-lg flex items-center space-x-1.5 font-medium">
+                        <span class="text-primary font-bold">✓</span>
+                        <span>Receivables analysis</span>
+                    </div>
+                    <div class="p-2 bg-orange-50/50 border border-primary/15 rounded-lg flex items-center space-x-1.5 font-medium">
+                        <span class="text-primary font-bold">✓</span>
+                        <span>Expense forecasting</span>
+                    </div>
+                    <div class="p-2 bg-orange-50/50 border border-primary/15 rounded-lg flex items-center space-x-1.5 font-medium">
+                        <span class="text-primary font-bold">✓</span>
+                        <span>Liquidity-risk analysis</span>
+                    </div>
+                </div>
+
+                <!-- PRIMARY UPLOAD DROP ZONE -->
+                <div class="border-2 border-dashed border-primary/40 hover:border-primary bg-orange-50/30 rounded-2xl p-5 text-center transition-all">
+                    <div class="w-10 h-10 mx-auto rounded-full bg-primary/10 text-primary flex items-center justify-center mb-2">
+                        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 16a4 4 0 01-.88-7.903A5 5 0 1115.9 6L16 6a5 5 0 011 9.9M15 13l-3-3m0 0l-3 3m3-3v12" />
+                        </svg>
+                    </div>
+                    <h3 class="text-xs font-bold text-text-primary">Upload Financial Records</h3>
+                    <p class="text-[11px] text-text-secondary mt-0.5">Supported formats: Excel (.xlsx) / CSV (.csv)</p>
+                    
+                    <!-- File Card -->
+                    <div class="mt-3 p-2.5 bg-white border border-border rounded-xl flex items-center justify-between text-left shadow-xs">
+                        <div class="flex items-center space-x-2.5">
+                            <span class="p-1.5 bg-green-100 text-healthy rounded-lg text-xs font-bold">XLSX</span>
+                            <div>
+                                <p class="text-xs font-bold text-text-primary">ABC_Manufacturing_Financial_Records_2026.xlsx</p>
+                                <p class="text-[10px] text-text-secondary">4 Sheets: Invoices, Expenses, Payment History, Bank Transactions</p>
+                            </div>
+                        </div>
+                        <span class="text-[10px] font-bold text-healthy bg-green-50 px-2 py-0.5 rounded border border-green-200">Ready</span>
+                    </div>
+
+                    <!-- Upload Button -->
+                    <button type="button" onclick="handleWorkbookUpload()" id="btn-upload-workbook"
+                        class="mt-4 w-full bg-primary hover:bg-primary-dark text-white py-2.5 rounded-lg text-xs font-bold tracking-wide transition shadow-md shadow-primary/10 flex items-center justify-center space-x-2 cursor-pointer">
+                        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-8l-4-4m0 0L8 8m4-4v12" />
+                        </svg>
+                        <span id="btn-upload-text">UPLOAD & VALIDATE RECORDS →</span>
+                    </button>
+                </div>
+
+                <!-- Parsing Simulation Progress (Hidden by default) -->
+                <div id="upload-progress-card" class="hidden p-3 bg-white border border-primary/30 rounded-xl space-y-2 text-xs animate-in fade-in duration-200">
+                    <div class="flex justify-between font-bold text-[11px]">
+                        <span id="progress-status-text" class="text-primary font-bold">Parsing Invoices sheet...</span>
+                        <span id="progress-percent" class="text-text-secondary font-mono">0%</span>
+                    </div>
+                    <div class="w-full bg-gray-100 rounded-full h-1.5 overflow-hidden">
+                        <div id="progress-bar-fill" class="bg-primary h-1.5 rounded-full transition-all duration-300" style="width: 0%"></div>
+                    </div>
+                </div>
+
+                <!-- SECONDARY OPTION: MANUAL ENTRY -->
+                <div class="border-t border-border pt-3">
+                    <div class="flex items-center justify-between">
+                        <div>
+                            <p class="text-xs font-bold text-text-primary">Add Records Manually</p>
+                            <p class="text-[10px] text-text-secondary">Don't have a structured file? Enter your financial records manually.</p>
+                        </div>
+                        <button type="button" onclick="toggleManualEntryDrawer()" id="btn-toggle-manual-entry"
+                            class="px-3 py-1.5 border border-border hover:bg-background rounded-lg text-xs font-bold text-primary transition-colors cursor-pointer">
+                            + Add Records Manually
+                        </button>
+                    </div>
+
+                    <!-- Expandable working manual entry drawer with 4 full categories -->
+                    <div id="manual-entry-drawer" class="hidden mt-3 p-4 bg-background border border-border rounded-xl space-y-4 text-xs">
+                        <div class="flex space-x-2 border-b border-border pb-2.5 overflow-x-auto">
+                            <button type="button" onclick="switchManualTab('inv')" id="mtab-inv" class="px-3 py-1 bg-primary text-white rounded-lg font-bold text-xs shrink-0 cursor-pointer">1. Invoices</button>
+                            <button type="button" onclick="switchManualTab('exp')" id="mtab-exp" class="px-3 py-1 bg-white text-text-secondary border border-border rounded-lg font-bold text-xs shrink-0 cursor-pointer">2. Expenses</button>
+                            <button type="button" onclick="switchManualTab('pay')" id="mtab-pay" class="px-3 py-1 bg-white text-text-secondary border border-border rounded-lg font-bold text-xs shrink-0 cursor-pointer">3. Payment History</button>
+                            <button type="button" onclick="switchManualTab('bnk')" id="mtab-bnk" class="px-3 py-1 bg-white text-text-secondary border border-border rounded-lg font-bold text-xs shrink-0 cursor-pointer">4. Bank Txns</button>
+                        </div>
+
+                        <!-- Manual Forms Container -->
+                        <div id="manual-form-container" class="space-y-3">
+                            <!-- Category A: Invoice Form -->
+                            <div id="mform-inv" class="space-y-3">
+                                <div class="grid grid-cols-2 gap-2.5">
+                                    <div>
+                                        <label class="font-bold text-text-primary block text-[11px]">Invoice ID *</label>
+                                        <input type="text" id="minv-id" placeholder="INV-2026-005"
+                                            class="w-full px-2.5 py-1.5 border border-border rounded-lg bg-white text-xs font-mono">
+                                    </div>
+                                    <div>
+                                        <label class="font-bold text-text-primary block text-[11px]">Customer Name *</label>
+                                        <input type="text" id="minv-customer" placeholder="Apex Heavy Industries"
+                                            class="w-full px-2.5 py-1.5 border border-border rounded-lg bg-white text-xs">
+                                    </div>
+                                </div>
+                                <div class="grid grid-cols-3 gap-2.5">
+                                    <div>
+                                        <label class="font-bold text-text-primary block text-[11px]">Amount (₹) *</label>
+                                        <input type="number" id="minv-amount" placeholder="250000" min="1"
+                                            class="w-full px-2.5 py-1.5 border border-border rounded-lg bg-white text-xs font-bold">
+                                    </div>
+                                    <div>
+                                        <label class="font-bold text-text-primary block text-[11px]">Due Date *</label>
+                                        <input type="date" id="minv-due" value="2026-09-20"
+                                            class="w-full px-2.5 py-1.5 border border-border rounded-lg bg-white text-xs">
+                                    </div>
+                                    <div>
+                                        <label class="font-bold text-text-primary block text-[11px]">Expected Date</label>
+                                        <input type="date" id="minv-exp" value="2026-09-27"
+                                            class="w-full px-2.5 py-1.5 border border-border rounded-lg bg-white text-xs">
+                                    </div>
+                                </div>
+                                <button type="button" onclick="addManualInvoiceRow()"
+                                    class="w-full bg-primary hover:bg-primary-dark text-white py-2 rounded-lg text-xs font-bold transition cursor-pointer">
+                                    + Add Invoice to Queue
+                                </button>
+                            </div>
+
+                            <!-- Category B: Expense Form -->
+                            <div id="mform-exp" class="hidden space-y-3">
+                                <div class="grid grid-cols-2 gap-2.5">
+                                    <div>
+                                        <label class="font-bold text-text-primary block text-[11px]">Expense ID *</label>
+                                        <input type="text" id="mexp-id" placeholder="EXP-2026-104"
+                                            class="w-full px-2.5 py-1.5 border border-border rounded-lg bg-white text-xs font-mono">
+                                    </div>
+                                    <div>
+                                        <label class="font-bold text-text-primary block text-[11px]">Payee / Vendor *</label>
+                                        <input type="text" id="mexp-payee" placeholder="Industrial Gas Corp"
+                                            class="w-full px-2.5 py-1.5 border border-border rounded-lg bg-white text-xs">
+                                    </div>
+                                </div>
+                                <div class="grid grid-cols-3 gap-2.5">
+                                    <div>
+                                        <label class="font-bold text-text-primary block text-[11px]">Category</label>
+                                        <select id="mexp-cat" class="w-full px-2.5 py-1.5 border border-border rounded-lg bg-white text-xs">
+                                            <option>Raw Materials</option>
+                                            <option>Utilities</option>
+                                            <option>Payroll</option>
+                                            <option>Logistics</option>
+                                        </select>
+                                    </div>
+                                    <div>
+                                        <label class="font-bold text-text-primary block text-[11px]">Amount (₹) *</label>
+                                        <input type="number" id="mexp-amount" placeholder="95000" min="1"
+                                            class="w-full px-2.5 py-1.5 border border-border rounded-lg bg-white text-xs font-bold">
+                                    </div>
+                                    <div>
+                                        <label class="font-bold text-text-primary block text-[11px]">Due Date *</label>
+                                        <input type="date" id="mexp-due" value="2026-09-18"
+                                            class="w-full px-2.5 py-1.5 border border-border rounded-lg bg-white text-xs">
+                                    </div>
+                                </div>
+                                <button type="button" onclick="addManualExpenseRow()"
+                                    class="w-full bg-primary hover:bg-primary-dark text-white py-2 rounded-lg text-xs font-bold transition cursor-pointer">
+                                    + Add Expense to Queue
+                                </button>
+                            </div>
+
+                            <!-- Category C: Payment History Form -->
+                            <div id="mform-pay" class="hidden space-y-3">
+                                <div class="grid grid-cols-3 gap-2.5">
+                                    <div>
+                                        <label class="font-bold text-text-primary block text-[11px]">Customer Name *</label>
+                                        <input type="text" id="mpay-customer" placeholder="Apex Heavy Industries"
+                                            class="w-full px-2.5 py-1.5 border border-border rounded-lg bg-white text-xs">
+                                    </div>
+                                    <div>
+                                        <label class="font-bold text-text-primary block text-[11px]">Avg Delay (Days)</label>
+                                        <input type="number" id="mpay-delay" placeholder="8" min="0" value="8"
+                                            class="w-full px-2.5 py-1.5 border border-border rounded-lg bg-white text-xs">
+                                    </div>
+                                    <div>
+                                        <label class="font-bold text-text-primary block text-[11px]">Behaviour Profile</label>
+                                        <select id="mpay-profile" class="w-full px-2.5 py-1.5 border border-border rounded-lg bg-white text-xs">
+                                            <option>Stable Terms Adherence</option>
+                                            <option>Moderate Delay</option>
+                                            <option>High Delay Tendency</option>
+                                        </select>
+                                    </div>
+                                </div>
+                                <button type="button" onclick="addManualPaymentRow()"
+                                    class="w-full bg-primary hover:bg-primary-dark text-white py-2 rounded-lg text-xs font-bold transition cursor-pointer">
+                                    + Add Payment History Record
+                                </button>
+                            </div>
+
+                            <!-- Category D: Bank Transactions Form -->
+                            <div id="mform-bnk" class="hidden space-y-3">
+                                <div class="grid grid-cols-4 gap-2">
+                                    <div>
+                                        <label class="font-bold text-text-primary block text-[11px]">Date *</label>
+                                        <input type="date" id="mbnk-date" value="2026-08-31"
+                                            class="w-full px-2.5 py-1.5 border border-border rounded-lg bg-white text-xs">
+                                    </div>
+                                    <div>
+                                        <label class="font-bold text-text-primary block text-[11px]">Description *</label>
+                                        <input type="text" id="mbnk-desc" placeholder="Customer Remittance"
+                                            class="w-full px-2.5 py-1.5 border border-border rounded-lg bg-white text-xs">
+                                    </div>
+                                    <div>
+                                        <label class="font-bold text-text-primary block text-[11px]">Credit (₹)</label>
+                                        <input type="number" id="mbnk-credit" placeholder="150000"
+                                            class="w-full px-2.5 py-1.5 border border-border rounded-lg bg-white text-xs">
+                                    </div>
+                                    <div>
+                                        <label class="font-bold text-text-primary block text-[11px]">Debit (₹)</label>
+                                        <input type="number" id="mbnk-debit" placeholder="0"
+                                            class="w-full px-2.5 py-1.5 border border-border rounded-lg bg-white text-xs">
+                                    </div>
+                                </div>
+                                <button type="button" onclick="addManualBankRow()"
+                                    class="w-full bg-primary hover:bg-primary-dark text-white py-2 rounded-lg text-xs font-bold transition cursor-pointer">
+                                    + Add Bank Transaction
+                                </button>
+                            </div>
+                        </div>
+
+                        <!-- Manual Queue Table -->
+                        <div id="manual-queue-container" class="space-y-2 pt-2 border-t border-border">
+                            <div class="flex items-center justify-between">
+                                <span class="font-bold text-[11px] text-text-primary">Manual Records Ingestion Queue (<span id="manual-queue-count">0</span> items)</span>
+                                <button type="button" onclick="clearManualQueue()" class="text-[10px] text-critical hover:underline">Clear</button>
+                            </div>
+                            <div id="manual-queue-list" class="space-y-1.5 max-h-36 overflow-y-auto">
+                                <p id="manual-queue-empty" class="text-[10px] text-text-secondary italic">No manual draft rows entered yet. Use the tabs above to add records.</p>
+                            </div>
+                            <button type="button" onclick="submitManualQueue()" id="btn-submit-manual-queue"
+                                class="w-full bg-healthy hover:bg-green-700 text-white py-2 rounded-lg text-xs font-bold transition cursor-pointer shadow-xs">
+                                Save Manual Records & Proceed to Validate →
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="pt-1 flex items-center justify-between">
+                    <button type="button" onclick="showStep('onboarding')"
+                        class="px-4 py-2 border border-border rounded-lg text-xs font-bold text-text-secondary hover:text-text-primary transition-colors cursor-pointer">
+                        ← Back
+                    </button>
+                </div>
+            </div>
+
+            <!-- ================================================================= -->
+            <!-- STEP 5: REVIEW & VALIDATE DATA (STRUCTURED VALIDATION BREAKDOWN) -->
+            <!-- ================================================================= -->
+            <div id="step-review" class="hidden space-y-5">
+                <div>
+                    <h2 class="text-xl font-black tracking-tight text-text-primary">Review & Validate Data</h2>
+                    <p class="text-xs text-text-secondary mt-1">CashTwin has ingested your business records. Verify flagged items to build a 100% accurate twin.</p>
+                </div>
+
+                <!-- PIPELINE STATUS COMPONENT -->
+                <div class="p-3 bg-white border border-border rounded-xl shadow-xs">
+                    <p class="text-[10px] uppercase font-bold text-text-secondary tracking-wider mb-2">Ingestion Pipeline State</p>
+                    <div id="pipeline-status-bar" class="flex items-center justify-between text-[10px] font-bold">
+                        <span class="text-healthy flex items-center space-x-1"><span>Imported</span><span>✓</span></span>
+                        <span class="text-text-secondary">→</span>
+                        <span class="text-healthy flex items-center space-x-1"><span>Validated</span><span>✓</span></span>
+                        <span class="text-text-secondary">→</span>
+                        <span id="pipe-review" class="text-attention flex items-center space-x-1"><span>Review Required</span><span>⚠️</span></span>
+                        <span class="text-text-secondary">→</span>
+                        <span id="pipe-corrected" class="text-text-secondary flex items-center space-x-1"><span>Corrected</span><span>○</span></span>
+                        <span class="text-text-secondary">→</span>
+                        <span id="pipe-ready" class="text-text-secondary flex items-center space-x-1"><span>Ready</span><span>○</span></span>
+                    </div>
+                </div>
+
+                <!-- STRUCTURED VALIDATION BREAKDOWN (Requirement 5) -->
+                <div class="grid grid-cols-2 sm:grid-cols-5 gap-2 text-center text-xs">
+                    <div class="p-2.5 bg-background border border-border rounded-xl">
+                        <p class="text-[10px] font-bold text-text-secondary">Total Records</p>
+                        <p class="text-sm font-black text-text-primary mt-0.5">14 records</p>
+                    </div>
+                    <div class="p-2.5 bg-green-50/50 border border-green-200 rounded-xl">
+                        <p class="text-[10px] font-bold text-healthy">Valid Records</p>
+                        <p class="text-sm font-black text-healthy mt-0.5">12 ✓</p>
+                    </div>
+                    <div class="p-2.5 bg-amber-50/50 border border-amber-200 rounded-xl">
+                        <p class="text-[10px] font-bold text-attention">Requires Review</p>
+                        <p class="text-sm font-black text-attention mt-0.5" id="review-stat-pending">2 ⚠️</p>
+                    </div>
+                    <div class="p-2.5 bg-background border border-border rounded-xl">
+                        <p class="text-[10px] font-bold text-text-secondary">Duplicates</p>
+                        <p class="text-sm font-black text-text-secondary mt-0.5">0</p>
+                    </div>
+                    <div class="p-2.5 bg-background border border-border rounded-xl">
+                        <p class="text-[10px] font-bold text-text-secondary">Invalid Records</p>
+                        <p class="text-sm font-black text-text-secondary mt-0.5">0</p>
+                    </div>
+                </div>
+
+                <!-- DATA QUALITY BANNER -->
+                <div id="review-quality-banner" class="p-3 bg-amber-50 border border-amber-200 rounded-xl flex items-center justify-between text-xs">
+                    <div class="flex items-center space-x-2.5">
+                        <span class="px-2 py-0.5 bg-attention text-white rounded font-bold text-[10px]">Data Quality: 92%</span>
+                        <span id="review-quality-msg" class="font-semibold text-amber-950 text-[11px]">2 records require review before the financial model is updated.</span>
+                    </div>
+                </div>
+
+                <!-- INCOMPLETE RECORDS LIST WITH SPECIFIC ISSUES (Requirement 5 & 10) -->
+                <div class="space-y-2.5">
+                    <p class="text-xs font-bold text-text-primary">Records Flagged with Issues Requiring User Action:</p>
+                    
+                    <!-- Record 1: INV-2026-003 -->
+                    <div id="card-inv-3" class="p-3.5 bg-white border border-amber-200 rounded-xl space-y-2.5 text-xs shadow-xs">
+                        <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-1.5">
+                            <div class="flex items-center space-x-2">
+                                <span class="font-mono font-bold text-primary">INV-2026-003</span>
+                                <span class="font-bold text-text-primary">ABC Retail</span>
+                                <span class="text-text-secondary">• ₹2,10,000</span>
+                            </div>
+                            <span id="badge-inv-3" class="text-[10px] font-bold text-attention bg-amber-50 px-2 py-0.5 rounded border border-amber-200 w-fit">
+                                ⚠ Requires Review: Missing expected payment date
+                            </span>
+                        </div>
+                        <div class="flex flex-col sm:flex-row sm:items-center justify-between pt-2 border-t border-border/60 gap-2">
+                            <span class="text-[11px] text-text-secondary">Due Date: <span class="font-mono font-semibold text-text-primary">2026-09-10</span></span>
+                            <div class="flex items-center space-x-2">
+                                <label for="input-date-3" class="text-[11px] font-bold text-text-primary shrink-0">Expected Date:</label>
+                                <input type="date" id="input-date-3" value="2026-09-20"
+                                    class="px-2 py-1 border border-border rounded-lg text-xs font-semibold bg-background focus:ring-1 focus:ring-primary outline-none">
+                                <button type="button" onclick="saveRecordCorrection(3)" id="btn-save-3"
+                                    class="px-3 py-1 bg-primary hover:bg-primary-dark text-white rounded-lg font-bold text-[11px] transition shadow-xs cursor-pointer shrink-0">
+                                    Save Correction
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Record 2: INV-2026-004 -->
+                    <div id="card-inv-4" class="p-3.5 bg-white border border-amber-200 rounded-xl space-y-2.5 text-xs shadow-xs">
+                        <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-1.5">
+                            <div class="flex items-center space-x-2">
+                                <span class="font-mono font-bold text-primary">INV-2026-004</span>
+                                <span class="font-bold text-text-primary">Alpha Enterprises</span>
+                                <span class="text-text-secondary">• ₹2,00,000</span>
+                            </div>
+                            <span id="badge-inv-4" class="text-[10px] font-bold text-attention bg-amber-50 px-2 py-0.5 rounded border border-amber-200 w-fit">
+                                ⚠ Requires Review: Missing expected payment date
+                            </span>
+                        </div>
+                        <div class="flex flex-col sm:flex-row sm:items-center justify-between pt-2 border-t border-border/60 gap-2">
+                            <span class="text-[11px] text-text-secondary">Due Date: <span class="font-mono font-semibold text-text-primary">2026-09-12</span></span>
+                            <div class="flex items-center space-x-2">
+                                <label for="input-date-4" class="text-[11px] font-bold text-text-primary shrink-0">Expected Date:</label>
+                                <input type="date" id="input-date-4" value="2026-09-22"
+                                    class="px-2 py-1 border border-border rounded-lg text-xs font-semibold bg-background focus:ring-1 focus:ring-primary outline-none">
+                                <button type="button" onclick="saveRecordCorrection(4)" id="btn-save-4"
+                                    class="px-3 py-1 bg-primary hover:bg-primary-dark text-white rounded-lg font-bold text-[11px] transition shadow-xs cursor-pointer shrink-0">
+                                    Save Correction
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Action button to proceed -->
+                <div class="pt-2 flex items-center space-x-3">
+                    <button type="button" onclick="showStep('import')"
+                        class="px-4 py-2.5 border border-border rounded-lg text-xs font-bold text-text-secondary hover:text-text-primary transition-colors cursor-pointer">
+                        ← Back
+                    </button>
+                    <button type="button" onclick="proceedToConsent()" id="btn-proceed-consent"
+                        class="flex-1 bg-primary hover:bg-primary-dark text-white py-2.5 rounded-lg text-xs font-bold tracking-wide transition shadow-md shadow-primary/10 cursor-pointer">
+                        NEXT: DATA CONSENT & AUTHORIZATION →
+                    </button>
+                </div>
+            </div>
+
+            <!-- ================================================================= -->
+            <!-- STEP 6: DATA CONSENT & AUTHORIZATION -->
+            <!-- ================================================================= -->
+            <div id="step-consent" class="hidden space-y-5">
+                <div>
+                    <h2 class="text-xl font-black tracking-tight text-text-primary">Financial Data Authorization</h2>
+                    <p class="text-xs text-text-secondary mt-1">Authorize CashTwin to model your validated records.</p>
+                </div>
+
+                <!-- Primary Legal Notice -->
+                <div class="p-3.5 bg-orange-50/60 border border-primary/20 rounded-xl text-xs text-text-primary leading-relaxed font-medium">
+                    «"CashTwin uses the financial records you provide for cash-flow forecasting, risk analysis and scenario simulation."»
+                </div>
+
+                <!-- Authorization Scopes (Clear & Transparent) -->
+                <div class="space-y-2.5 text-xs">
+                    <div class="p-2.5 border border-border rounded-xl flex items-start space-x-3">
+                        <input type="checkbox" id="cscope-invoices" checked disabled
+                            class="mt-0.5 h-4 w-4 text-primary focus:ring-primary border-border rounded">
+                        <div>
+                            <span class="font-bold text-text-primary block">Invoices & Receivables Forecasting</span>
+                            <span class="text-[11px] text-text-secondary">Maps expected payment dates to project dynamic monthly cash buffer.</span>
+                        </div>
+                    </div>
+
+                    <div class="p-2.5 border border-border rounded-xl flex items-start space-x-3">
+                        <input type="checkbox" id="cscope-expenses" checked disabled
+                            class="mt-0.5 h-4 w-4 text-primary focus:ring-primary border-border rounded">
+                        <div>
+                            <span class="font-bold text-text-primary block">Scheduled Expenses & Payables</span>
+                            <span class="text-[11px] text-text-secondary">Models supplier raw material and payroll timelines to calculate net positions.</span>
+                        </div>
+                    </div>
+
+                    <div class="p-2.5 border border-border rounded-xl flex items-start space-x-3">
+                        <input type="checkbox" id="cscope-delays" checked disabled
+                            class="mt-0.5 h-4 w-4 text-primary focus:ring-primary border-border rounded">
+                        <div>
+                            <span class="font-bold text-text-primary block">Customer Payment Delay & Concentration Profiling</span>
+                            <span class="text-[11px] text-text-secondary">Calculates behavioral payment delays and counterparty concentration risk.</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Mandatory Consent Form -->
+                <form id="consent-final-form" method="POST" action="{% url 'core:auth_flow' %}" onsubmit="handleFinalSubmit(event)" class="space-y-4 pt-1">
+                    {% csrf_token %}
+                    <input type="hidden" name="inv_3_date" id="form-inv-3-date" value="2026-09-20">
+                    <input type="hidden" name="inv_4_date" id="form-inv-4-date" value="2026-09-22">
+                    <input type="hidden" name="consented" value="true">
+
+                    <div class="p-3 bg-[#FFFDF9] border-2 border-primary/40 rounded-xl flex items-start space-x-3">
+                        <input type="checkbox" id="user-consent-check" required checked
+                            class="mt-1 h-4 w-4 text-primary focus:ring-primary border-border rounded cursor-pointer">
+                        <label for="user-consent-check" class="text-xs font-bold text-text-primary leading-tight cursor-pointer">
+                            I authorize CashTwin to use the financial records I provide for these purposes.
+                        </label>
+                    </div>
+
+                    <div class="flex items-center space-x-3">
+                        <button type="button" onclick="showStep('review')"
+                            class="px-4 py-2.5 border border-border rounded-lg text-xs font-bold text-text-secondary hover:text-text-primary transition-colors cursor-pointer">
+                            ← Back
+                        </button>
+                        <button type="submit" id="btn-final-twin"
+                            class="flex-1 bg-primary hover:bg-primary-dark text-white py-3 rounded-lg text-xs font-black tracking-wide transition shadow-lg shadow-primary/20 flex items-center justify-center space-x-2 cursor-pointer">
+                            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z" />
+                            </svg>
+                            <span>RECALCULATE DIGITAL TWIN & OPEN DASHBOARD →</span>
+                        </button>
+                    </div>
+                </form>
+            </div>
+
+        </div>
+    </div>
+
+    <!-- Small Footer -->
+    <div class="text-center text-[10px] text-text-secondary mt-6">
+        Secure SSL 256-bit encryption. CashTwin guarantees complete data privacy, data isolation and explainable-only modeling.
+    </div>
+</div>
+
+<!-- ================================================================= -->
+<!-- ACCESSIBLE EXCEL UPLOAD GUIDE MODAL (Requirement 1) -->
+<!-- ================================================================= -->
+<div id="excel-guide-modal" class="fixed inset-0 z-[100] hidden bg-black/60 backdrop-blur-sm items-center justify-center p-4">
+    <div class="bg-white rounded-2xl border border-border shadow-2xl max-w-2xl w-full max-h-[90vh] overflow-y-auto animate-in fade-in zoom-in duration-150 p-6 space-y-5 text-xs">
+        <div class="flex items-center justify-between border-b border-border pb-3">
+            <div>
+                <h3 class="text-base font-extrabold text-text-primary flex items-center space-x-2">
+                    <span>📖 Excel & CSV Upload Guide</span>
+                </h3>
+                <p class="text-[11px] text-text-secondary mt-0.5">Required structure, multi-sheet workbook schemas, and field definitions.</p>
+            </div>
+            <button type="button" onclick="closeExcelGuideModal()" class="text-text-secondary hover:text-text-primary p-1.5 rounded-lg hover:bg-gray-100 transition">
+                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
+                </svg>
+            </button>
+        </div>
+
+        <p class="text-text-secondary leading-relaxed">
+            CashTwin models your cash flow twin by analyzing 4 core financial record categories. You can upload an Excel workbook (<code class="font-mono bg-gray-100 px-1 py-0.5 rounded">.xlsx</code>) containing separate tabs/sheets or combined CSV files (<code class="font-mono bg-gray-100 px-1 py-0.5 rounded">.csv</code>).
+        </p>
+
+        <!-- 4 Schema Sections -->
+        <div class="space-y-4">
+            <!-- Sheet 1: Invoices -->
+            <div class="p-3.5 bg-orange-50/40 border border-primary/20 rounded-xl space-y-2">
+                <div class="flex items-center justify-between">
+                    <span class="font-bold text-primary text-xs uppercase tracking-wide">1. Invoices (Accounts Receivable)</span>
+                    <span class="text-[10px] font-bold text-primary bg-white px-2 py-0.5 rounded border border-primary/20">Sheet: Invoices</span>
+                </div>
+                <div class="grid grid-cols-2 gap-2 text-[11px]">
+                    <div>• <strong class="text-text-primary">Invoice ID:</strong> Unique alphanumeric code (e.g. INV-2026-001)</div>
+                    <div>• <strong class="text-text-primary">Customer Name:</strong> Counterparty entity name</div>
+                    <div>• <strong class="text-text-primary">Amount:</strong> Gross receivable amount in INR (₹)</div>
+                    <div>• <strong class="text-text-primary">Due Date:</strong> Contractual payment due date (YYYY-MM-DD)</div>
+                    <div>• <strong class="text-text-primary">Expected Payment Date:</strong> Estimated cash realization date</div>
+                    <div>• <strong class="text-text-primary">Payment Status:</strong> Pending / Paid / Overdue</div>
+                    <div>• <strong class="text-text-primary">Concentration Risk:</strong> High / Medium / Low exposure share</div>
+                </div>
+            </div>
+
+            <!-- Sheet 2: Expenses -->
+            <div class="p-3.5 bg-background border border-border rounded-xl space-y-2">
+                <div class="flex items-center justify-between">
+                    <span class="font-bold text-text-primary text-xs uppercase tracking-wide">2. Expenses (Accounts Payable & Utilities)</span>
+                    <span class="text-[10px] font-bold text-text-secondary bg-white px-2 py-0.5 rounded border border-border">Sheet: Expenses</span>
+                </div>
+                <div class="grid grid-cols-2 gap-2 text-[11px]">
+                    <div>• <strong class="text-text-primary">Expense ID:</strong> Unique ID (e.g. EXP-2026-101)</div>
+                    <div>• <strong class="text-text-primary">Payee / Vendor:</strong> Supplier or expense entity</div>
+                    <div>• <strong class="text-text-primary">Expense Category:</strong> Raw Materials, Payroll, Utilities, Logistics</div>
+                    <div>• <strong class="text-text-primary">Amount:</strong> Payable amount in INR (₹)</div>
+                    <div>• <strong class="text-text-primary">Due Date:</strong> Payment cut-off date (YYYY-MM-DD)</div>
+                    <div>• <strong class="text-text-primary">Recurring Status:</strong> Upcoming / Recurring / One-time</div>
+                </div>
+            </div>
+
+            <!-- Sheet 3: Payment History -->
+            <div class="p-3.5 bg-background border border-border rounded-xl space-y-2">
+                <div class="flex items-center justify-between">
+                    <span class="font-bold text-text-primary text-xs uppercase tracking-wide">3. Payment History (Counterparty Behavior)</span>
+                    <span class="text-[10px] font-bold text-text-secondary bg-white px-2 py-0.5 rounded border border-border">Sheet: Payment History</span>
+                </div>
+                <div class="grid grid-cols-2 gap-2 text-[11px]">
+                    <div>• <strong class="text-text-primary">Customer Name:</strong> Client identifier</div>
+                    <div>• <strong class="text-text-primary">Average Payment Delay:</strong> Historic average days past term</div>
+                    <div>• <strong class="text-text-primary">Payment Behaviour:</strong> Stable / Moderate Delay / Volatile</div>
+                    <div>• <strong class="text-text-primary">Risk Rating:</strong> Behavioral risk category (High / Med / Low)</div>
+                </div>
+            </div>
+
+            <!-- Sheet 4: Bank Transactions -->
+            <div class="p-3.5 bg-background border border-border rounded-xl space-y-2">
+                <div class="flex items-center justify-between">
+                    <span class="font-bold text-text-primary text-xs uppercase tracking-wide">4. Bank Transactions (Cash Position)</span>
+                    <span class="text-[10px] font-bold text-text-secondary bg-white px-2 py-0.5 rounded border border-border">Sheet: Bank Transactions</span>
+                </div>
+                <div class="grid grid-cols-2 gap-2 text-[11px]">
+                    <div>• <strong class="text-text-primary">Transaction Date:</strong> Clearing timestamp (YYYY-MM-DD)</div>
+                    <div>• <strong class="text-text-primary">Description:</strong> Transaction narrative</div>
+                    <div>• <strong class="text-text-primary">Credit (INR):</strong> Cash deposit inflow</div>
+                    <div>• <strong class="text-text-primary">Debit (INR):</strong> Outflow settlement amount</div>
+                    <div>• <strong class="text-text-primary">Balance (INR):</strong> Net account ledger balance</div>
+                </div>
+            </div>
+        </div>
+
+        <div class="pt-3 border-t border-border flex items-center justify-between">
+            <a href="{% url 'core:api_download_template' %}" download
+                class="px-4 py-2 bg-primary hover:bg-primary-dark text-white rounded-lg font-bold text-xs shadow-md shadow-primary/20 transition flex items-center space-x-1.5">
+                <span>📥 Download Sample Excel Template (.csv/.xlsx)</span>
+            </a>
+            <button type="button" onclick="closeExcelGuideModal()"
+                class="px-4 py-2 border border-border rounded-lg font-bold text-xs text-text-secondary hover:text-text-primary transition">
+                Close Guide
+            </button>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block extra_js %}
+<script>
+    let isRecord3Reviewed = false;
+    let isRecord4Reviewed = false;
+    let currentStep = 'signup';
+    let manualQueue = [];
+
+    window.addEventListener('DOMContentLoaded', () => {
+        const urlParams = new URLSearchParams(window.location.search);
+        const action = urlParams.get('action');
+        const loggedOut = urlParams.get('logged_out');
+        
+        if (loggedOut === 'true') {
+            const banner = document.getElementById('auth-alert-banner');
+            if (banner) {
+                banner.innerText = '✓ You have been securely logged out.';
+                banner.className = 'mb-4 p-3 bg-green-50 border border-green-200 text-healthy rounded-xl text-xs font-bold text-center';
+                banner.classList.remove('hidden');
+            }
+        }
+
+        if (action === 'login' || loggedOut === 'true') {
+            showStep('login');
+        } else {
+            showStep('signup');
+        }
+    });
+
+    function showStep(stepId) {
+        currentStep = stepId;
+        const steps = ['signup', 'login', 'onboarding', 'import', 'review', 'consent'];
+        steps.forEach(s => {
+            const el = document.getElementById(`step-${s}`);
+            if (el) el.classList.add('hidden');
+        });
+
+        const activeEl = document.getElementById(`step-${stepId}`);
+        if (activeEl) activeEl.classList.remove('hidden');
+
+        updateProgressBar(stepId);
+    }
+
+    function updateProgressBar(stepId) {
+        const pBar = document.getElementById('onboarding-progress-bar');
+        if (!pBar) return;
+
+        if (stepId === 'login') {
+            pBar.classList.add('hidden');
+            return;
+        }
+        pBar.classList.remove('hidden');
+
+        const stepMap = {
+            'signup': 1,
+            'onboarding': 2,
+            'import': 3,
+            'review': 4,
+            'consent': 5
+        };
+
+        const activeNum = stepMap[stepId] || 1;
+
+        for (let i = 1; i <= 5; i++) {
+            const el = document.getElementById(`pstep-${i}`);
+            if (!el) continue;
+            const badge = el.querySelector('span:first-child');
+            if (i < activeNum) {
+                el.className = 'flex items-center space-x-1.5 text-healthy font-bold';
+                if (badge) {
+                    badge.className = 'w-5 h-5 rounded-full bg-green-100 text-healthy flex items-center justify-center text-[10px] font-black';
+                    badge.innerText = '✓';
+                }
+            } else if (i === activeNum) {
+                el.className = 'flex items-center space-x-1.5 text-primary font-bold';
+                if (badge) {
+                    badge.className = 'w-5 h-5 rounded-full bg-primary text-white flex items-center justify-center text-[10px] font-black';
+                    badge.innerText = i;
+                }
+            } else {
+                el.className = 'flex items-center space-x-1.5 text-text-secondary font-medium';
+                if (badge) {
+                    badge.className = 'w-5 h-5 rounded-full bg-gray-100 text-text-secondary flex items-center justify-center text-[10px] font-bold';
+                    badge.innerText = i;
+                }
+            }
+        }
+    }
+
+    function handleSignup(e) {
+        e.preventDefault();
+        showStep('onboarding');
+    }
+
+    function handleLogin(e) {
+        e.preventDefault();
+        window.location.href = "{% url 'core:auth_flow' %}?login=true";
+    }
+
+    function handleOnboarding(e) {
+        e.preventDefault();
+        showStep('import');
+    }
+
+    function handleWorkbookUpload() {
+        const btn = document.getElementById('btn-upload-workbook');
+        const progressCard = document.getElementById('upload-progress-card');
+        const fill = document.getElementById('progress-bar-fill');
+        const pText = document.getElementById('progress-status-text');
+        const pPercent = document.getElementById('progress-percent');
+
+        if (btn) btn.disabled = true;
+        if (progressCard) progressCard.classList.remove('hidden');
+
+        const stages = [
+            { pct: 25, text: 'Parsing Invoices (4 records)...' },
+            { pct: 50, text: 'Parsing Expenses (3 records)...' },
+            { pct: 75, text: 'Mapping Payment History & Bank Txns...' },
+            { pct: 100, text: 'Validating data integrity schemas...' }
+        ];
+
+        let idx = 0;
+        const interval = setInterval(() => {
+            if (idx < stages.length) {
+                if (fill) fill.style.width = `${stages[idx].pct}%`;
+                if (pText) pText.innerText = stages[idx].text;
+                if (pPercent) pPercent.innerText = `${stages[idx].pct}%`;
+                idx++;
+            } else {
+                clearInterval(interval);
+                setTimeout(() => {
+                    showStep('review');
+                }, 400);
+            }
+        }, 300);
+    }
+
+    // Modal Guide handlers
+    function openExcelGuideModal() {
+        const m = document.getElementById('excel-guide-modal');
+        if (m) {
+            m.classList.remove('hidden');
+            m.classList.add('flex');
+        }
+    }
+
+    function closeExcelGuideModal() {
+        const m = document.getElementById('excel-guide-modal');
+        if (m) {
+            m.classList.add('hidden');
+            m.classList.remove('flex');
+        }
+    }
+
+    // Manual Entry Drawer & Tabs
+    function toggleManualEntryDrawer() {
+        const drawer = document.getElementById('manual-entry-drawer');
+        if (drawer) drawer.classList.toggle('hidden');
+    }
+
+    function switchManualTab(tab) {
+        const tabs = ['inv', 'exp', 'pay', 'bnk'];
+        tabs.forEach(t => {
+            const btn = document.getElementById(`mtab-${t}`);
+            const form = document.getElementById(`mform-${t}`);
+            if (btn && form) {
+                if (t === tab) {
+                    btn.className = 'px-3 py-1 bg-primary text-white rounded-lg font-bold text-xs shrink-0 cursor-pointer';
+                    form.classList.remove('hidden');
+                } else {
+                    btn.className = 'px-3 py-1 bg-white text-text-secondary border border-border rounded-lg font-bold text-xs shrink-0 cursor-pointer';
+                    form.classList.add('hidden');
+                }
+            }
+        });
+    }
+
+    function addManualInvoiceRow() {
+        const id = (document.getElementById('minv-id')?.value || '').trim() || `INV-2026-00${manualQueue.length + 5}`;
+        const cust = (document.getElementById('minv-customer')?.value || '').trim();
+        const amt = parseFloat(document.getElementById('minv-amount')?.value) || 0;
+        const due = document.getElementById('minv-due')?.value || '2026-09-20';
+        const exp = document.getElementById('minv-exp')?.value || '2026-09-27';
+
+        if (!cust || amt <= 0) {
+            alert('Please enter a valid customer name and positive invoice amount.');
+            return;
+        }
+
+        manualQueue.push({
+            type: 'Invoice',
+            label: `${id}: ${cust}`,
+            details: `₹${amt.toLocaleString('en-IN')} | Due: ${due} | Exp: ${exp}`
+        });
+
+        renderManualQueue();
+        document.getElementById('minv-customer').value = '';
+        document.getElementById('minv-amount').value = '';
+    }
+
+    function addManualExpenseRow() {
+        const id = (document.getElementById('mexp-id')?.value || '').trim() || `EXP-2026-10${manualQueue.length + 4}`;
+        const payee = (document.getElementById('mexp-payee')?.value || '').trim();
+        const cat = document.getElementById('mexp-cat')?.value || 'Raw Materials';
+        const amt = parseFloat(document.getElementById('mexp-amount')?.value) || 0;
+        const due = document.getElementById('mexp-due')?.value || '2026-09-18';
+
+        if (!payee || amt <= 0) {
+            alert('Please enter a valid payee name and positive expense amount.');
+            return;
+        }
+
+        manualQueue.push({
+            type: 'Expense',
+            label: `${id}: ${payee} (${cat})`,
+            details: `₹${amt.toLocaleString('en-IN')} | Due: ${due}`
+        });
+
+        renderManualQueue();
+        document.getElementById('mexp-payee').value = '';
+        document.getElementById('mexp-amount').value = '';
+    }
+
+    function addManualPaymentRow() {
+        const cust = (document.getElementById('mpay-customer')?.value || '').trim();
+        const delay = parseInt(document.getElementById('mpay-delay')?.value) || 0;
+        const prof = document.getElementById('mpay-profile')?.value || 'Stable';
+
+        if (!cust) {
+            alert('Please enter a customer name.');
+            return;
+        }
+
+        manualQueue.push({
+            type: 'Payment History',
+            label: `History: ${cust}`,
+            details: `Avg Delay: +${delay} days | ${prof}`
+        });
+
+        renderManualQueue();
+        document.getElementById('mpay-customer').value = '';
+    }
+
+    function addManualBankRow() {
+        const date = document.getElementById('mbnk-date')?.value || '2026-08-31';
+        const desc = (document.getElementById('mbnk-desc')?.value || '').trim();
+        const credit = parseFloat(document.getElementById('mbnk-credit')?.value) || 0;
+        const debit = parseFloat(document.getElementById('mbnk-debit')?.value) || 0;
+
+        if (!desc) {
+            alert('Please enter a transaction description.');
+            return;
+        }
+
+        manualQueue.push({
+            type: 'Bank Txn',
+            label: `Txn (${date}): ${desc}`,
+            details: `Credit: ₹${credit.toLocaleString('en-IN')} | Debit: ₹${debit.toLocaleString('en-IN')}`
+        });
+
+        renderManualQueue();
+        document.getElementById('mbnk-desc').value = '';
+    }
+
+    function renderManualQueue() {
+        const list = document.getElementById('manual-queue-list');
+        const count = document.getElementById('manual-queue-count');
+        const emptyMsg = document.getElementById('manual-queue-empty');
+
+        if (!list) return;
+        if (count) count.innerText = manualQueue.length;
+
+        if (manualQueue.length === 0) {
+            if (emptyMsg) emptyMsg.classList.remove('hidden');
+            list.innerHTML = '<p id="manual-queue-empty" class="text-[10px] text-text-secondary italic">No manual draft rows entered yet. Use the tabs above to add records.</p>';
+            return;
+        }
+
+        list.innerHTML = '';
+        manualQueue.forEach((item, i) => {
+            const row = document.createElement('div');
+            row.className = 'p-2 bg-white border border-border rounded-lg flex items-center justify-between text-xs shadow-2xs';
+            row.innerHTML = `
+                <div>
+                    <div class="flex items-center space-x-1.5">
+                        <span class="px-1.5 py-0.5 bg-primary/10 text-primary font-bold rounded text-[9px]">${item.type}</span>
+                        <span class="font-bold text-text-primary">${item.label}</span>
+                    </div>
+                    <p class="text-[10px] text-text-secondary mt-0.5">${item.details}</p>
+                </div>
+                <button type="button" onclick="removeManualQueueRow(${i})" class="text-critical hover:text-red-700 font-bold text-xs p-1">✕</button>
+            `;
+            list.appendChild(row);
+        });
+    }
+
+    function removeManualQueueRow(index) {
+        manualQueue.splice(index, 1);
+        renderManualQueue();
+    }
+
+    function clearManualQueue() {
+        manualQueue = [];
+        renderManualQueue();
+    }
+
+    function submitManualQueue() {
+        showStep('review');
+    }
+
+    function saveRecordCorrection(recordId) {
+        if (recordId === 3) {
+            const val = document.getElementById('input-date-3')?.value || '2026-09-20';
+            document.getElementById('form-inv-3-date').value = val;
+            const badge = document.getElementById('badge-inv-3');
+            const btn = document.getElementById('btn-save-3');
+            if (badge) {
+                badge.innerText = `✓ Valid: Verified expected date (${val})`;
+                badge.className = 'text-[10px] font-bold text-healthy bg-green-50 px-2 py-0.5 rounded border border-green-200';
+            }
+            if (btn) {
+                btn.innerText = '✓ Saved';
+                btn.className = 'px-3 py-1 bg-green-600 text-white rounded-lg font-bold text-[11px]';
+            }
+            isRecord3Reviewed = true;
+        } else if (recordId === 4) {
+            const val = document.getElementById('input-date-4')?.value || '2026-09-22';
+            document.getElementById('form-inv-4-date').value = val;
+            const badge = document.getElementById('badge-inv-4');
+            const btn = document.getElementById('btn-save-4');
+            if (badge) {
+                badge.innerText = `✓ Valid: Verified expected date (${val})`;
+                badge.className = 'text-[10px] font-bold text-healthy bg-green-50 px-2 py-0.5 rounded border border-green-200';
+            }
+            if (btn) {
+                btn.innerText = '✓ Saved';
+                btn.className = 'px-3 py-1 bg-green-600 text-white rounded-lg font-bold text-[11px]';
+            }
+            isRecord4Reviewed = true;
+        }
+
+        checkQualityCompletion();
+    }
+
+    function checkQualityCompletion() {
+        const banner = document.getElementById('review-quality-banner');
+        const pReview = document.getElementById('pipe-review');
+        const pCorrected = document.getElementById('pipe-corrected');
+        const pReady = document.getElementById('pipe-ready');
+        const pendingStat = document.getElementById('review-stat-pending');
+
+        if (isRecord3Reviewed && isRecord4Reviewed) {
+            if (pendingStat) pendingStat.innerText = '0 ✓';
+            if (banner) {
+                banner.className = 'p-3 bg-green-50 border border-green-200 rounded-xl flex items-center justify-between text-xs';
+                banner.innerHTML = `
+                    <div class="flex items-center space-x-2.5">
+                        <span class="px-2 py-0.5 bg-healthy text-white rounded font-bold text-[10px]">Data Quality: 100%</span>
+                        <span class="font-bold text-green-950 text-[11px]">✓ All required financial fields have been reviewed.</span>
+                    </div>
+                `;
+            }
+            if (pReview) {
+                pReview.className = 'text-healthy flex items-center space-x-1';
+                pReview.innerHTML = '<span>Reviewed</span><span>✓</span>';
+            }
+            if (pCorrected) {
+                pCorrected.className = 'text-healthy flex items-center space-x-1';
+                pCorrected.innerHTML = '<span>Corrected</span><span>✓</span>';
+            }
+            if (pReady) {
+                pReady.className = 'text-healthy flex items-center space-x-1';
+                pReady.innerHTML = '<span>Ready</span><span>✓</span>';
+            }
+        }
+    }
+
+    function proceedToConsent() {
+        if (!isRecord3Reviewed) saveRecordCorrection(3);
+        if (!isRecord4Reviewed) saveRecordCorrection(4);
+        showStep('consent');
+    }
+
+    function handleFinalSubmit(e) {
+        // Form submits natively to Django auth_flow view via POST
+    }
+</script>
+{% endblock %}

@@ -1,0 +1,674 @@
+{% extends 'core/base.html' %}
+
+{% block title %}CashTwin - See Cash-Flow Crisis Before It Happens{% endblock %}
+
+{% block content %}
+<!-- Navbar -->
+<header class="sticky top-0 z-50 bg-[#FFFDF9]/95 backdrop-blur-md border-b border-border">
+    <div class="max-w-7xl mx-auto px-6 h-20 flex items-center justify-between">
+        <!-- Logo -->
+        <a href="/" class="flex items-center space-x-2 text-2xl font-extrabold tracking-tight text-primary">
+            <span class="bg-primary text-white px-2.5 py-1 rounded-md text-xl font-black">C</span>
+            <span class="text-text-primary">Cash<span class="text-primary">Twin</span></span>
+        </a>
+
+        <!-- Navigation Links -->
+        <nav class="hidden md:flex items-center space-x-8 text-sm font-medium text-text-secondary">
+            <a href="#product" class="hover:text-primary transition-colors">Product</a>
+            <a href="#how-it-works" class="hover:text-primary transition-colors">How It Works</a>
+            <a href="#risk-intelligence" class="hover:text-primary transition-colors">Risk Intelligence</a>
+            <a href="#what-if" class="hover:text-primary transition-colors">What-If Simulator</a>
+            <a href="#trust" class="hover:text-primary transition-colors">Trust & Privacy</a>
+        </nav>
+
+        <!-- CTAs -->
+        <div class="flex items-center space-x-4">
+            <a href="{% url 'core:auth_flow' %}?action=login"
+                class="text-sm font-semibold text-text-primary hover:text-primary transition-colors">Log In</a>
+            <a href="{% url 'core:auth_flow' %}?action=signup"
+                class="bg-primary hover:bg-primary-dark text-white px-5 py-2.5 rounded-lg text-sm font-semibold transition-all shadow-md shadow-primary/10">GET
+                STARTED</a>
+        </div>
+    </div>
+</header>
+
+<!-- Hero Section -->
+<section id="product" class="relative overflow-hidden pt-16 pb-24 lg:pt-24 lg:pb-32">
+    <div class="max-w-7xl mx-auto px-6 grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-16 items-center">
+        <!-- Text Content -->
+        <div class="lg:col-span-7 space-y-8">
+            <span
+                class="inline-flex items-center px-3 py-1.5 rounded-full text-xs font-semibold bg-primary/10 text-primary-dark border border-primary/20">
+                🚀 AI-Assisted Financial Intelligence for MSMEs
+            </span>
+            <h1 class="text-4xl sm:text-5xl lg:text-6xl font-black tracking-tight leading-none text-text-primary">
+                See the cash-flow crisis <br class="hidden sm:inline" />
+                <span class="text-primary underline decoration-amber-500/30 decoration-8 underline-offset-4">before it
+                    happens.</span>
+            </h1>
+            <p class="text-lg text-text-secondary max-w-xl leading-relaxed">
+                CashTwin helps MSMEs understand their financial position, forecast liquidity risks, explore what-if
+                scenarios, and make better-informed financial decisions.
+            </p>
+            <div class="flex flex-col sm:flex-row items-stretch sm:items-center space-y-3 sm:space-y-0 sm:space-x-4">
+                <a href="{% url 'core:auth_flow' %}?action=signup"
+                    class="bg-primary hover:bg-primary-dark text-white text-center px-8 py-4 rounded-xl font-bold tracking-wide transition-all shadow-lg shadow-primary/20 hover:-translate-y-0.5">
+                    GET STARTED
+                </a>
+                <a href="#how-it-works"
+                    class="border border-border bg-white text-text-primary hover:bg-background text-center px-8 py-4 rounded-xl font-bold transition-all hover:-translate-y-0.5">
+                    SEE HOW IT WORKS
+                </a>
+            </div>
+        </div>
+
+        <!-- Hero Visualization -->
+        <div class="lg:col-span-5 relative">
+            <div
+                class="bg-white border border-border p-6 rounded-2xl shadow-xl shadow-primary/5 space-y-6 relative z-10">
+                <!-- Header of Mock UI -->
+                <div class="flex items-center justify-between pb-4 border-b border-border">
+                    <div class="flex items-center space-x-2">
+                        <div class="w-3 h-3 rounded-full bg-red-400"></div>
+                        <div class="w-3 h-3 rounded-full bg-yellow-400"></div>
+                        <div class="w-3 h-3 rounded-full bg-green-400"></div>
+                    </div>
+                    <span
+                        class="text-xs text-text-secondary font-semibold bg-background px-3 py-1 rounded-md border border-border">Liquidity
+                        Forecast</span>
+                </div>
+
+                <!-- Financial Visualization Widget -->
+                <div class="space-y-4">
+                    <div class="flex justify-between items-end">
+                        <div>
+                            <p class="text-xs text-text-secondary font-medium">CURRENT CASH</p>
+                            <p class="text-2xl font-bold tracking-tight text-text-primary">₹5,20,000</p>
+                        </div>
+                        <span class="text-xs font-semibold px-2 py-1 bg-green-100 text-healthy rounded-md">Healthy
+                            Today</span>
+                    </div>
+
+                    <!-- Pipeline Graph -->
+                    <div class="space-y-3 pt-2">
+                        <div class="flex items-center justify-between text-xs font-semibold text-text-secondary">
+                            <span>CURRENT</span>
+                            <span>PROJECTED (18-SEP)</span>
+                        </div>
+                        <div class="relative h-16 w-full flex items-center">
+                            <!-- Visual path line -->
+                            <div class="absolute inset-x-0 h-1 bg-gray-200"></div>
+                            <div
+                                class="absolute left-0 w-3 h-3 rounded-full bg-healthy border-4 border-white ring-2 ring-healthy">
+                            </div>
+                            <div
+                                class="absolute left-1/3 w-3 h-3 rounded-full bg-primary border-4 border-white ring-2 ring-primary">
+                            </div>
+                            <div
+                                class="absolute right-0 w-4 h-4 rounded-full bg-critical border-4 border-white ring-2 ring-critical">
+                            </div>
+
+                            <!-- Arrow indicators -->
+                            <svg class="absolute left-16 w-4 h-4 text-healthy" fill="none" stroke="currentColor"
+                                viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5"
+                                    d="M9 5l7 7-7 7" />
+                            </svg>
+                            <svg class="absolute left-2/3 w-4 h-4 text-attention" fill="none" stroke="currentColor"
+                                viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5"
+                                    d="M9 5l7 7-7 7" />
+                            </svg>
+                        </div>
+                        <div class="grid grid-cols-3 text-[10px] font-bold text-text-secondary">
+                            <div>
+                                <span class="block text-healthy">₹5,20,000</span>
+                                <span>In Hand</span>
+                            </div>
+                            <div class="text-center">
+                                <span class="block text-primary">₹12,40,000</span>
+                                <span>Receivables</span>
+                            </div>
+                            <div class="text-right">
+                                <span class="block text-critical">₹8,90,000</span>
+                                <span>Upcoming Expenses</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Risk Warning Badge -->
+                    <div class="p-3 bg-red-50 border border-red-100 rounded-xl flex items-start space-x-3">
+                        <div class="p-1 bg-red-100 rounded-md text-critical">
+                            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                    d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z" />
+                            </svg>
+                        </div>
+                        <div>
+                            <p class="text-xs font-bold text-red-900">Projected Liquidity Gap</p>
+                            <p class="text-[11px] text-red-700">₹3,20,000 gap projected around 18 Sept due to late
+                                payments & high concentration risk.</p>
+                        </div>
+                    </div>
+
+                    <!-- Decision Action Banner -->
+                    <div class="p-3 bg-orange-50 border border-orange-100 rounded-xl flex items-center justify-between">
+                        <span class="text-xs font-semibold text-primary-dark">Explore Resilience Options</span>
+                        <svg class="w-4 h-4 text-primary" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" />
+                        </svg>
+                    </div>
+                </div>
+            </div>
+            <!-- Background glow -->
+            <div class="absolute -top-12 -right-12 w-64 h-64 bg-primary/10 rounded-full blur-3xl z-0"></div>
+            <div class="absolute -bottom-12 -left-12 w-48 h-48 bg-accent/10 rounded-full blur-2xl z-0"></div>
+        </div>
+    </div>
+</section>
+
+<!-- Problem Section -->
+<section class="bg-white border-y border-border py-20 lg:py-28">
+    <div class="max-w-7xl mx-auto px-6">
+        <div class="max-w-3xl mx-auto text-center space-y-6">
+            <h2 class="text-3xl sm:text-4xl font-extrabold tracking-tight text-text-primary">
+                Your business can look healthy today and still face a cash-flow crisis tomorrow.
+            </h2>
+            <p class="text-text-secondary text-base">
+                Traditional banking views look backwards. looks forward, tracing how timing delays turn current profits
+                into future liquidity gaps.
+            </p>
+        </div>
+
+        <!-- Problem Visualization Grid -->
+        <div class="mt-16 grid grid-cols-1 md:grid-cols-5 gap-6 items-stretch relative">
+            <!-- Stage 1 -->
+            <div class="bg-[#FFFDF9] border border-border p-6 rounded-xl space-y-4 flex flex-col justify-between">
+                <div>
+                    <span class="text-xs font-bold text-healthy bg-green-50 px-2 py-1 rounded">1. CURRENT
+                        POSITION</span>
+                    <h3 class="text-lg font-bold text-text-primary mt-2">Healthy Cash Today</h3>
+                    <p class="text-xs text-text-secondary mt-1">Operating with a positive opening bank balance.</p>
+                </div>
+                <p class="text-xl font-extrabold text-healthy">₹5,20,000</p>
+            </div>
+
+            <!-- Connector Arrow -->
+            <div class="hidden md:flex items-center justify-center text-text-secondary">
+                <svg class="w-8 h-8 text-primary/40" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5"
+                        d="M13 5l7 7-7 7M5 5l7 7-7 7" />
+                </svg>
+            </div>
+
+            <!-- Stage 2 -->
+            <div class="bg-[#FFFDF9] border border-border p-6 rounded-xl space-y-4 flex flex-col justify-between">
+                <div>
+                    <span class="text-xs font-bold text-primary-dark bg-orange-50 px-2 py-1 rounded">2.
+                        RECEIVABLES</span>
+                    <h3 class="text-lg font-bold text-text-primary mt-2">Expected Inflow</h3>
+                    <p class="text-xs text-text-secondary mt-1">Outstanding sales invoices awaiting payment.</p>
+                </div>
+                <p class="text-xl font-extrabold text-primary">+ ₹12,40,000</p>
+            </div>
+
+            <!-- Connector Arrow -->
+            <div class="hidden md:flex items-center justify-center text-text-secondary">
+                <svg class="w-8 h-8 text-primary/40" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5"
+                        d="M13 5l7 7-7 7M5 5l7 7-7 7" />
+                </svg>
+            </div>
+
+            <!-- Stage 3 -->
+            <div class="bg-[#FFFDF9] border border-border p-6 rounded-xl space-y-4 flex flex-col justify-between">
+                <div>
+                    <span class="text-xs font-bold text-critical bg-red-50 px-2 py-1 rounded">3. LIQUIDITY GAP</span>
+                    <h3 class="text-lg font-bold text-text-primary mt-2">Expenses & Delays</h3>
+                    <p class="text-xs text-text-secondary mt-1">Payments arrive 15 days late while payroll/rent are
+                        fixed.</p>
+                </div>
+                <div class="space-y-1">
+                    <p class="text-xs font-bold text-critical">Expected Expenses: ₹8,90,000</p>
+                    <p class="text-sm font-extrabold text-critical">Liquidity Gap: ₹3,20,000</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- How It Works Section -->
+<section id="how-it-works" class="py-20 lg:py-28">
+    <div class="max-w-7xl mx-auto px-6">
+        <div class="max-w-3xl mx-auto text-center space-y-6">
+            <h2 class="text-3xl sm:text-4xl font-extrabold tracking-tight text-text-primary">
+                Predict, Simulate, Resolve
+            </h2>
+            <p class="text-text-secondary">
+                Simple intelligence built for business owners. We connect your data to map cash flow without unnecessary
+                complexity.
+            </p>
+        </div>
+
+        <div class="mt-16 grid grid-cols-1 md:grid-cols-3 lg:grid-cols-6 gap-8">
+            <!-- Step 1 -->
+            <div class="space-y-3">
+                <div
+                    class="w-12 h-12 bg-primary/10 text-primary-dark font-extrabold flex items-center justify-center rounded-xl text-lg border border-primary/20">
+                    01</div>
+                <h3 class="font-bold text-text-primary">CONNECT</h3>
+                <p class="text-xs text-text-secondary leading-relaxed">Securely link invoices, expenses, and payment
+                    history.</p>
+            </div>
+
+            <!-- Step 2 -->
+            <div class="space-y-3">
+                <div
+                    class="w-12 h-12 bg-primary/10 text-primary-dark font-extrabold flex items-center justify-center rounded-xl text-lg border border-primary/20">
+                    02</div>
+                <h3 class="font-bold text-text-primary">UNDERSTAND</h3>
+                <p class="text-xs text-text-secondary leading-relaxed">AI structures data to assess current financial
+                    posture.</p>
+            </div>
+
+            <!-- Step 3 -->
+            <div class="space-y-3">
+                <div
+                    class="w-12 h-12 bg-primary/10 text-primary-dark font-extrabold flex items-center justify-center rounded-xl text-lg border border-primary/20">
+                    03</div>
+                <h3 class="font-bold text-text-primary">FORECAST</h3>
+                <p class="text-xs text-text-secondary leading-relaxed">Project cash position over 30, 60, and 90 days.
+                </p>
+            </div>
+
+            <!-- Step 4 -->
+            <div class="space-y-3">
+                <div
+                    class="w-12 h-12 bg-primary/10 text-primary-dark font-extrabold flex items-center justify-center rounded-xl text-lg border border-primary/20">
+                    04</div>
+                <h3 class="font-bold text-text-primary">IDENTIFY</h3>
+                <p class="text-xs text-text-secondary leading-relaxed">Flag concentration, payment delays, and upcoming
+                    gaps.</p>
+            </div>
+
+            <!-- Step 5 -->
+            <div class="space-y-3">
+                <div
+                    class="w-12 h-12 bg-primary/10 text-primary-dark font-extrabold flex items-center justify-center rounded-xl text-lg border border-primary/20">
+                    05</div>
+                <h3 class="font-bold text-text-primary">SIMULATE</h3>
+                <p class="text-xs text-text-secondary leading-relaxed">Run what-if scenario configurations to test
+                    resilience.</p>
+            </div>
+
+            <!-- Step 6 -->
+            <div class="space-y-3">
+                <div
+                    class="w-12 h-12 bg-primary/10 text-primary-dark font-extrabold flex items-center justify-center rounded-xl text-lg border border-primary/20">
+                    06</div>
+                <h3 class="font-bold text-text-primary">DECIDE</h3>
+                <p class="text-xs text-text-secondary leading-relaxed">Review options and choose your best strategic
+                    moves.</p>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Digital Twin Showcase Section -->
+<section class="bg-white border-y border-border py-20 lg:py-28">
+    <div class="max-w-7xl mx-auto px-6 grid grid-cols-1 lg:grid-cols-12 gap-12 items-center">
+        <!-- Info -->
+        <div class="lg:col-span-5 space-y-6">
+            <h2 class="text-3xl font-extrabold tracking-tight text-text-primary">
+                Turn your financial data into a living picture of your business.
+            </h2>
+            <p class="text-text-secondary leading-relaxed">
+                The CashTwin **Digital Twin** is a dynamic model of your cash system. It links customer credit terms,
+                historical payment delays, and inventory expenses to show how decisions today flow through your bank
+                account tomorrow.
+            </p>
+            <div class="space-y-3">
+                <div class="flex items-center space-x-3">
+                    <span class="w-2.5 h-2.5 rounded-full bg-healthy"></span>
+                    <span class="text-xs font-semibold text-text-primary">Current State: Live view of bank, AR, and
+                        AP</span>
+                </div>
+                <div class="flex items-center space-x-3">
+                    <span class="w-2.5 h-2.5 rounded-full bg-primary"></span>
+                    <span class="text-xs font-semibold text-text-primary">Projected State: Simulated timeline factoring
+                        late-payment delay curves</span>
+                </div>
+            </div>
+        </div>
+
+        <!-- Graph representation -->
+        <div class="lg:col-span-7 bg-[#FFFDF9] border border-border p-6 rounded-2xl space-y-6">
+            <h3 class="text-sm font-bold text-text-secondary tracking-wider uppercase">Digital Twin Topology</h3>
+
+            <div class="grid grid-cols-3 gap-4 text-center">
+                <!-- Column 1: Sources -->
+                <div class="space-y-4">
+                    <p class="text-xs font-bold text-text-secondary">Inflows (AR)</p>
+                    <div class="bg-white p-3 border border-border rounded-xl shadow-sm">
+                        <p class="text-xs font-bold text-text-primary">ABC Retail</p>
+                        <p class="text-[10px] text-critical">₹4,50,000 (15d delay)</p>
+                    </div>
+                    <div class="bg-white p-3 border border-border rounded-xl shadow-sm opacity-60">
+                        <p class="text-xs font-bold text-text-primary">XYZ Dist.</p>
+                        <p class="text-[10px] text-healthy">₹3,80,000 (7d delay)</p>
+                    </div>
+                </div>
+
+                <!-- Column 2: Central Twin Engine -->
+                <div class="flex flex-col justify-center space-y-3">
+                    <div class="bg-primary/10 border border-primary text-primary-dark p-4 rounded-xl shadow-md">
+                        <p class="text-xs font-black">CASH ENGINE</p>
+                        <p class="text-[10px] font-semibold mt-1">Digital Twin Live</p>
+                    </div>
+                    <div class="text-xs text-text-secondary font-bold">
+                        ↓ Updates
+                    </div>
+                    <div class="bg-white p-3 border border-border rounded-xl shadow-sm">
+                        <p class="text-xs text-text-secondary">Projected Min Cash</p>
+                        <p class="text-sm font-bold text-critical">₹80,000</p>
+                    </div>
+                </div>
+
+                <!-- Column 3: Outflows -->
+                <div class="space-y-4">
+                    <p class="text-xs font-bold text-text-secondary">Outflows (AP)</p>
+                    <div class="bg-white p-3 border border-border rounded-xl shadow-sm">
+                        <p class="text-xs font-bold text-text-primary">Steel Supplies</p>
+                        <p class="text-[10px] text-text-secondary">₹5,00,000</p>
+                    </div>
+                    <div class="bg-white p-3 border border-border rounded-xl shadow-sm opacity-60">
+                        <p class="text-xs font-bold text-text-primary">Salaries</p>
+                        <p class="text-[10px] text-text-secondary">₹2,70,000</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Risk Intelligence Section -->
+<section id="risk-intelligence" class="py-20 lg:py-28">
+    <div class="max-w-7xl mx-auto px-6">
+        <div class="max-w-3xl mx-auto text-center space-y-6">
+            <h2 class="text-3xl font-extrabold tracking-tight text-text-primary">
+                Don't just see the risk. Understand why it exists.
+            </h2>
+            <p class="text-text-secondary">
+                Our evidence-first framework breaks down risk factors transparently so you can verify each calculation.
+            </p>
+        </div>
+
+        <div class="mt-16 grid grid-cols-1 md:grid-cols-4 gap-8">
+            <div class="bg-white border border-border p-6 rounded-xl space-y-3">
+                <span class="text-xs font-bold text-critical bg-red-50 px-2 py-1 rounded">RISK</span>
+                <h3 class="text-lg font-bold text-text-primary">Liquidity Risk</h3>
+                <p class="text-xs text-text-secondary">Cash reserves projected to fall below critical safety thresholds.
+                </p>
+            </div>
+
+            <div class="bg-white border border-border p-6 rounded-xl space-y-3">
+                <span class="text-xs font-bold text-attention bg-amber-50 px-2 py-1 rounded">CAUSE</span>
+                <h3 class="text-lg font-bold text-text-primary">Late Payment Delays</h3>
+                <p class="text-xs text-text-secondary">Historical patterns show ABC Retail payments average 15 days past
+                    term.</p>
+            </div>
+
+            <div class="bg-white border border-border p-6 rounded-xl space-y-3">
+                <span class="text-xs font-bold text-primary bg-orange-50 px-2 py-1 rounded">EVIDENCE</span>
+                <h3 class="text-lg font-bold text-text-primary">Invoices Trace</h3>
+                <p class="text-xs text-text-secondary">Invoice INV-2026-001 amount of ₹4,50,000 with a documented
+                    history of delayed terms.</p>
+            </div>
+
+            <div class="bg-white border border-border p-6 rounded-xl space-y-3">
+                <span class="text-xs font-bold text-text-primary bg-gray-100 px-2 py-1 rounded">CONSEQUENCE</span>
+                <h3 class="text-lg font-bold text-text-primary">Expected Liquidity Gap</h3>
+                <p class="text-xs text-text-secondary">₹1,50,000 deficit on 7 September, leading to potential utility
+                    suspension risks.</p>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- What-If Section -->
+<section id="what-if" class="bg-white border-y border-border py-20 lg:py-28">
+    <div class="max-w-7xl mx-auto px-6">
+        <div class="max-w-3xl mx-auto text-center space-y-6">
+            <h2 class="text-3xl font-extrabold tracking-tight text-text-primary">
+                What happens if your biggest customer pays 15 days late?
+            </h2>
+            <p class="text-text-secondary">
+                Simulate critical scenarios and see the projected path instantly. Use the interactive comparison below.
+            </p>
+        </div>
+
+        <div class="mt-16 grid grid-cols-1 lg:grid-cols-2 gap-8">
+            <!-- Baseline -->
+            <div class="border border-border rounded-2xl p-6 bg-[#FFFDF9]/50 space-y-4">
+                <div class="flex justify-between items-center">
+                    <span class="text-xs font-semibold px-2 py-1 bg-gray-100 text-text-secondary rounded">Baseline
+                        Scenario</span>
+                    <span class="text-xs font-medium text-healthy">Standard Terms</span>
+                </div>
+                <div class="space-y-2">
+                    <p class="text-xs text-text-secondary uppercase">Minimum Projected Cash</p>
+                    <p class="text-3xl font-black text-text-primary">₹2,30,000</p>
+                    <p class="text-xs text-text-secondary">Maintains normal operations and meets all scheduled supplier
+                        payments.</p>
+                </div>
+                <div class="pt-4 border-t border-border flex justify-between text-xs font-semibold text-text-secondary">
+                    <span>Gap Date: None</span>
+                    <span class="text-healthy">Resilient State</span>
+                </div>
+            </div>
+
+            <!-- Scenario Late -->
+            <div class="border-2 border-primary rounded-2xl p-6 bg-white space-y-4 shadow-lg shadow-primary/5">
+                <div class="flex justify-between items-center">
+                    <span class="text-xs font-semibold px-2 py-1 bg-red-50 text-critical rounded">Customer Delay (+15
+                        Days)</span>
+                    <span class="text-xs font-medium text-critical">Liquidity Risk</span>
+                </div>
+                <div class="space-y-2">
+                    <p class="text-xs text-text-secondary uppercase">Projected Minimum Cash</p>
+                    <p class="text-3xl font-black text-critical">₹80,000</p>
+                    <div class="grid grid-cols-2 gap-4 mt-2">
+                        <div class="p-2 bg-red-50 rounded-lg">
+                            <span class="text-[10px] text-text-secondary uppercase block">Liquidity Gap</span>
+                            <span class="text-xs font-bold text-critical">₹1,50,000</span>
+                        </div>
+                        <div class="p-2 bg-red-50 rounded-lg">
+                            <span class="text-[10px] text-text-secondary uppercase block">Expected Gap Date</span>
+                            <span class="text-xs font-bold text-critical">7 September</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="pt-4 border-t border-border flex justify-between text-xs font-semibold text-text-secondary">
+                    <span>Affected Account: ABC Retail</span>
+                    <span class="text-critical">Action Recommended</span>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Human Decision Section -->
+<section class="py-20 lg:py-28 bg-[#FFFDF9]">
+    <div class="max-w-7xl mx-auto px-6 grid grid-cols-1 lg:grid-cols-12 gap-12 items-center">
+        <div class="lg:col-span-6 space-y-6">
+            <h2 class="text-3xl lg:text-4xl font-extrabold tracking-tight text-text-primary">
+                AI can show you the future. <br />You decide what to do about it.
+            </h2>
+            <p class="text-text-secondary leading-relaxed text-base">
+                We believe business owners are the ultimate decision makers. CashTwin explains financial consequences,
+                outlines potential resilience options (like invoice discounting, terms modification, or credit lines),
+                but never overrides your human judgement.
+            </p>
+            <div class="p-4 bg-white border border-border rounded-xl">
+                <p class="text-xs italic text-text-secondary">
+                    "CashTwin explains financial consequences without taking the decision away from the business owner."
+                </p>
+            </div>
+        </div>
+
+        <div class="lg:col-span-6 relative">
+            <!-- Graphic layout illustrating choices -->
+            <div class="bg-white border border-border rounded-2xl p-6 shadow-md space-y-6">
+                <h3 class="text-sm font-bold text-text-primary border-b border-border pb-3">Resilience Decisions</h3>
+                <div class="space-y-3">
+                    <div class="p-3 border border-primary bg-primary/5 rounded-xl flex items-center justify-between">
+                        <div>
+                            <p class="text-xs font-bold text-primary-dark">Option A: Invoice Discounting</p>
+                            <p class="text-[10px] text-text-secondary">Advance ₹3,60,000 at 2% fee.</p>
+                        </div>
+                        <span
+                            class="text-[10px] font-bold text-primary bg-white border border-primary/20 px-2 py-1 rounded">Explore</span>
+                    </div>
+                    <div class="p-3 border border-border rounded-xl flex items-center justify-between opacity-80">
+                        <div>
+                            <p class="text-xs font-bold text-text-primary">Option B: Overdraft Buffer</p>
+                            <p class="text-[10px] text-text-secondary">Draw ₹2,00,000 under active bank line.</p>
+                        </div>
+                        <span
+                            class="text-[10px] font-bold text-text-secondary bg-gray-100 border border-border px-2 py-1 rounded">Explore</span>
+                    </div>
+                </div>
+                <div
+                    class="bg-[#FFFDF9] p-3 rounded-lg text-center text-xs font-semibold text-text-secondary border border-border">
+                    💡 AI models the outcomes. The choice is yours.
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Trust Section -->
+<section id="trust" class="bg-white border-y border-border py-20 lg:py-28">
+    <div class="max-w-7xl mx-auto px-6">
+        <div class="max-w-3xl mx-auto text-center space-y-6">
+            <h2 class="text-3xl font-extrabold tracking-tight text-text-primary">
+                A Financial Intelligence Platform Built on Trust
+            </h2>
+            <p class="text-text-secondary">
+                We handle your business intelligence with transparency, giving you full control over how data is
+                processed.
+            </p>
+        </div>
+
+        <div class="mt-16 grid grid-cols-1 md:grid-cols-5 gap-6 text-center">
+            <div class="p-6 space-y-3">
+                <div
+                    class="w-10 h-10 bg-primary/10 text-primary-dark mx-auto rounded-full flex items-center justify-center font-bold">
+                    1</div>
+                <h4 class="font-bold text-text-primary">CONSENT</h4>
+                <p class="text-xs text-text-secondary">You choose exactly which data layers to connect.</p>
+            </div>
+
+            <div class="p-6 space-y-3">
+                <div
+                    class="w-10 h-10 bg-primary/10 text-primary-dark mx-auto rounded-full flex items-center justify-center font-bold">
+                    2</div>
+                <h4 class="font-bold text-text-primary">TRANSPARENCY</h4>
+                <p class="text-xs text-text-secondary">All formulas and risk mappings are viewable.</p>
+            </div>
+
+            <div class="p-6 space-y-3">
+                <div
+                    class="w-10 h-10 bg-primary/10 text-primary-dark mx-auto rounded-full flex items-center justify-center font-bold">
+                    3</div>
+                <h4 class="font-bold text-text-primary">DATA CONTROL</h4>
+                <p class="text-xs text-text-secondary">Grant, manage, or revoke access permissions instantly.</p>
+            </div>
+
+            <div class="p-6 space-y-3">
+                <div
+                    class="w-10 h-10 bg-primary/10 text-primary-dark mx-auto rounded-full flex items-center justify-center font-bold">
+                    4</div>
+                <h4 class="font-bold text-text-primary">EXPLAINABILITY</h4>
+                <p class="text-xs text-text-secondary">Trace any warning back to the original source invoice.</p>
+            </div>
+
+            <div class="p-6 space-y-3">
+                <div
+                    class="w-10 h-10 bg-primary/10 text-primary-dark mx-auto rounded-full flex items-center justify-center font-bold">
+                    5</div>
+                <h4 class="font-bold text-text-primary">AUDITABILITY</h4>
+                <p class="text-xs text-text-secondary">A permanent audit trail records every data adjustment.</p>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Final CTA Section -->
+<section class="py-20 lg:py-28 relative overflow-hidden bg-primary text-white">
+    <div class="max-w-5xl mx-auto px-6 text-center space-y-8 relative z-10">
+        <h2 class="text-3xl sm:text-5xl font-black tracking-tight leading-none">
+            Know your next financial move <br />before you have to make it.
+        </h2>
+        <p class="text-lg text-white/80 max-w-xl mx-auto">
+            Get started with CashTwin to understand cash flow risks and plan simulated scenario mitigations today.
+        </p>
+        <div class="flex flex-col sm:flex-row items-center justify-center space-y-3 sm:space-y-0 sm:space-x-4">
+            <a href="{% url 'core:auth_flow' %}?action=signup"
+                class="w-full sm:w-auto bg-white text-primary hover:bg-[#FFFDF9] px-8 py-4 rounded-xl font-bold tracking-wide transition-all shadow-lg hover:-translate-y-0.5">
+                GET STARTED
+            </a>
+            <a href="{% url 'core:app_dashboard' %}"
+                class="w-full sm:w-auto border border-white/30 bg-white/10 hover:bg-white/20 text-white px-8 py-4 rounded-xl font-bold transition-all hover:-translate-y-0.5">
+                EXPLORE THE PRODUCT
+            </a>
+        </div>
+    </div>
+    <!-- Decorative patterns -->
+    <div class="absolute top-0 right-0 w-96 h-96 bg-white/5 rounded-full blur-3xl z-0"></div>
+    <div class="absolute bottom-0 left-0 w-80 h-80 bg-orange-700/20 rounded-full blur-2xl z-0"></div>
+</section>
+
+<!-- Footer -->
+<footer class="bg-text-primary text-white/70 py-12 border-t border-gray-800">
+    <div class="max-w-7xl mx-auto px-6 grid grid-cols-1 md:grid-cols-4 gap-8">
+        <div class="space-y-4">
+            <span class="text-xl font-extrabold tracking-tight text-white flex items-center space-x-2">
+                <span class="bg-primary text-white px-2 py-0.5 rounded text-base font-black">C</span>
+                <span>CashTwin</span>
+            </span>
+            <p class="text-xs text-white/50 leading-relaxed">
+                AI-assisted financial planning and decision support for micro, small, and medium enterprises.
+            </p>
+        </div>
+        <div>
+            <h5 class="text-xs font-bold text-white uppercase tracking-wider mb-4">Product</h5>
+            <ul class="space-y-2.5 text-xs">
+                <li><a href="#product" class="hover:text-white transition-colors">Product Overview</a></li>
+                <li><a href="#how-it-works" class="hover:text-white transition-colors">How It Works</a></li>
+                <li><a href="#risk-intelligence" class="hover:text-white transition-colors">Risk Intelligence</a></li>
+                <li><a href="#what-if" class="hover:text-white transition-colors">What-If Simulator</a></li>
+            </ul>
+        </div>
+        <div>
+            <h5 class="text-xs font-bold text-white uppercase tracking-wider mb-4">Trust</h5>
+            <ul class="space-y-2.5 text-xs">
+                <li><a href="#trust" class="hover:text-white transition-colors">Consent & Privacy</a></li>
+                <li><a href="#" class="hover:text-white transition-colors">Data Security</a></li>
+                <li><a href="#" class="hover:text-white transition-colors">Audit log policy</a></li>
+            </ul>
+        </div>
+        <div>
+            <h5 class="text-xs font-bold text-white uppercase tracking-wider mb-4">Legal</h5>
+            <ul class="space-y-2.5 text-xs">
+                <li><a href="#" class="hover:text-white transition-colors">Privacy Policy</a></li>
+                <li><a href="#" class="hover:text-white transition-colors">Terms of Service</a></li>
+                <li><a href="#" class="hover:text-white transition-colors">Contact Support</a></li>
+            </ul>
+        </div>
+    </div>
+    <div class="max-w-7xl mx-auto px-6 mt-12 pt-8 border-t border-gray-800 text-center text-[11px] text-white/30">
+        © 2026 CashTwin. All rights reserved. Built for hackathon demonstration.
+    </div>
+</footer>
+{% endblock %}
